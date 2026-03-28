@@ -1,0 +1,45 @@
+.custom-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 0 0 1rem 0;
+}
+
+.custom-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.redirect-btn {
+    color: var(--mat-sys-primary);
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    width: 100%;
+    justify-content: start;
+    border: none;
+    background: transparent;
+    text-decoration: underline;
+    font-size: 0.875rem;
+    margin-bottom: 10px;
+}
+::ng-deep .custom-form .mdc-notched-outline {
+  border-color: #6366f1 !important; /* indigo */
+}
+
+
+/* ::ng-deep .custom-form.mdc-text-field--focused .mdc-notched-outline {
+  border-color: #4f46e5;
+} */
+/* ::ng-deep .custom-form .mdc-floating-label {
+  color: #818cf8;
+} */
+
+/* ::ng-deep .custom-form.mdc-text-field--focused .mdc-floating-label {
+  color: #4f46e5;
+} */
+/* ::ng-deep .custom-form input {
+  color: #1e293b;
+}
+
+::ng-deep .custom-form input::placeholder {
+  color: #94a3b8;
+} */
