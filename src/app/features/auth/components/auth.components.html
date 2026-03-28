@@ -1,0 +1,30 @@
+<div class="auth-container">
+  <div class="glass-card">
+
+    <app-login 
+      *ngIf="mode === 'login'" 
+      (forgotPasswordClicked)="mode='forgot'">
+    </app-login>
+    <app-register *ngIf="mode === 'register'"></app-register>
+    <app-forgot-password *ngIf="mode === 'forgot'"></app-forgot-password>
+
+ 
+    <button 
+      *ngIf="mode !== 'forgot'"
+      (click)="toggleMode()" 
+      class="redirect-btn">
+      {{ mode === 'login' 
+        ? "Don't have a workspace? Register" 
+        : "Switch to Login" }}
+    </button>
+
+
+    <button 
+      *ngIf="mode === 'forgot'"
+      (click)="mode='login'" 
+      class="redirect-btn">
+      Back to Login
+    </button>
+
+  </div>
+</div>

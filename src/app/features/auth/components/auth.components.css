@@ -1,0 +1,89 @@
+
+.auth-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(
+    145deg, 
+    #ffffff 0%, 
+    var(--mat-sys-primary-container, #eef2ff) 100%
+  );
+}
+
+/* The Procedural Grain Overlay */
+.auth-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0.03; /* Keep it very subtle for light themes */
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.glass-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 480px;
+  padding: 3rem !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  
+  /* Border & Shadow */
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 50px !important; 
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3) !important;
+}
+::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  border-radius: 12px !important;
+}
+
+/* The button should be your solid Primary color to draw the eye */
+.finish-btn {
+  background-color: var(--mat-sys-primary) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  padding: 1.5rem !important;
+  font-weight: 600;
+}
+.redirect-btn{
+      color: var(--mat-sys-primary);
+     font-family: 'Montserrat', sans-serif;
+        display: flex;
+    width: 100%;
+    justify-content: end;
+    border: none;
+    background: transparent;
+    text-decoration: underline;
+    font-size: 0.875rem;
+}
+input{
+     font-family: 'Montserrat', sans-serif;
+}
+::ng-deep .mat-step-text-label {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-family: 'Montserrat';
+}
+::ng-deep span.mdc-button__label{
+        font-family: 'Montserrat', sans-serif;
+}
+::ng-deep mat-label {
+    font-family: 'Montserrat', sans-serif;
+}
+::ng-deep span.mat-mdc-select-min-line {
+    font-family: 'Montserrat', sans-serif;
+}
+::ng-deep span.mdc-list-item__primary-text {
+    font-family: 'Montserrat' !important;
+}
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+    border: none !important;
+}

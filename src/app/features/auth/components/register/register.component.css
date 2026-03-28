@@ -1,0 +1,45 @@
+.custom-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.register-card {
+    --mdc-elevated-card-container-color: transparent !important;
+    --mdc-filled-card-container-color: transparent !important;
+    --mdc-outlined-card-container-color: transparent !important;
+
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    /* Removes the thin default border if any */
+}
+
+/* 2. Target the Stepper's internal layers */
+.register-card ::ng-deep .mat-horizontal-stepper-wrapper,
+.register-card ::ng-deep .mat-horizontal-content-container,
+.register-card ::ng-deep .mat-stepper-horizontal {
+    background-color: transparent !important;
+}
+
+/* 3. Ensure the Header (Steps 1 & 2) is also transparent */
+::ng-deep .mat-horizontal-stepper-header-container {
+    background: transparent !important;
+}
+
+.custom-step {
+    padding: 10px 20px;
+}
+
+.custom-form-field {
+    width: 100%;
+}
+
+.custom-buttons {
+    display: flex;
+    justify-content: space-between;
+}

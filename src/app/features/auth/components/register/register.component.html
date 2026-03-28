@@ -1,0 +1,71 @@
+<form>
+    <p class="custom-title">Set up your professional space</p>
+    <div class="grid-container">
+        <mat-card class="register-card">
+            <mat-stepper #stepper linear class="custom-stepper">
+                <mat-step [stepControl]="workspaceGroup" [editable]="!isInviteOnly">
+                    <ng-template matStepLabel>Workspace</ng-template>
+                    <div class="custom-step">
+                        <form [formGroup]="workspaceGroup">
+                            <mat-form-field  class="w-full custom-form-field">
+                                <mat-label>I want to...</mat-label>
+                                <mat-select formControlName="role">
+                                    <mat-option value="owner">Create a New Workspace</mat-option>
+                                    <mat-option value="developer">Join with Invite Code</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            @if (selectedRole() === 'owner') {
+                            <mat-form-field class="w-full custom-form-field">
+                                <mat-label>Workspace Name</mat-label>
+                                <input matInput formControlName="workspaceName">
+                            </mat-form-field>
+                            } @else {
+                            <mat-form-field class="w-full custom-form-field">
+                                <mat-label>Invite Code</mat-label>
+                                <input matInput formControlName="inviteCode">
+                            </mat-form-field>
+                            }
+
+                            <div class="flex justify-end">
+                                <button mat-raised-button color="primary" matStepperNext>Continue</button>
+                            </div>
+                        </form>
+                    </div>
+                </mat-step>
+
+                <mat-step [stepControl]="accountGroup">
+                    <ng-template matStepLabel>Account</ng-template>
+                    <div class="custom-step">
+                        <form [formGroup]="accountGroup">
+                            <mat-form-field class="w-full custom-form-field">
+                                <mat-label>Full Name</mat-label>
+                                <input matInput formControlName="fullName" type="text">
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full custom-form-field">
+                                <mat-label>Username</mat-label>
+                                <input matInput formControlName="username" type="text">
+                            </mat-form-field>
+                            <mat-form-field class="w-full custom-form-field">
+                                <mat-label>Email</mat-label>
+                                <input matInput formControlName="email" type="email">
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full custom-form-field">
+                                <mat-label>Password</mat-label>
+                                <input matInput formControlName="password" type="password">
+                            </mat-form-field>
+
+                            <div class="flex justify-between custom-buttons">
+                                <button mat-button matStepperPrevious *ngIf="!isInviteOnly">Back</button>
+                                <button mat-raised-button color="primary" (click)="onFinish()"
+                                    [disabled]="accountGroup.invalid">Finish</button>
+                            </div>
+                        </form>
+                    </div>
+                </mat-step>
+            </mat-stepper>
+        </mat-card>
+    </div>
+</form>
