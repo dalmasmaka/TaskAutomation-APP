@@ -2,6 +2,9 @@ import {
   _ErrorStateTracker
 } from "./chunk-SH5DNOET.js";
 import {
+  ErrorStateMatcher
+} from "./chunk-NTZL5GRZ.js";
+import {
   MAT_FORM_FIELD,
   MatError,
   MatFormField,
@@ -11,36 +14,35 @@ import {
   MatLabel,
   MatPrefix,
   MatSuffix
-} from "./chunk-M7KP7CUN.js";
-import {
-  ErrorStateMatcher
-} from "./chunk-FIKZGIFD.js";
-import {
-  AutofillMonitor,
-  TextFieldModule
-} from "./chunk-JHHFKXLR.js";
+} from "./chunk-ZXNLM5Q4.js";
 import {
   _IdGenerator,
   coerceBooleanProperty,
   getSupportedInputTypes
-} from "./chunk-PVORRJK5.js";
-import "./chunk-GUGIMSVJ.js";
-import "./chunk-3PTGSLYX.js";
-import "./chunk-U7E2QPJP.js";
-import {
-  Platform
-} from "./chunk-4Q23MHLD.js";
-import "./chunk-JIXQPVBS.js";
-import {
-  BidiModule
-} from "./chunk-4NR2BEKL.js";
+} from "./chunk-GO7A6BJU.js";
 import {
   FormGroupDirective,
   NgControl,
   NgForm,
   Validators
-} from "./chunk-SRBNNY5T.js";
-import "./chunk-HYIMTXFX.js";
+} from "./chunk-IWV6G27X.js";
+import "./chunk-NTSB4TGW.js";
+import "./chunk-5LH7UXNB.js";
+import "./chunk-N6IP7XPK.js";
+import {
+  AutofillMonitor,
+  TextFieldModule
+} from "./chunk-YPVW4H3G.js";
+import "./chunk-FSD2V6WZ.js";
+import "./chunk-GUGIMSVJ.js";
+import {
+  Platform
+} from "./chunk-LIKDQ7WJ.js";
+import "./chunk-S7G22GOQ.js";
+import "./chunk-UZ7NY3S6.js";
+import {
+  BidiModule
+} from "./chunk-OKNJEMVJ.js";
 import {
   Directive,
   ElementRef,
@@ -49,7 +51,6 @@ import {
   NgModule,
   NgZone,
   Renderer2,
-  Subject,
   booleanAttribute,
   effect,
   inject,
@@ -64,7 +65,10 @@ import {
   ɵɵdefineNgModule,
   ɵɵdomProperty,
   ɵɵlistener
-} from "./chunk-4CYORDOL.js";
+} from "./chunk-URRC3GSF.js";
+import {
+  Subject
+} from "./chunk-PJVWDKLX.js";
 
 // node_modules/@angular/material/fesm2022/_input-value-accessor-chunk.mjs
 var MAT_INPUT_VALUE_ACCESSOR = new InjectionToken("MAT_INPUT_VALUE_ACCESSOR");

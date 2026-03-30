@@ -1,6 +1,19 @@
 import {
+  DomPortalOutlet,
+  PortalModule,
+  TemplatePortal
+} from "./chunk-KOJIJ2XI.js";
+import {
+  MatRipple,
+  MatRippleModule,
+  _StructuralStylesLoader
+} from "./chunk-NZ3A26LC.js";
+import {
   _ErrorStateTracker
 } from "./chunk-SH5DNOET.js";
+import {
+  ErrorStateMatcher
+} from "./chunk-NTZL5GRZ.js";
 import {
   MAT_FORM_FIELD,
   MatError,
@@ -11,26 +24,7 @@ import {
   MatLabel,
   MatPrefix,
   MatSuffix
-} from "./chunk-M7KP7CUN.js";
-import {
-  DomPortalOutlet,
-  PortalModule,
-  TemplatePortal
-} from "./chunk-5JFJE2PD.js";
-import {
-  ErrorStateMatcher
-} from "./chunk-FIKZGIFD.js";
-import {
-  CdkScrollableModule,
-  ScrollDispatcher,
-  ScrollingModule,
-  ViewportRuler
-} from "./chunk-TTHLNQ73.js";
-import {
-  MatRipple,
-  MatRippleModule,
-  _StructuralStylesLoader
-} from "./chunk-QYAET6KJ.js";
+} from "./chunk-ZXNLM5Q4.js";
 import {
   A,
   ActiveDescendantKeyManager,
@@ -51,33 +45,41 @@ import {
   coerceCssPixelValue,
   hasModifierKey,
   removeAriaReferencedId
-} from "./chunk-PVORRJK5.js";
-import {
-  supportsScrollBehavior
-} from "./chunk-GUGIMSVJ.js";
-import {
-  _VisuallyHiddenLoader
-} from "./chunk-3PTGSLYX.js";
-import "./chunk-U7E2QPJP.js";
-import {
-  Platform
-} from "./chunk-4Q23MHLD.js";
-import {
-  _CdkPrivateStyleLoader
-} from "./chunk-JIXQPVBS.js";
-import {
-  BidiModule,
-  Directionality
-} from "./chunk-4NR2BEKL.js";
+} from "./chunk-GO7A6BJU.js";
 import {
   FormGroupDirective,
   NgControl,
   NgForm,
   Validators
-} from "./chunk-SRBNNY5T.js";
+} from "./chunk-IWV6G27X.js";
+import {
+  _VisuallyHiddenLoader
+} from "./chunk-NTSB4TGW.js";
+import "./chunk-5LH7UXNB.js";
+import "./chunk-N6IP7XPK.js";
+import {
+  _CdkPrivateStyleLoader
+} from "./chunk-FSD2V6WZ.js";
+import {
+  CdkScrollableModule,
+  ScrollDispatcher,
+  ScrollingModule,
+  ViewportRuler
+} from "./chunk-FBOIYLB5.js";
+import {
+  supportsScrollBehavior
+} from "./chunk-GUGIMSVJ.js";
+import {
+  Platform
+} from "./chunk-LIKDQ7WJ.js";
 import {
   Location
-} from "./chunk-HYIMTXFX.js";
+} from "./chunk-S7G22GOQ.js";
+import "./chunk-UZ7NY3S6.js";
+import {
+  BidiModule,
+  Directionality
+} from "./chunk-OKNJEMVJ.js";
 import {
   ANIMATION_MODULE_TYPE,
   ApplicationRef,
@@ -101,30 +103,17 @@ import {
   Output,
   Renderer2,
   RendererFactory2,
-  Subject,
-  Subscription,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
-  __spreadProps,
-  __spreadValues,
   afterNextRender,
   booleanAttribute,
-  defer,
-  filter,
   inject,
   isSignal,
-  map,
-  merge,
   numberAttribute,
   setClassMetadata,
   signal,
-  startWith,
-  switchMap,
-  take,
-  takeUntil,
-  takeWhile,
   ɵɵNgOnChangesFeature,
   ɵɵProvidersFeature,
   ɵɵadvance,
@@ -163,7 +152,22 @@ import {
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-4CYORDOL.js";
+} from "./chunk-URRC3GSF.js";
+import {
+  Subject,
+  Subscription,
+  __spreadProps,
+  __spreadValues,
+  defer,
+  filter,
+  map,
+  merge,
+  startWith,
+  switchMap,
+  take,
+  takeUntil,
+  takeWhile
+} from "./chunk-PJVWDKLX.js";
 
 // node_modules/@angular/material/fesm2022/_pseudo-checkbox-chunk.mjs
 var MatPseudoCheckbox = class _MatPseudoCheckbox {

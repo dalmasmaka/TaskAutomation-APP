@@ -1,5 +1,9 @@
-<form [formGroup]="LoginForm" >
+<form [formGroup]="LoginForm" (ngSubmit)="onLogin()">
   <p class="custom-title">Login in to your workspace</p>
+<div *ngIf="errorMessage as msg" class="error-msg">
+  <mat-icon>error_outline</mat-icon>
+  <span>{{ msg }}</span>
+</div>
   <mat-form-field class=" custom-form">
     <mat-label>Email</mat-label>
     <mat-icon matPrefix>person</mat-icon>
