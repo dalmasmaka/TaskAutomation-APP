@@ -2,7 +2,6 @@ import { Component, OnInit, signal, ViewChild, AfterViewInit } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-
 // Material Imports
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,7 +9,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-
+import { AuthService } from "../../../../core/services/auth.service";
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { NgZone } from '@angular/core';
 @Component({
     selector: 'app-register',
     standalone: true,
@@ -22,7 +24,8 @@ import { MatCardModule } from '@angular/material/card';
         MatFormFieldModule,
         MatButtonModule,
         MatInputModule,
-        MatCardModule
+        MatCardModule,
+        MatIconModule
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.css']
@@ -35,16 +38,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     selectedRole = signal<string>('owner');
     isInviteOnly = false;
-
-    constructor(private route: ActivatedRoute) {
-        // Group 1: Workspace logic
+    errorMessage = signal<string | null>(null);
+    constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private zone: NgZone) {
         this.workspaceGroup = new FormGroup({
             role: new FormControl('owner', Validators.required),
             workspaceName: new FormControl('', Validators.required),
-            inviteCode: new FormControl('')
+            invitationCode: new FormControl('')
         });
 
-        // Group 2: Account logic
         this.accountGroup = new FormGroup({
             fullName: new FormControl('', Validators.required),
             username: new FormControl('', Validators.required),
@@ -63,7 +64,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             this.updateValidation('developer');
         }
 
-        // React to role changes
         this.workspaceGroup.get('role')?.valueChanges.subscribe(role => {
             this.selectedRole.set(role);
             this.updateValidation(role);
@@ -71,7 +71,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // If invited, skip to step 2 automatically
         if (this.isInviteOnly) {
             setTimeout(() => this.stepper.next(), 0);
         }
@@ -93,14 +92,33 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         workspaceCtrl?.updateValueAndValidity();
     }
 
-    onFinish() {
-        if (this.workspaceGroup.valid && this.accountGroup.valid) {
-            const finalData = {
-                ...this.workspaceGroup.getRawValue(),
-                ...this.accountGroup.getRawValue()
-            };
-            console.log('Registering:', finalData);
-            // Call your service here
+    onRegister() {
+        if (this.workspaceGroup.invalid || this.accountGroup.invalid) {
+            this.workspaceGroup.markAllAsTouched();
+            this.accountGroup.markAllAsTouched();
+            return;
         }
+
+        const finalData = {
+            ...this.workspaceGroup.value,
+            ...this.accountGroup.value
+        };
+
+        this.authService.register(finalData).subscribe({
+            next: (res: any) => {
+                if (res && res.success === false) {
+                    this.zone.run(() => {
+                        this.errorMessage.set(res.message || 'Registration failed');
+                    });
+                } else {
+                    this.router.navigate(['/dashboard']);
+                }
+            },
+            error: (err) => {
+                this.zone.run(() => {
+                    this.errorMessage.set(err.error?.message || err.message || 'Server Error');
+                });
+            }
+        });
     }
 }
