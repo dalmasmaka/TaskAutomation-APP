@@ -1,0 +1,41 @@
+.main-content {
+    display: flex;
+    height: 100vh;
+    font-family: "Poppins", sans-serif;
+}
+
+.content {
+    flex: 1;
+    padding: 50px;
+    overflow-y: auto;
+}
+
+input {
+    font-family: 'Poppins', sans-serif;
+}
+
+::ng-deep .mat-step-text-label {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-family: 'Poppins';
+}
+
+::ng-deep span.mdc-button__label {
+    font-family: 'Poppins', sans-serif;
+}
+
+::ng-deep mat-label {
+    font-family: 'Poppins', sans-serif;
+}
+
+::ng-deep span.mat-mdc-select-min-line {
+    font-family: 'Poppins', sans-serif;
+}
+
+::ng-deep span.mdc-list-item__primary-text {
+    font-family: 'Poppins' !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+    border: none !important;
+}

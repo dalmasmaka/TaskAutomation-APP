@@ -1,0 +1,9 @@
+<mat-dialog-content>
+    <h2>Are you sure?</h2>
+    <p>This action cannot be undone.</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+
+    <button matButton (click)="dialogRef.close()" cdkFocusInitial>Cancel</button>
+    <button matButton (click)="confirmAction()">Confirm</button>
+</mat-dialog-actions>

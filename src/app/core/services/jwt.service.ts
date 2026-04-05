@@ -8,43 +8,40 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class JwtService {
   public decodedToken: JwtToken | null = null;
-
+  private userRole: string | null = null;
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
   private isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId); // Check if running in the browser
+    return isPlatformBrowser(this.platformId);
   }
-
   getToken(): string | null {
     return this.isBrowser() ? localStorage.getItem('token') : null;
   }
-
   // The double exclamation mark is a common JavaScript shorthand to convert a value into a boolean (true or false).
   private isValidJwt(token: string | null): boolean {
     return !!token && token.split('.').length === 3;
   }
-
   decodeToken(): JwtToken | null {
+    if (this.decodedToken) {
+      return this.decodedToken;
+    }
     const token = this.getToken();
 
-    // Check if token exists AND is formatted correctly
     if (this.isValidJwt(token)) {
       const helper = new JwtHelperService();
-      try {
-        const decoded = helper.decodeToken(token!) as JwtToken;
-        this.decodedToken = decoded;
-        return decoded;
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        return null;
-      }
+      const decoded = helper.decodeToken(token!) as JwtToken;
+
+      this.decodedToken = decoded;
+      this.userRole = decoded?.role ?? null;
+
+      return decoded;
     }
+
     return null;
   }
 
   isAuthenticated(): boolean {
     const token = this.getToken();
-    // Ensure we don't pass garbage to isTokenExpired
     if (!this.isValidJwt(token)) {
       return false;
     }
@@ -70,17 +67,16 @@ export class JwtService {
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
       this.decodedToken = null;
+      this.userRole = null;
     }
   }
 
   hasRole(role: string): boolean {
-    const decodedToken = this.decodeToken();
-    const userRole = decodedToken?.role;
-
-    if (userRole) {
-      return userRole.toLowerCase() === role.toLowerCase();
+    if (!this.userRole) {
+      this.decodeToken();
     }
-    return false;
+
+    return this.userRole?.toLowerCase() === role.toLowerCase();
   }
 }
 // isBrowser() Method: This method checks whether the code is running in the browser.

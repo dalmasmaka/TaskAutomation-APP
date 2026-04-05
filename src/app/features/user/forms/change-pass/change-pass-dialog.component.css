@@ -1,0 +1,8 @@
+
+.flex-fields {
+    display: flex;
+    gap: 20px;
+}
+.custom-form{
+    flex: 1;
+}

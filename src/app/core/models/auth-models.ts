@@ -9,3 +9,11 @@ export interface Register{
     password: string;
     role: string
 }
+export interface User{
+    name: string;
+    lastname: string,
+    email: string, 
+    role: string,
+    phoneNumber: string,
+    passwordHash: string
+}

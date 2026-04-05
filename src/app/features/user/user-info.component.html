@@ -1,0 +1,67 @@
+<div class="user">
+    <section class="user-information section">
+        <div class="box1">
+            <h2 class="custom-title">User Information</h2>
+            <p class="custom-subtitle">Update your personal information and account details.</p>
+        </div>
+        <div class="box" *ngIf="currentUser$ | async as currentUser" >
+            <div class="flex-fields">
+                <mat-form-field class="custom-form">
+                    <mat-label>First Name</mat-label>
+                    <input matInput disabled type="text" [value]="currentUser.name">
+                </mat-form-field>
+                <mat-form-field class="w-full custom-form">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput placeholder="Enter your last name" disabled type="text" [value]="currentUser.lastname">
+                </mat-form-field>
+            </div>
+            <div class="flex-fields">
+                <mat-form-field class="custom-form">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Enter your email" disabled type="email" [value]="currentUser.email">
+                </mat-form-field>
+                <mat-form-field class="w-full custom-form">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput placeholder="Enter your phone number" disabled type="text" [value]="currentUser.phoneNumber">
+                </mat-form-field>
+            </div>
+           <div class="flex-fields">
+             <button mat-raised-button color="primary" (click)="openUserDetailsDialog()" class="custom-button">Update
+                User Information</button>
+                 <button mat-raised-button color="primary" (click)="openChangePasswordDialog()" class="custom-button">Change Password</button>
+           </div>
+        </div>
+    </section>
+    <hr class="divider">
+    <section class="danger-zone section">
+        <div class="box1">
+            <h2 class="custom-title">Danger Zone</h2>
+            <p class="custom-subtitle">Perform irreversible actions here.</p>
+        </div>
+        <div class="box danger-cards">
+            <mat-card class="grey-card">
+                <mat-card-header>
+                    <mat-card-subtitle>Leave Workspace</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content class="card-content">
+                    <p>Revoke your access to this team. Other actions you have added to the workspace will remain.</p>
+                    <button mat-raised-button color="warn" (click)="leaveCompany()" class="custom-button">Leave
+                        Workspace</button>
+                </mat-card-content>
+            </mat-card>
+            <mat-card apperance="outline"
+                class="red-card mat-mdc-card mdc-card border-error! mat-mdc-card-outlined mdc-card--outlined">
+                <mat-card-header>
+                    <mat-card-subtitle>Delete Account</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content class="card-content">
+                    <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+                    <button mat-raised-button color="warn" (click)="deleteCompany()" class="custom-button">Delete
+                        Account</button>
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+    </section>
+    <hr class="divider">
+</div>
