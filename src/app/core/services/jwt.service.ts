@@ -9,7 +9,25 @@ import { isPlatformBrowser } from '@angular/common';
 export class JwtService {
   public decodedToken: JwtToken | null = null;
   private userRole: string | null = null;
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  private isAuth = false;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    if (this.isBrowser()) {
+      this.isAuth = this.checkAuth();
+    }
+  }
+
+  private checkAuth(): boolean {
+    const token = this.getToken();
+    if (!this.isValidJwt(token)) return false;
+
+    const helper = new JwtHelperService();
+    return !helper.isTokenExpired(token);
+  }
+
+  isAuthenticated(): boolean {
+    return this.isAuth;
+  }
 
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -17,38 +35,33 @@ export class JwtService {
   getToken(): string | null {
     return this.isBrowser() ? localStorage.getItem('token') : null;
   }
-  // The double exclamation mark is a common JavaScript shorthand to convert a value into a boolean (true or false).
   private isValidJwt(token: string | null): boolean {
     return !!token && token.split('.').length === 3;
   }
+
   decodeToken(): JwtToken | null {
-    if (this.decodedToken) {
-      return this.decodedToken;
-    }
     const token = this.getToken();
 
     if (this.isValidJwt(token)) {
       const helper = new JwtHelperService();
-      const decoded = helper.decodeToken(token!) as JwtToken;
+      const decoded = helper.decodeToken(token!) as any;
 
-      this.decodedToken = decoded;
-      this.userRole = decoded?.role ?? null;
+      this.userRole =
+        decoded?.role ||
+        decoded?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
+        null;
 
-      return decoded;
+      this.decodedToken = {
+        ...decoded,
+        role: this.userRole
+      };
+
+      return this.decodedToken;
     }
 
     return null;
   }
 
-  isAuthenticated(): boolean {
-    const token = this.getToken();
-    if (!this.isValidJwt(token)) {
-      return false;
-    }
-
-    const helper = new JwtHelperService();
-    return !helper.isTokenExpired(token!);
-  }
   saveToken(token: string): void {
     if (this.isBrowser()) {
       localStorage.setItem('token', token);
@@ -70,14 +83,13 @@ export class JwtService {
       this.userRole = null;
     }
   }
-
   hasRole(role: string): boolean {
-    if (!this.userRole) {
-      this.decodeToken();
-    }
+    const token = this.decodeToken();
+    const userRole = token?.role;
 
-    return this.userRole?.toLowerCase() === role.toLowerCase();
+    return userRole?.toLowerCase() === role.toLowerCase();
   }
+
 }
 // isBrowser() Method: This method checks whether the code is running in the browser.
 // It's used in each method that accesses localStorage to ensure those methods only run in the browser.

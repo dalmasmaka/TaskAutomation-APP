@@ -1,16 +1,24 @@
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { JwtService } from '../services/jwt.service';
+import { isPlatformBrowser } from '@angular/common';
 
 export const authGuard: CanActivateFn = (route, state) => {
-    const jwtService = inject(JwtService);
-    const router = inject(Router);
+  const jwtService = inject(JwtService);
+  const router = inject(Router);
+  const platformId = inject(PLATFORM_ID);
 
-    if (jwtService.isAuthenticated()) {
-        return true;
-    }
+  if (!isPlatformBrowser(platformId)) {
+    return true;
+  }
 
-    return router.createUrlTree(['/login'], {
-        queryParams: { returnUrl: state.url }
-    });
+  const isAuth = jwtService.isAuthenticated();
+
+  if (isAuth) {
+    return true;
+  }
+
+  return router.createUrlTree(['/auth'], {
+    queryParams: { returnUrl: state.url }
+  });
 };

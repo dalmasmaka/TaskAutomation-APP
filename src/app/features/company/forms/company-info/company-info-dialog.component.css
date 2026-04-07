@@ -3,3 +3,6 @@
     flex-direction: column;
     gap: 5px;
 }
+.custom-form{
+    flex: 1;
+}

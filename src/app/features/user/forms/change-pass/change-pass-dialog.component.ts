@@ -9,6 +9,7 @@ import { NgZone } from '@angular/core';
 import { MatIconModule } from "@angular/material/icon";
 
 @Component({
+    standalone: true,
     selector: "app-change-password",
     templateUrl: "./change-pass-dialog.component.html",
     styleUrls: ["./change-pass-dialog.component.css"],
@@ -22,6 +23,7 @@ import { MatIconModule } from "@angular/material/icon";
 export class ChangePasswordDialogComponent implements OnInit {
     userId: string;
     passwordForm!: FormGroup;
+    isSuccess = signal<boolean | null>(null);
     notifyMessage = signal<string | null>(null);
     private userService = inject(UserService)
     constructor(
@@ -46,17 +48,22 @@ export class ChangePasswordDialogComponent implements OnInit {
         if (this.passwordForm.invalid) return;
 
         const { oldPassword, newPassword } = this.passwordForm.value;
-        
+
         this.userService.changePassword(this.userId, oldPassword, newPassword)
             .subscribe({
                 next: (res: any) => {
-                      this.zone.run(() => {
-                            this.notifyMessage.set(res.message || '');
-                        });
+                    this.zone.run(() => {
+                        this.notifyMessage.set(res.message || '');
+                        this.isSuccess.set(res?.success === true);
+                        if(res?.success === true){
+                            this.passwordForm.reset();
+                        }
+                    });
                 },
                 error: (err) => {
                     this.zone.run(() => {
                         this.notifyMessage.set(err.error?.message || err.message || 'Server Error');
+                        this.isSuccess.set(false);
                     });
                 }
             });

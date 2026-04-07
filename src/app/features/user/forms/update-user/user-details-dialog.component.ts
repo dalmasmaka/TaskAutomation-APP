@@ -27,8 +27,7 @@ export class UserDetailsDialogComponent implements OnInit {
     }
     ngOnInit(): void {
         this.userForm = this.fb.group({
-            name: [this.data.name, [Validators.required, Validators.minLength(2)]],
-            lastname: [this.data.lastname, [Validators.required]],
+            fullName: [this.data.fullName, [Validators.required, Validators.minLength(2)]],
             email: [this.data.email, [Validators.required, Validators.email]],
             phoneNumber: [this.data.phoneNumber, [Validators.required]]
         });

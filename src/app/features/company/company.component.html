@@ -4,15 +4,15 @@
             <h2 class="custom-title">Basic Information</h2>
             <p class="custom-subtitle">Update your company name and owner information.</p>
         </div>
-        <div class="box">
+        <div class="box" *ngIf="company$ | async as company">
             <div class="flex-fields">
                 <mat-form-field class="custom-form">
                     <mat-label>Company Name</mat-label>
-                    <input matInput placeholder="Enter your email" type="email">
+                    <input matInput disabled type="text" [value]="company.name">
                 </mat-form-field>
                 <mat-form-field class="w-full custom-form">
                     <mat-label>Owner Name</mat-label>
-                    <input matInput placeholder="Enter your password" type="password">
+                    <input matInput disabled type="text" [value]="company.ownerName">
                 </mat-form-field>
             </div>
             <button mat-raised-button color="primary" (click)="openBasicInfoDialog()" class="custom-button">Update Basic
@@ -25,25 +25,25 @@
             <h2 class="custom-title">Company Settings</h2>
             <p class="custom-subtitle">Manage your company configuration and settings here.</p>
         </div>
-        <div class="box">
+        <div class="box" *ngIf="companyConfig$ | async as config">
             <div class="flex-fields">
                 <mat-form-field class="custom-form">
                     <mat-label>Provider</mat-label>
-                    <input matInput placeholder="Enter your email" type="email">
+                    <input matInput type="text" disabled [value]="config.provider">
                 </mat-form-field>
                 <mat-form-field class="w-full custom-form">
                     <mat-label>Client Id</mat-label>
-                    <input matInput placeholder="Enter your password" type="password">
+                    <input matInput type="text" disabled [value]="config.clientId">
                 </mat-form-field>
             </div>
             <div class="flex-fields">
                 <mat-form-field class="custom-form">
                     <mat-label>Client Secret</mat-label>
-                    <input matInput placeholder="Enter your email" type="email">
+                    <input matInput type="text" disabled [value]="config.clientSecret">
                 </mat-form-field>
                 <mat-form-field class="w-full custom-form">
                     <mat-label>Redirect URI</mat-label>
-                    <input matInput placeholder="Enter your password" type="password">
+                    <input matInput type="text" disabled [value]="config.redirectUri">
                 </mat-form-field>
             </div>
             <button mat-raised-button color="primary" (click)="openCompanyConfigDialog()" class="custom-button">Update

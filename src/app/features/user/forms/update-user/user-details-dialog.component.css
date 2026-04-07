@@ -6,3 +6,7 @@
 .custom-form{
     flex: 1;
 }
+.grid-fields{
+    display: flex;
+    flex-direction: column;
+}

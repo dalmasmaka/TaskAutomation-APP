@@ -10,8 +10,8 @@ export interface Register{
     role: string
 }
 export interface User{
-    name: string;
-    lastname: string,
+    id:string;
+    fullName: string;
     email: string, 
     role: string,
     phoneNumber: string,

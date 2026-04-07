@@ -1,8 +1,36 @@
-
 .flex-fields {
     display: flex;
     gap: 20px;
 }
-.custom-form{
+
+.custom-form {
     flex: 1;
+}
+
+.primary {
+   background-color: rgba(76, 175, 80, 0.1); /* soft green background */
+    color: #4caf50; /* solid green text */
+    border: 1px solid rgba(76, 175, 80, 0.2); /* subtle green border */
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.warn {
+    background-color: rgba(255, 61, 61, 0.1);
+    color: #ff3d3d;
+    border: 1px solid rgba(255, 61, 61, 0.2);
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+.grid-fields{
+    display: flex;
+    flex-direction: column;
 }

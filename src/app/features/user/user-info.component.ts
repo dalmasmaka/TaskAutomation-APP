@@ -11,6 +11,11 @@ import { ActionModalComponent } from "../../core/layout/action-modals/action-mod
 import { AuthService } from "../../core/services/auth.service";
 import { User } from "../../core/models/auth-models";
 import { Observable } from "rxjs";
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { firstValueFrom } from "rxjs";
 import { UserService } from "../../core/services/user.service";
 import { ChangePasswordDialogComponent } from "./forms/change-pass/change-pass-dialog.component";
@@ -23,36 +28,48 @@ import { ChangePasswordDialogComponent } from "./forms/change-pass/change-pass-d
 })
 export class UserInfoComponent implements OnInit {
     readonly dialog = inject(MatDialog);
-    private destroyRef = inject(DestroyRef);
-    private authService = inject(AuthService);
     private userService = inject(UserService)
-    currentUser$!: Observable<User>;
+    currentUser$!: Observable<User | null>;
+    private snackBar = inject(MatSnackBar);
 
+    horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+    verticalPosition: MatSnackBarVerticalPosition = 'bottom';
     ngOnInit(): void {
-        // assign the Observable from the servicea
-        this.currentUser$ = this.authService.getCurrentUser();
+        this.currentUser$ = this.userService.user$;
+
+        this.userService.getCurrentUser().subscribe();
     }
     async openUserDetailsDialog(): Promise<void> {
         const user = await firstValueFrom(this.currentUser$);
+
         const dialogRef = this.dialog.open(UserDetailsDialogComponent, {
-            minWidth: '700px',
+            minWidth: '550px',
             data: user
         });
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                // handle updated user here (call API, update local state, etc.)
-                console.log('Updated user:', result);
-                this.userService.updateUser(result).subscribe(() => {
-                    this.currentUser$ = this.authService.getCurrentUser();
-                })
+                this.userService.updateUser(result).subscribe({
+                    next: () => {
+                        this.snackBar.open('User updated successfully!', 'Close', {
+                            duration: 3000
+                        });
+                        // this.currentUser$ = this.authService.getCurrentUser();
+                    },
+                    error: (err) => {
+                        this.snackBar.open('Failed to update user.', 'Close', {
+                            duration: 3000
+                        });
+                    }
+                });
             }
         });
     }
     async openChangePasswordDialog(): Promise<void> {
+        const user = await firstValueFrom(this.currentUser$);
         this.dialog.open(ChangePasswordDialogComponent, {
-            minWidth: '700px',
-            // data: user.id
+            minWidth: '550px',
+            data: user?.id
         })
     }
     leaveCompany(): void {

@@ -1,4 +1,4 @@
-export interface AuthResponse{
+export interface Response{
     success: boolean;
     message: string;
 }

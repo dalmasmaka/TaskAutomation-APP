@@ -1,24 +1,24 @@
-<mat-dialog-content>
+<mat-dialog-content [formGroup]="companyConfigForm">
   <h2 class="custom-title">Company Settings</h2>
   <p class="custom-subtitle">Manage your company configuration and settings here.</p>
    <div class="flex-fields">
     <mat-form-field class="custom-form">
       <mat-label>Provider</mat-label>
-      <input matInput placeholder="Enter your email" type="email">
+      <input matInput placeholder="Enter your provider" type="text" formControlName="provider">
     </mat-form-field>
     <mat-form-field class="w-full custom-form">
       <mat-label>Client Id</mat-label>
-      <input matInput placeholder="Enter your password" type="password">
+      <input matInput placeholder="Enter your Client Id" type="text" formControlName="clientId">
     </mat-form-field>
   </div>
   <div class="flex-fields">
     <mat-form-field class="custom-form">
       <mat-label>Client Secret</mat-label>
-      <input matInput placeholder="Enter your email" type="email">
+      <input matInput placeholder="Enter your Client Secret" type="text" formControlName="clientSecret">
     </mat-form-field>
     <mat-form-field class="w-full custom-form">
       <mat-label>Redirect URI</mat-label>
-      <input matInput placeholder="Enter your password" type="password">
+      <input matInput placeholder="Enter your Redirect Uri" type="text" formControlName="redirectUri">
     </mat-form-field>
   </div>
 </mat-dialog-content>

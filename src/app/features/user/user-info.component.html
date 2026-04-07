@@ -7,22 +7,23 @@
         <div class="box" *ngIf="currentUser$ | async as currentUser" >
             <div class="flex-fields">
                 <mat-form-field class="custom-form">
-                    <mat-label>First Name</mat-label>
-                    <input matInput disabled type="text" [value]="currentUser.name">
+                    <mat-label>Full Name</mat-label>
+                    <input matInput disabled type="text" [value]="currentUser.fullName">
                 </mat-form-field>
-                <mat-form-field class="w-full custom-form">
-                    <mat-label>Last Name</mat-label>
-                    <input matInput placeholder="Enter your last name" disabled type="text" [value]="currentUser.lastname">
+              <mat-form-field class="custom-form">
+                    <mat-label>Email</mat-label>
+                    <input matInput disabled type="email" [value]="currentUser.email">
                 </mat-form-field>
             </div>
             <div class="flex-fields">
-                <mat-form-field class="custom-form">
-                    <mat-label>Email</mat-label>
-                    <input matInput placeholder="Enter your email" disabled type="email" [value]="currentUser.email">
-                </mat-form-field>
+                
                 <mat-form-field class="w-full custom-form">
                     <mat-label>Phone Number</mat-label>
-                    <input matInput placeholder="Enter your phone number" disabled type="text" [value]="currentUser.phoneNumber">
+                    <input matInput disabled type="text" [value]="currentUser.phoneNumber">
+                </mat-form-field>
+                    <mat-form-field class="w-full custom-form">
+                    <mat-label>Role</mat-label>
+                    <input matInput disabled type="text" [value]="currentUser.role">
                 </mat-form-field>
             </div>
            <div class="flex-fields">
