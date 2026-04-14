@@ -1,5 +1,5 @@
-import { BehaviorSubject, catchError, filter, Observable, of, switchMap, tap } from "rxjs";
-import { User } from "../models/auth-models";
+import { BehaviorSubject, catchError, filter, Observable, of, shareReplay, switchMap, tap } from "rxjs";
+import { Role, User } from "../models/auth-models";
 import { ApiService } from "./api.service";
 import { Injectable } from "@angular/core";
 import { AuthService } from "./auth.service";
@@ -10,9 +10,10 @@ import { AuthService } from "./auth.service";
 export class UserService {
     private endpoint = 'Auth';
     constructor(private api: ApiService, private authService: AuthService) { }
-    private userSubject = new BehaviorSubject<User | null>(null);
+    public userSubject = new BehaviorSubject<User | null>(null);
     public user$: Observable<User | null> = this.userSubject.asObservable();
-
+    public roleSubject = new BehaviorSubject<Role | null>(null);
+    public role$: Observable<Role | null> = this.roleSubject.asObservable();
     updateUser(user: User): Observable<User> {
         return this.api.put<any, User>(`${this.endpoint}/updateUser`, user).pipe(
             tap((updatedFromServer) => {
@@ -47,5 +48,18 @@ export class UserService {
             newPassword: newPassword
         };
         return this.api.put<any, any>(`${this.endpoint}/changePassword`, body);
+    }
+    changeUserRole(userId: string, newRole: string): Observable<any> {
+        const body = {
+            userId: userId,
+            newRole: newRole
+        }
+        return this.api.put<any, any>(`${this.endpoint}/changeUserRole`, body);
+    }
+    loadRoles(userId: string): Observable<Role> {
+        return this.api.get<Role>(`${this.endpoint}/getRoles/${userId}`);
+    }
+    deleteCompanyMember(userId: string){
+        return this.api.delete(`${this.endpoint}/deleteUser/${userId}`);
     }
 }

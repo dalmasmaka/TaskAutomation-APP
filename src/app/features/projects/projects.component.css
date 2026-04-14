@@ -1,0 +1,87 @@
+.custom-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.flex-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.custom-icon {
+    right: 0;
+    position: absolute;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    color: oklch(70.7% .022 261.325);
+}
+
+.flex-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+.box {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-container {
+    align-items: center;
+    display: flex;
+}
+
+.custom-subtitle {
+    font-weight: 400;
+    color: oklch(70.7% .022 261.325);
+    font-size: 14px;
+}
+
+.custom-padding {
+    padding-left: 10px;
+}
+
+.custom-p {
+    margin: 10px 0 0 0;
+    color: oklch(70.7% .022 261.325);
+}
+
+.custom-icon {
+    color: oklch(70.7% .022 261.325);
+}
+
+.grid-container {
+    margin-top: 20px;
+}
+
+.custom-menu-trigger {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    color: oklch(70.7% .022 261.325) !important;
+}
+
+
+
+/* Optional: Style the menu to match glassmorphism */
+.custom-submenu {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+::ng-deep .mat-mdc-menu-panel {
+    min-width: 171px !important;
+}

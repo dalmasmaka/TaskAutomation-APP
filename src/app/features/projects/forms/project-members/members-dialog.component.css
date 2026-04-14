@@ -1,0 +1,59 @@
+.justify-content-end {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+}
+.mat-mdc-standard-chip.status-teamleader {
+  background-color: #ffebee !important;
+  color: #c62828 !important;
+}
+
+.mat-mdc-standard-chip.status-developer {
+  background-color: #ffedd4 !important;
+  color: #ca3500 !important;
+}
+.mat-mdc-standard-chip.status-owner {
+  background-color: #e8f5e9 !important; /* Light green background */
+  color: #2e7d32 !important;            /* Dark green text */
+}
+.mat-mdc-standard-chip.status-pm {
+  background-color: #ffebee !important;
+  color: #c62828 !important;
+}
+.mat-mdc-card-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+}
+mat-table {
+  width: 100%;
+  table-layout: fixed;
+   
+}
+
+
+.mat-column-fullName { flex: 2; }
+.mat-column-role { flex: 1; }
+.mat-column-actions { flex: 0.3; }
+.user-cell {
+    display: flex;
+    gap: 10px;
+}
+.members-list {
+  max-height: 280px;  
+  overflow-y: auto;
+  padding-right: 8px; 
+}
+.panel{
+    background: transparent !important;
+}
+/* .panel :hover{
+    background: transparent !important;
+} */
+.panel :focus{
+    background: transparent !important;
+}
+.user-info {
+    display: grid;
+}

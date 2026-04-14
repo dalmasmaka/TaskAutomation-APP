@@ -1,0 +1,33 @@
+::ng-deep .custom-menu {
+    border-radius: 12px !important;
+    background-color: white !important;
+    padding: 0 0.2rem;
+}
+
+::ng-deep .cdk-overlay-pane .custom-menu .mat-mdc-menu-item {
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::ng-deep .cdk-overlay-pane .custom-menu .mat-mdc-menu-item:hover {
+    cursor: pointer;
+    background-color: color-mix(in srgb,
+            var(--mat-sys-primary) 8%,
+            transparent) !important;
+
+    color: var(--mat-sys-primary) !important;
+}
+
+.mat-mdc-menu-item:hover .custom-mat-icon {
+    color: var(--mat-sys-primary) !important;
+}
+.mat-mdc-menu-item span{
+    font-weight: 400;
+}
+/* Removes the grey background when the item is focused/clicked */
+.custom-icon {
+    right: 0;
+    position: absolute;
+    color: oklch(70.7% .022 261.325);
+}

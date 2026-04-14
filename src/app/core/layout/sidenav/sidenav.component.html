@@ -1,32 +1,44 @@
 <mat-sidenav-container class="h-[100dvh]">
     <mat-sidenav class="w-[288px]! border-r border-outline-variant!" [opened]="true" mode="side">
         <div class="flex flex-col h-full">
+          
             <div class="flex-grow overflow-y-auto">
                 <mat-nav-list>
-                    <mat-list-item><mat-icon matListItemIcon>dashboard</mat-icon>Dashboard</mat-list-item>
+                    <mat-list-item routerLinkActive="active-list-item" routerLink="/dashboard"
+                        [routerLinkActiveOptions]="{exact: true}"><mat-icon fontSet="material-symbols-outlined"
+                            matListItemIcon>dashboard</mat-icon>Dashboard</mat-list-item>
 
                     <ng-container *ngIf="jwtService.hasRole('Owner')">
                         <mat-list-item routerLink="/company" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined"
                                 matListItemIcon>settings</mat-icon>Company</mat-list-item>
-                        <mat-list-item routerLink="/profile"><mat-icon matListItemIcon>settings</mat-icon>Personal
+                        <mat-list-item routerLink="/profile" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined" matListItemIcon>lockPerson</mat-icon>Personal
                             Information</mat-list-item>
-                        <mat-list-item routerLink="/team"><mat-icon
+                        <mat-list-item routerLink="/team" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined"
                                 matListItemIcon>groups</mat-icon>Team</mat-list-item>
                         <h3 matSubheader>Projects Management</h3>
-                        <mat-list-item routerLink="/projects"><mat-icon
+                        <mat-list-item routerLink="/projects" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined"
                                 matListItemIcon>workspaces</mat-icon>Projects</mat-list-item>
-                        <mat-list-item routerLink="/tasks"><mat-icon
+                        <mat-list-item routerLink="/tasks" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined"
                                 matListItemIcon>assignment</mat-icon>Tasks</mat-list-item>
-                        <mat-list-item routerLink="/pull-requests"><mat-icon matListItemIcon>merge_type</mat-icon>Pull
+                        <mat-list-item routerLink="/pull-requests" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined" matListItemIcon>merge_type</mat-icon>Pull
                             equests</mat-list-item>
                     </ng-container>
 
                     <ng-container *ngIf="jwtService.hasRole('Developer')">
-                        <mat-list-item routerLink="/profile"><mat-icon matListItemIcon>settings</mat-icon>Personal
+                        <mat-list-item routerLink="/profile" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined" matListItemIcon>settings</mat-icon>Personal
                             Information</mat-list-item>
-                        <mat-list-item routerLink="/team"><mat-icon
+                        <mat-list-item routerLink="/team" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined"
                                 matListItemIcon>groups</mat-icon>Team</mat-list-item>
-                        <mat-list-item routerLink="/projects"><mat-icon
+                        <mat-list-item routerLink="/projects" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined"
                                 matListItemIcon>workspaces</mat-icon>Projects</mat-list-item>
                         <h3 matSubheader>Your Projects</h3>
                         <mat-accordion displayMode="flat">
@@ -51,14 +63,24 @@
             </div>
 
             <div class="absolute bottom-0 w-full border-t border-outline-variant">
-                <mat-action-list>
-                    <mat-list-item>
-                        <img matListItemAvatar src="https://avatars.githubusercontent.com/u/105328?v=4" alt="User"
-                            class="object-cover" />
-                        <span matListItemTitle>Dalma</span>
-                        <span matListItemLine>Smaka</span>
-                    </mat-list-item>
-                </mat-action-list>
+                <div *ngIf="currentUser$ | async as currentUser" class="custom-action-list" >
+                    <div class="avatar">
+                         <div class="logged-avatar">
+                            {{ getInitials(currentUser.fullName) }}
+                        </div>
+                    </div>
+                    <div class="box">
+                        <h3> {{currentUser.fullName}} </h3>
+                        <p matListItemLine> {{currentUser.email}} </p>
+                    </div>
+                    <div class="box custom-icon" >
+                       <button matTooltip="Logout" (click)="logout()" class="logout-icon">
+                         <mat-icon
+                                fontSet="material-symbols-outlined"
+                                matListItemIcon>logout</mat-icon>
+                       </button>
+                    </div>
+                </div>
             </div>
         </div>
     </mat-sidenav>

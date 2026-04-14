@@ -1,0 +1,90 @@
+import { CommonModule } from "@angular/common";
+import { ChangeDetectorRef, Component, inject, Inject, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTimepickerModule } from '@angular/material/timepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelTitle, MatExpansionPanelHeader } from "@angular/material/expansion";
+import { InvitationCodes } from "../../../../core/models/invitation-codes.model";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CompanyService } from "../../../../core/services/company.service";
+import { map, Observable } from "rxjs";
+@Component({
+    selector: "app-invitation-code",
+    templateUrl: "./invitation-code-dialog.component.html",
+    styleUrls: ["./invitation-code-dialog.component.css"],
+    imports: [ReactiveFormsModule, CommonModule, MatDialogModule, MatButtonModule,
+        MatIconModule, MatTableModule, MatChipsModule, MatNativeDateModule, MatDatepickerModule,
+        MatInputModule, MatFormFieldModule, MatTimepickerModule, MatAccordion,
+        MatExpansionPanel, MatExpansionPanelTitle, MatExpansionPanelHeader],
+    providers: [provideNativeDateAdapter()],
+})
+export class InvitationCodeDialogComponent implements OnInit {
+    private cdr = inject(ChangeDetectorRef);
+    invitationForm!: FormGroup;
+    codes$!: Observable<InvitationCodes[] | null>;
+    private companyService = inject(CompanyService)
+    constructor(private fb: FormBuilder, private snackBar: MatSnackBar,
+        public dialogRef: MatDialogRef<InvitationCodeDialogComponent>) { }
+    // dataSource = new MatTableDataSource<any>([]);
+    dataSource: any[] = [];
+    ngOnInit(): void {
+        this.invitationForm = this.fb.group({
+            expiryDate: ['', Validators.required],
+        });
+
+        this.companyService.invitationCode$.subscribe(data => {
+            if (data) {
+                this.dataSource = data.map(x => ({
+                    code: x.invitationCode,
+                    status: x.expirationStatus
+                }));
+                this.cdr.markForCheck();
+                // If using MatTableDataSource, you might need:
+                // this.dataSource.data = mappedData;
+            }
+        });
+
+        // Initial load
+        this.companyService.loadCodes().subscribe();
+    }
+    confirmChanges() {
+
+    }
+    displayedColumns: string[] = ['code', 'status', 'actions'];
+
+
+    copyToClipboard(text: string) {
+        navigator.clipboard.writeText(text).then(() => {
+            this.snackBar.open('Code copied to clipboard!', 'Close', {
+                duration: 2000,
+                horizontalPosition: 'right',
+                verticalPosition: 'top'
+            });
+        });
+    }
+    generateNewCode() {
+        const date = this.invitationForm.get('expiryDate')?.value;
+        this.companyService.generateCode(date).subscribe({
+            next: () => {
+                this.snackBar.open('Code generated successfully!', 'Close', {
+                    duration: 3000
+                });
+                this.companyService.loadCodes().subscribe();
+            },
+            error: (err) => {
+                this.snackBar.open('Failed to generate code.', 'Close', {
+                    duration: 3000
+                });
+            }
+        });
+    }
+}

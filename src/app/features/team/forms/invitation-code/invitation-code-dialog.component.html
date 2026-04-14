@@ -1,0 +1,60 @@
+<mat-dialog-content>
+  <h2 class="custom-title">Invitation Codes</h2>
+  <p class="custom-subtitle">View all the invitation codes and create new ones</p>
+  <mat-accordion>
+    <mat-expansion-panel class="panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Create new code</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="generate-row" [formGroup]="invitationForm">
+        <mat-form-field>
+          <mat-label>Expiration date</mat-label>
+          <input matInput [matDatepicker]="datepicker" formControlName="expiryDate">
+          <mat-datepicker #datepicker />
+          <mat-datepicker-toggle [for]="datepicker" matSuffix />
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="generate-btn" (click)="generateNewCode()"
+          [disabled]="!invitationForm.get('expiryDate')?.value">
+          <mat-icon>bolt</mat-icon>
+          Generate
+        </button>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Invitation Codes List</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="invitations-list">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+          <ng-container matColumnDef="code">
+            <mat-header-cell *matHeaderCellDef> Code </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.code}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-chip [class.status-active]="element.status === 'Active'"
+                [class.status-expired]="element.stat === 'Expired'">
+                {{element.status}}
+              </mat-chip>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef class="justify-content-end"> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="justify-content-end">
+              <button mat-icon-button (click)="copyToClipboard(element.code)">
+                <mat-icon fontSet="material-symbols-outlined">content_copy</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Close</button>
+</mat-dialog-actions>

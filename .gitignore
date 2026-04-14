@@ -10,3 +10,11 @@ package-lock.json
 .DS_Store
 *.tsbuildinfo
 
+/.angular/cache
+/.angular/cache
+/.angular/cache
+/.angular/cache
+/.angular/cache
+/node_modules
+/.angular
+/node_modules

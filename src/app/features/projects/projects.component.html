@@ -1,0 +1,48 @@
+<section>
+    <div class="flex-fields">
+        <div>
+            <h2 class="custom-title">All Projects</h2>
+            <p class="custom-subtitle">View all the company projects in one place.</p>
+        </div>
+        <div class="btn-container">
+            <button mat-flat-button color="primary">
+                Add new project
+            </button>
+        </div>
+    </div>
+    @if(projects$ | async; as projects){
+    <div>
+        <mat-divider class="my-4! border-outline-variant!" />
+        <mat-grid-list cols="3" rowHeight="150px" gutterSize="50px" class="grid-container">
+            @for(project of projects; track project.projectId){
+            <mat-grid-tile>
+                <mat-card appearance="outlined" class="custom-card">
+                    <mat-card-header>
+                        <mat-card-title> {{ project.name }}</mat-card-title>
+                        <mat-card-subtitle class="custom-subtitle">Project created by: {{ project.createdBy
+                            }}</mat-card-subtitle>
+                        <app-menu #menuComp [items]="userMenuItems" [context]="project"
+                            (itemClick)="handleMenuAction($event)">
+                        </app-menu>
+                    </mat-card-header>
+                    <mat-card-content class="card-content">
+                        <div class="box">
+                            <mat-icon fontSet="material-symbols-outlined">group</mat-icon>
+                            {{ project.totalUsers }}
+                        </div>
+                        <div class="box">
+                            <mat-icon fontSet="material-symbols-outlined">assignment</mat-icon>
+                            {{ project.totalTasks }}
+                        </div>
+                        <div class="box">
+                            <mat-icon fontSet="material-symbols-outlined">schedule</mat-icon>
+                            {{project.createdAt}}
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+            }
+        </mat-grid-list>
+    </div>
+    }
+</section>

@@ -1,4 +1,5 @@
-export interface Team{
+export interface Team {
+    id: string,
     fullName: string,
     email: string,
     phoneNumber: string,

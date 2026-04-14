@@ -5,6 +5,7 @@ import { BehaviorSubject, catchError, filter, Observable, of, shareReplay, switc
 import { JwtService } from "./jwt.service";
 import { CompanyConfig } from "../../features/company/models/companyConfig.model";
 import { Team } from "../../features/team/model/team.model";
+import { InvitationCodes } from "../models/invitation-codes.model";
 
 @Injectable({
     providedIn: 'root'
@@ -24,11 +25,14 @@ export class CompanyService {
     public companyConfigSubject = new BehaviorSubject<CompanyConfig | null>(null);
     companyConfig$ = this.companyConfigSubject.asObservable();
 
-    public teamSubject = new BehaviorSubject<Team | null>(null);
+    public invitationCodeSubject = new BehaviorSubject<InvitationCodes[] | null>(null);
+    invitationCode$ = this.invitationCodeSubject.asObservable();
+
+    public teamSubject = new BehaviorSubject<Team[] | null>(null);
     team$ = this.teamSubject.asObservable();
 
-    loadTeam(): Observable<Team | null> {
-        if (this.teamSubject.value) {
+    loadTeam(forceReload = false): Observable<Team[] | null> {
+        if (!forceReload && this.teamSubject.value) {
             return this.team$;
         }
 
@@ -36,14 +40,34 @@ export class CompanyService {
             return of(null);
         }
 
-        return this.apiService.get<Team>(`${this.endpoint}/companyTeam`).pipe(
+        return this.apiService.get<Team[]>(`${this.endpoint}/companyTeam`).pipe(
             tap(team => this.teamSubject.next(team)),
             catchError(err => {
                 console.error(err);
                 this.teamSubject.next(null);
                 return of(null);
+            })
+        );
+    }
+    loadCodes(): Observable<InvitationCodes[] | null> {
+        return this.apiService.get<InvitationCodes[]>(`${this.endpoint}/codes`).pipe(
+            tap(code => this.invitationCodeSubject.next(code)),
+            catchError(err => {
+                console.error(err);
+                this.companySubject.next(null);
+                return of(null);
             }),
             shareReplay(1)
+        );
+    }
+    generateCode(expiryDate: any): Observable<InvitationCodes[] | null> {
+        return this.apiService.post<InvitationCodes[], any>(`${this.endpoint}/generateCode`, expiryDate).pipe(
+            tap(code => this.invitationCodeSubject.next(code)),
+           catchError(err => {
+                console.error(err);
+                this.invitationCodeSubject.next(null);
+                return of(null);
+            }),
         );
     }
     loadCompanyIfNeeded(): Observable<Company | null> {
@@ -68,23 +92,6 @@ export class CompanyService {
             shareReplay(1)
         );
     }
-    // loadCompany(): void {
-    //     this.apiService.get<Company>(`${this.endpoint}/company`).pipe(
-    //         tap(company => this.companySubject.next(company)),
-    //         catchError(err => {
-    //             console.error(err);
-    //             return of(null);
-    //         })
-    //     ).subscribe();
-    // }
-    // loadCompanyIfNeeded(): Observable<Company | null> {
-    //     if (!this.companySubject.value) {
-    //         if (this.jwtService.isAuthenticated()) {
-    //             this.loadCompany();
-    //         }
-    //     }
-    //     return this.company$;
-    // }
 
     updateCompany(company: Company): Observable<Company> {
         return this.apiService.put<Company, Company>(`${this.endpoint}/updateCompany`, company).pipe(
@@ -107,6 +114,7 @@ export class CompanyService {
             })
         );
     }
+
     getCompanyConfig(id: string): Observable<CompanyConfig | null> {
         // If cache is undefined (which happens after a save), it will fetch fresh data
         if (!this.companyConfigCache$) {

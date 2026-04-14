@@ -17,3 +17,7 @@ export interface User{
     phoneNumber: string,
     passwordHash: string
 }
+export interface Role{
+    roleId:string;
+    roleName:string;
+}
