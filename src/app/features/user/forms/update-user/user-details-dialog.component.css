@@ -1,0 +1,12 @@
+
+.flex-fields {
+    display: flex;
+    gap: 20px;
+}
+.custom-form{
+    flex: 1;
+}
+.grid-fields{
+    display: flex;
+    flex-direction: column;
+}

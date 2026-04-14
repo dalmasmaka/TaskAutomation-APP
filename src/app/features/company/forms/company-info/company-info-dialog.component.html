@@ -1,0 +1,21 @@
+<mat-dialog-content [formGroup]="companyForm">
+  <h2 class="custom-title">Basic Information</h2>
+  <p class="custom-subtitle">Update your company name and owner information.</p>
+  <div class="flex-column-fields">
+    <mat-form-field class="custom-form">
+      <mat-label>Company Name</mat-label>
+      <input matInput placeholder="Enter your name" type="text" formControlName="name">
+    </mat-form-field>
+    <!-- <mat-form-field class="w-full custom-form">
+      <mat-label>New owner from Team</mat-label>
+      <mat-select >
+        <mat-option>Create a New Workspace</mat-option>
+        <mat-option>Join with Invite Code</mat-option>
+      </mat-select>
+    </mat-form-field> -->
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="dialogRef.close()">Cancel</button>
+  <button matButton (click)="confirmChanges()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

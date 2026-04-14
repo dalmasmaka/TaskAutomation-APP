@@ -1,0 +1,60 @@
+.section {
+    display: flex;
+    flex-direction: row;
+}
+
+.box {
+    flex: 1;
+}
+
+.box1 {
+    flex: 0.5;
+}
+.flex-fields {
+    display: flex;
+    gap: 20px;
+}
+
+.custom-form {
+    width: 100%;
+}
+.user {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.divider {
+    height: 0.8px;
+    background-color: #ccc;
+    margin: 20px 0;
+}
+.divider {
+    height: 0.8px;
+    background-color: #ccc;
+    margin: 20px 0;
+}
+
+.danger-cards {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+.grey-card{
+    border-color: #C1C1C8;
+    background-color: color-mix(in srgb, #1a1b1f 10%, transparent) !important;
+}
+.red-card {
+    border-color: #FFB4AB;
+    background-color: color-mix(in srgb, #ba1a1a 10%, transparent) !important;
+}
+.card-content {
+    justify-content: space-between;
+    display: flex;
+
+}
+
+.warn-button {
+    color: #ba1a1a !important;
+}
+

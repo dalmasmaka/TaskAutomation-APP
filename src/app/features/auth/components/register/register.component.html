@@ -1,12 +1,12 @@
 <form>
     <p class="custom-title">Set up your professional space</p>
-       <div *ngIf="errorMessage()" class="error-msg">
-                <mat-icon>error_outline</mat-icon>
-                <span>{{  errorMessage() }}</span>
-            </div>
+    <div *ngIf="errorMessage()" class="error-msg">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage() }}</span>
+    </div>
     <div class="grid-container">
         <mat-card class="register-card">
-         
+
             <mat-stepper #stepper linear class="custom-stepper">
                 <mat-step [stepControl]="workspaceGroup" [editable]="!isInviteOnly">
                     <ng-template matStepLabel>Workspace</ng-template>

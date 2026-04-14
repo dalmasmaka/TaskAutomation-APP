@@ -1,0 +1,77 @@
+.custom-card {
+    flex: 1;
+}
+
+.flex-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.custom-icon {
+    right: 0;
+    position: absolute;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.box {
+    flex: 1;
+    border-top: 1px solid light-dark(#c4c6d0, #44474e);
+}
+
+.divider {
+    border-right: 1px solid light-dark(#c4c6d0, #44474e);
+}
+
+.custom-padding {
+    padding-left: 10px;
+}
+
+.mat-mdc-card-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-subtitle {
+    font-weight: 500;
+    color: oklch(70.7% .022 261.325);
+    font-size: 14px;
+}
+
+.custom-p {
+    margin: 10px 0 0 0;
+    color: oklch(70.7% .022 261.325);
+}
+
+.custom-icon {
+    color: oklch(70.7% .022 261.325);
+}
+
+.grid-container {
+    margin-top: 20px;
+}
+
+.flex-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-container {
+    align-items: center;
+    display: flex;
+}
+
+.custom-menu-trigger {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    color: oklch(70.7% .022 261.325) !important;
+}

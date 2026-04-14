@@ -1,0 +1,23 @@
+<mat-dialog-content [formGroup]="userForm">
+    <h2 class="custom-title">User Information</h2>
+    <p class="custom-subtitle">Update your personal information and account details.</p>
+    <div class="grid-fields">
+        <mat-form-field class="custom-form">
+        <mat-label>Full Name</mat-label>
+        <input matInput placeholder="Enter your first name" type="text" formControlName="fullName">
+    </mat-form-field>
+    <mat-form-field class="custom-form">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Enter your email" type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field class="w-full custom-form">
+        <mat-label>Phone Number</mat-label>
+        <input matInput placeholder="Enter your phone number" type="text" formControlName="phoneNumber">
+    </mat-form-field>
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button matButton (click)="dialogRef.close()">Cancel</button>
+    <button matButton (click)="confirmChanges()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

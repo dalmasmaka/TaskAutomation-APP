@@ -1,27 +1,48 @@
-import { Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { HttpHeaders } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
+
 @Injectable({
     providedIn: 'root'
 })
 export class ApiService {
-    private baseUrl = environment.apiUrl;
-
     constructor(private http: HttpClient) { }
+    //get method
+    get<HttpResponseModel>(path: string): Observable<HttpResponseModel> {
+        const url = `${environment.apiUrl}/${path}`
+        return this.http.get<HttpResponseModel>(url);
+    }
+    //get by id: int
+    getById<HttpResponseModel>(path: string, id: number): Observable<HttpResponseModel> {
+        const url = `${environment.apiUrl}/${path}/${id}`;
+        return this.http.get<HttpResponseModel>(url);
+    }
+    //get by id: number
+    getByuserId<HttpResponseModel>(path: string, id: string): Observable<HttpResponseModel> {
+        const url = `${environment.apiUrl}/${path}/${id}`;
+        return this.http.get<HttpResponseModel>(url);
+    }
+    //update 
+    put<HttpResponseModel, RequestModel>(path: string, data: RequestModel): Observable<HttpResponseModel> {
+        const url = `${environment.apiUrl}/${path}`;
+        return this.http.put<HttpResponseModel>(url, data);
+    }
+    //post
+    post<HttpResponseModel, RequestModel>(path: string, data: RequestModel): Observable<HttpResponseModel> {
+        const url = `${environment.apiUrl}/${path}`;
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
 
-    get(endpoint: string) {
-        return this.http.get(`${this.baseUrl}/${endpoint}`);
+        return this.http.post<HttpResponseModel>(url, data, { headers });
     }
 
-    post(endpoint: string, data: any) {
-        return this.http.post(`${this.baseUrl}/${endpoint}`, data);
+    delete<HttpResponseModel>(path: string): Observable<HttpResponseModel> {
+        const url = `${environment.apiUrl}/${path}`;
+        return this.http.delete<HttpResponseModel>(url);
     }
 
-    put(endpoint: string, data: any) {
-        return this.http.put(`${this.baseUrl}/${endpoint}`, data);
-    }
-
-    delete(endpoint: string) {
-        return this.http.delete(`${this.baseUrl}/${endpoint}`);
-    }
+  
 }

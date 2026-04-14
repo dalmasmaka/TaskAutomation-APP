@@ -1,0 +1,20 @@
+# Angular / Node
+node_modules/
+dist/
+out-tsc/
+npm-debug.log
+package-lock.json
+.angular/
+.idea/
+.vscode/
+.DS_Store
+*.tsbuildinfo
+
+/.angular/cache
+/.angular/cache
+/.angular/cache
+/.angular/cache
+/.angular/cache
+/node_modules
+/.angular
+/node_modules

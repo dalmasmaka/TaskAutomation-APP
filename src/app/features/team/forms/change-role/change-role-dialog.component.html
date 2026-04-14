@@ -1,0 +1,22 @@
+<mat-dialog-content [formGroup]="roleForm">
+    <h2 class="custom-title">User Information</h2>
+    <p class="custom-subtitle">Change user role.</p>
+
+    <div class="grid-fields">
+        <mat-form-field appearance="outline" class="w-full custom-form-field">
+            <mat-label>Select user role</mat-label>
+            <mat-select formControlName="roleId">
+                @for (role of roles; track role.roleId) {
+                <mat-option [value]="role.roleId">
+                    {{ role.roleName }}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-button color="primary" (click)="confirmChanges()" [disabled]="!roleForm.valid">Save</button>
+</mat-dialog-actions>

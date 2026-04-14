@@ -1,21 +1,52 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { JwtService } from '../services/jwt.service';
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const jwtService = inject(JwtService);
-  const token = jwtService.getToken();
+  const platformId = inject(PLATFORM_ID);
 
-  // If a token exists, clone the request and add the Authorization header
+  if (!isPlatformBrowser(platformId)) {
+    return next(req);
+  }
+  const token = localStorage.getItem('token');
+
   if (token) {
-    const clonedRequest = req.clone({
+    const authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
-    return next(clonedRequest);
+    return next(authReq);
   }
-
-  // If no token, pass the original request through
   return next(req);
 };
+// import { Injectable } from '@angular/core';
+// import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+// import { Observable, throwError } from 'rxjs';
+// import { catchError } from 'rxjs/operators';
+// import { AuthService } from '../services/auth.service';
+// import { JwtService } from '../services/jwt.service';
+
+// @Injectable()
+// export class TokenInterceptor implements HttpInterceptor {
+//     constructor(private jwtService: JwtService) { }
+
+//     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+//         const token = this.jwtService.getToken();
+//         if (token) {
+          
+//             req = req.clone({
+//                 setHeaders: {
+//                     Authorization: `Bearer ${token}`
+//                 }
+//             });
+//         }
+//         return next.handle(req).pipe(
+//             catchError((error: HttpErrorResponse) => {
+//                 return throwError(error);
+//             })
+//         );
+//     }
+// }
+//the purpose of TokenInterceptor is to attach the Token to HTTP outgoing requests 
+//if the user is Authenticated (THE TOKEN EXISTS) it clones the request and adds the Authorization header with Bearer ${token

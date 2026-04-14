@@ -1,0 +1,55 @@
+/* Style for Active status */
+.mat-mdc-standard-chip.status-active {
+  background-color: #e8f5e9 !important; /* Light green background */
+  color: #2e7d32 !important;            /* Dark green text */
+}
+
+/* Style for Expired status */
+.mat-mdc-standard-chip.status-expired {
+  background-color: #ffebee !important; /* Light red background */
+  color: #c62828 !important;            /* Dark red text */
+}
+.justify-content-end {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+}
+.generate-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-top: 8px;
+}
+
+.generate-container mat-form-field {
+  flex: 1; /* Makes the input take up available space */
+}
+
+.generate-container button {
+  height: 52px; /* Matches the height of the outline input */
+}
+.flex-fields {
+    display: flex;
+    justify-content: space-between;
+}
+.generate-row {
+    display: grid;
+}
+.invitations-list {
+  max-height: 280px;  
+  overflow-y: auto;
+  padding-right: 8px; 
+}
+.panel{
+    background: transparent !important;
+}
+.panel :hover{
+    background: transparent !important;
+}
+.panel :focus{
+    background: transparent !important;
+}
+/* ::ng-deep .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover {
+    background: transparent !important;
+} */

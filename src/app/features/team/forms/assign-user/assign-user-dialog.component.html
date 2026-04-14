@@ -1,0 +1,24 @@
+<mat-dialog-content [formGroup]="projectForm">
+
+  <h2 class="custom-title">Available Projects</h2>
+  <p class="custom-subtitle">Assign user in wanted projects.</p>
+
+  <app-multi-select
+    [items]="data.projects"
+    bindLabel="name"
+    bindValue="projectId",
+    placeholder="Select Projects"
+    formControlName="projects">
+  </app-multi-select>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+
+  <button mat-button color="primary"
+          (click)="confirmChanges()"
+          [disabled]="!projectForm.valid">
+    Save
+  </button>
+</mat-dialog-actions>

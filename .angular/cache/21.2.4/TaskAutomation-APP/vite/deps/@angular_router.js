@@ -1,7 +1,7 @@
 import {
   Title
-} from "./chunk-5LH7UXNB.js";
-import "./chunk-N6IP7XPK.js";
+} from "./chunk-F2UPICH4.js";
+import "./chunk-RD4FTIUC.js";
 import {
   HashLocationStrategy,
   Location,
@@ -11,11 +11,11 @@ import {
   PathLocationStrategy,
   PlatformNavigation,
   ViewportScroller
-} from "./chunk-S7G22GOQ.js";
+} from "./chunk-G2K6UD2U.js";
 import {
   LOCATION_INITIALIZED,
   PlatformLocation
-} from "./chunk-UZ7NY3S6.js";
+} from "./chunk-DUE4JVTC.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   ApplicationRef,
@@ -92,7 +92,7 @@ import {
   ɵɵloadQuery,
   ɵɵqueryRefresh,
   ɵɵsanitizeUrlOrResourceUrl
-} from "./chunk-URRC3GSF.js";
+} from "./chunk-F5NGALBH.js";
 import {
   BehaviorSubject,
   EMPTY,
@@ -100,8 +100,6 @@ import {
   Observable,
   Subject,
   Subscription,
-  __spreadProps,
-  __spreadValues,
   catchError,
   combineLatest,
   concat,
@@ -124,7 +122,11 @@ import {
   takeUntil,
   tap,
   throwError
-} from "./chunk-PJVWDKLX.js";
+} from "./chunk-RSS3ODKE.js";
+import {
+  __spreadProps,
+  __spreadValues
+} from "./chunk-GOMI4DH3.js";
 
 // node_modules/@angular/router/fesm2022/_router-chunk.mjs
 var PRIMARY_OUTLET = "primary";
@@ -2803,8 +2805,8 @@ function match(segmentGroup, route, segments) {
     positionalParamSegments: res.posParams ?? {}
   };
 }
-function split(segmentGroup, consumedSegments, slicedSegments, config) {
-  if (slicedSegments.length > 0 && containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, config)) {
+function split(segmentGroup, consumedSegments, slicedSegments, config, outlet) {
+  if (slicedSegments.length > 0 && containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, config, outlet)) {
     const s2 = new UrlSegmentGroup(consumedSegments, createChildrenForEmptyPaths(config, new UrlSegmentGroup(slicedSegments, segmentGroup.children)));
     return {
       segmentGroup: s2,
@@ -2845,8 +2847,15 @@ function createChildrenForEmptyPaths(routes, primarySegment) {
   }
   return res;
 }
-function containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, routes) {
-  return routes.some((r) => emptyPathMatch(segmentGroup, slicedSegments, r) && getOutlet(r) !== PRIMARY_OUTLET);
+function containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, routes, outlet) {
+  return routes.some((r) => {
+    const matchesEmpty = emptyPathMatch(segmentGroup, slicedSegments, r);
+    if (!matchesEmpty) return false;
+    const isNamedOutlet = getOutlet(r) !== PRIMARY_OUTLET;
+    if (!isNamedOutlet) return false;
+    const isSelfEvaluating = outlet !== void 0 && getOutlet(r) === outlet;
+    return !isSelfEvaluating;
+  });
 }
 function containsEmptyPathMatches(segmentGroup, slicedSegments, routes) {
   return routes.some((r) => emptyPathMatch(segmentGroup, slicedSegments, r));
@@ -3045,7 +3054,7 @@ This is currently a dev mode only error but will become a call stack size exceed
     const {
       segmentGroup,
       slicedSegments
-    } = split(rawSegment, consumedSegments, remainingSegments, childConfig);
+    } = split(rawSegment, consumedSegments, remainingSegments, childConfig, outlet);
     if (slicedSegments.length === 0 && segmentGroup.hasChildren()) {
       const children = await this.processChildren(childInjector, childConfig, segmentGroup, snapshot);
       return new TreeNode(snapshot, children);
@@ -5957,7 +5966,7 @@ function mapToCanDeactivate(providers) {
 function mapToResolve(provider) {
   return (...params) => inject(provider).resolve(...params);
 }
-var VERSION = new Version("21.2.6");
+var VERSION = new Version("21.2.7");
 export {
   ActivatedRoute,
   ActivatedRouteSnapshot,
