@@ -1,8 +1,4 @@
-
-.flex-fields {
+.grid-fields{
     display: flex;
-    gap: 20px;
-}
-.custom-form{
-    flex: 1;
+    flex-direction: column;
 }

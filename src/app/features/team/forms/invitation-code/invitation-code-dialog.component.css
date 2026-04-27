@@ -1,13 +1,19 @@
-/* Style for Active status */
-.mat-mdc-standard-chip.status-active {
-  background-color: #e8f5e9 !important; /* Light green background */
-  color: #2e7d32 !important;            /* Dark green text */
+.label {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
 }
 
-/* Style for Expired status */
-.mat-mdc-standard-chip.status-expired {
-  background-color: #ffebee !important; /* Light red background */
-  color: #c62828 !important;            /* Dark red text */
+.status-active {
+  background-color: #e0f7fa;
+  color: #00796b;
+}
+
+.status-expired {
+  background-color: #ffebee;
+  color: #c62828;
 }
 .justify-content-end {
   display: flex;

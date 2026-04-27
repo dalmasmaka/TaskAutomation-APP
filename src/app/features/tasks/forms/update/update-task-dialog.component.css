@@ -1,0 +1,42 @@
+.grid-fields{
+    display: flex;
+    flex-direction: column;
+}
+.flex-fields{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.flex-one{
+    flex:1;
+}
+.sm-padding{
+    padding: 0.8rem 0.5rem;
+}
+/* ::ng-deep .mat-mdc-list-item-meta {
+    display: flex !important;
+    align-items: center !important;
+    height: 100%;
+} */
+.mat-mdc-card-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+}
+.mat-mdc-card-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    object-fit: cover;
+}
+/* .align{
+    align-items: end;
+} */
+.custom-item {
+  height: 60px !important;       /* total height */
+  min-height: 60px !important;   /* override Material default */
+  align-items: center;
+}

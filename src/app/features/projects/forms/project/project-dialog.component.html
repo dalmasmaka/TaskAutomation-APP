@@ -1,0 +1,28 @@
+<mat-dialog-content>
+    <h2 class="custom-title">Create Project</h2>
+    <p class="custom-subtitle">Add project details.</p>
+    <form [formGroup]="firstFormGroup" class="grid-fields">
+        <ng-template matStepLabel>Project Information</ng-template>
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Project Name" formControlName="name" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Platform</mat-label>
+            <input matInput placeholder="Ex. GitHub" formControlName="platform" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Repo URL</mat-label>
+            <input matInput placeholder="Ex. https://github.com/yourrepo" formControlName="repoURL" required>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+
+    <button mat-button color="primary"
+          (click)="confirmChanges()"
+          [disabled]="!firstFormGroup.valid">
+    Save
+  </button>
+</mat-dialog-actions>

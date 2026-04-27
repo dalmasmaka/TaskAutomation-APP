@@ -6,5 +6,18 @@ export interface Projects {
     createdBy: string,
     createdAt: string,
     totalUsers: string,
-    totalTasks: string
+    totalTasks: string,
+    isAssigned: string,
+    hasConfig:string
+}
+export interface Project {
+    name: string,
+    platform: string,
+    repoURl: string,
+}
+export interface Boards{
+    id: string,
+    key: string,
+    name: string,
+    type: string
 }

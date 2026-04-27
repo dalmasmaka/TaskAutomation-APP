@@ -53,8 +53,8 @@ export class MultiSelectSearchComponent implements ControlValueAccessor {
     );
   }
 
-  onChange = (value: any) => {};
-  onTouched = () => {};
+  onChange = (value: any) => { };
+  onTouched = () => { };
 
   writeValue(value: any[]): void {
     this.value = value || [];

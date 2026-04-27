@@ -14,6 +14,10 @@ export class ApiService {
         const url = `${environment.apiUrl}/${path}`
         return this.http.get<HttpResponseModel>(url);
     }
+    // Update the method signature to accept an optional params object
+    getWithParams<T>(url: string, params?: any): Observable<T> {
+        return this.http.get<T>(`${environment.apiUrl}/${url}`, { params });
+    }
     //get by id: int
     getById<HttpResponseModel>(path: string, id: number): Observable<HttpResponseModel> {
         const url = `${environment.apiUrl}/${path}/${id}`;
@@ -44,5 +48,5 @@ export class ApiService {
         return this.http.delete<HttpResponseModel>(url);
     }
 
-  
+
 }

@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "./api.service";
-import { Company } from "../../features/company/models/company.model";
+import { Company } from "../models/company.model";
 import { BehaviorSubject, catchError, filter, Observable, of, shareReplay, switchMap, tap } from "rxjs";
 import { JwtService } from "./jwt.service";
-import { CompanyConfig } from "../../features/company/models/companyConfig.model";
+import { CompanyConfig } from "../models/companyConfig.model";
 import { Team } from "../../features/team/model/team.model";
 import { InvitationCodes } from "../models/invitation-codes.model";
 
@@ -18,11 +18,11 @@ export class CompanyService {
         const hasToken = this.jwtService.isAuthenticated();
         this.isAuthenticatedSubject.next(hasToken);
     }
-    private companyConfigCache$?: Observable<CompanyConfig | null>;
+    private companyConfigCache$?: Observable<CompanyConfig[] | null>;
     private companySubject = new BehaviorSubject<Company | null>(null);
     company$ = this.companySubject.asObservable();
 
-    public companyConfigSubject = new BehaviorSubject<CompanyConfig | null>(null);
+    public companyConfigSubject = new BehaviorSubject<CompanyConfig[] | null>(null);
     companyConfig$ = this.companyConfigSubject.asObservable();
 
     public invitationCodeSubject = new BehaviorSubject<InvitationCodes[] | null>(null);
@@ -63,7 +63,7 @@ export class CompanyService {
     generateCode(expiryDate: any): Observable<InvitationCodes[] | null> {
         return this.apiService.post<InvitationCodes[], any>(`${this.endpoint}/generateCode`, expiryDate).pipe(
             tap(code => this.invitationCodeSubject.next(code)),
-           catchError(err => {
+            catchError(err => {
                 console.error(err);
                 this.invitationCodeSubject.next(null);
                 return of(null);
@@ -102,24 +102,50 @@ export class CompanyService {
         );
     }
 
-    saveCompanyConfig(companyConfig: CompanyConfig): Observable<CompanyConfig> {
-        return this.apiService.put<CompanyConfig, CompanyConfig>(`${this.endpoint}/saveCompanyConfig`, companyConfig).pipe(
-            tap(updatedConfig => {
-                // 3. BROADCAST: Send the new data to everyone listening
-                const dataToShow = updatedConfig || companyConfig;
-                this.companyConfigSubject.next(dataToShow);
+    // saveCompanyConfig(companyConfig: CompanyConfig): Observable<CompanyConfig | null> {
+    //     return this.apiService.put<CompanyConfig, CompanyConfig>(`${this.endpoint}/saveCompanyConfig`, companyConfig).pipe(
+    //         tap(updatedConfig => {
+    //             // 3. BROADCAST: Send the new data to everyone listening
+    //             const dataToShow = updatedConfig || companyConfig;
+    //             this.companyConfigSubject.next(dataToShow);
 
-                // 4. Reset cache so the next GET is fresh
-                this.companyConfigCache$ = undefined;
-            })
-        );
+    //             // 4. Reset cache so the next GET is fresh
+    //             this.companyConfigCache$ = undefined;
+    //         })
+    //     );
+    // }
+    saveCompanyConfig(companyConfig: CompanyConfig): Observable<CompanyConfig | null> {
+        return this.apiService
+            .put<CompanyConfig, CompanyConfig>(`${this.endpoint}/saveCompanyConfig`, companyConfig)
+            .pipe(
+                tap((savedConfig) => {
+
+                    if (!savedConfig) return;
+
+                    const current = this.companyConfigSubject.value ?? [];
+
+                    const existsIndex = current.findIndex(x => x.id === savedConfig.id);
+
+                    let updatedList;
+
+                    if (existsIndex > -1) {
+                        updatedList = [...current];
+                        updatedList[existsIndex] = savedConfig;
+                    } else {
+                        updatedList = [...current, savedConfig];
+                    }
+
+                    this.companyConfigSubject.next(updatedList);
+
+                    this.companyConfigCache$ = undefined;
+                })
+            );
     }
 
-    getCompanyConfig(id: string): Observable<CompanyConfig | null> {
-        // If cache is undefined (which happens after a save), it will fetch fresh data
+    getCompanyConfig(id: string): Observable<CompanyConfig[] | null> {
         if (!this.companyConfigCache$) {
             this.companyConfigCache$ = this.apiService
-                .get<CompanyConfig>(`${this.endpoint}/companyConfig/${id}`)
+                .get<CompanyConfig[]>(`${this.endpoint}/companyConfig/${id}`)
                 .pipe(
                     shareReplay(1),
                     catchError(err => {
@@ -130,5 +156,10 @@ export class CompanyService {
         }
         return this.companyConfigCache$;
     }
-
+    deleteConfig(id: string) {
+        return this.apiService.delete(`${this.endpoint}/deleteConfig/${id}`);
+    }
+    deleteCompany(id: string) {
+        return this.apiService.delete(`${this.endpoint}/deleteCompany/${id}`);
+    }
 }

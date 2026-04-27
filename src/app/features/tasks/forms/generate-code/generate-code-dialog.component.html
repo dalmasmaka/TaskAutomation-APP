@@ -1,0 +1,56 @@
+<mat-dialog-content>
+    <h2 class="custom-title">Code Generation</h2>
+    <p class="custom-subtitle"></p>
+    <mat-stepper #stepper orientation="vertical">
+        <mat-step>
+            <div class="sm-padding">
+                <ng-template matStepLabel>Prompt (Editable)</ng-template>
+                <mat-form-field appearance="outline" class="w-full custom-form-field">
+                    <mat-label>Select your provider</mat-label>
+                    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="8"
+                        cdkAutosizeMaxRows="25"></textarea>
+                </mat-form-field>
+                <button mat-flat-button>Send Prompt</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Generated Code</ng-template>
+            <div class="flex-fields">
+                <ul class="list">
+                    <li *ngFor="let file of files" (click)="selectFile(file)">
+                        {{ file.path }}
+                    </li>
+                </ul>
+
+                <div class="file-preview" *ngIf="selectedFile">
+                    <pre><code>{{ selectedFile.content }}</code></pre>
+                </div>
+            </div>
+            <div class="global-actions">
+
+                <button mat-raised-button (click)="regenerate()">
+                    <mat-icon>refresh</mat-icon> Regenerate
+                </button>
+                <button mat-flat-button color="primary" (click)="downloadZip()">
+                    <mat-icon>download</mat-icon> Next
+                </button>
+
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Apply/Export</ng-template>
+           <div class="flex-fields sm-padding">
+             <button mat-raised-button color="primary" (click)="downloadZip()">
+                <mat-icon>download</mat-icon> Download ZIP
+            </button>
+            <button mat-flat-button color="primary" (click)="downloadZip()">
+             <svg lucideGitPullRequest></svg>Create Pull Request
+            </button>
+           </div>
+
+        </mat-step>
+    </mat-stepper>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+</mat-dialog-actions>

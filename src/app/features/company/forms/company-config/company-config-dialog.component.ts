@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnInit, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialogRef, MatDialogActions, MatDialogContent, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { CompanyConfig } from "../../models/companyConfig.model";
+import { CompanyConfig } from "../../../../core/models/companyConfig.model";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 
@@ -23,6 +23,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
 export class CompanyConfigDialogComponent implements OnInit {
   companyConfig: CompanyConfig;
   companyConfigForm!: FormGroup
+  readonly config = signal<CompanyConfig[]>([]);
   constructor(
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: CompanyConfig,
@@ -32,11 +33,13 @@ export class CompanyConfigDialogComponent implements OnInit {
   }
   ngOnInit(): void {
     this.companyConfigForm = this.fb.group({
+      companyId: [this.data.companyId],
       provider: [this.data.provider, [Validators.required]],
       clientId: [this.data.clientId, [Validators.required]],
       clientSecret: [this.data.clientSecret, [Validators.required]],
       redirectUri: [this.data.redirectUri, [Validators.required]]
     })
+
   }
 
   confirmChanges(): void {

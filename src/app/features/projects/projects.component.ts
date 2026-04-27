@@ -13,6 +13,11 @@ import { AsyncPipe } from '@angular/common';
 import { MenuComponent } from "../../core/layout/menu/menu.component";
 import { MembersDialogComponent } from "./forms/project-members/members-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
+import { ProjectDialogComponent } from "./forms/project/project-dialog.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ConfigurationDialogComponent } from "./forms/configuration/configuration-dialog.component";
+import { ActivatedRoute } from "@angular/router";
+import { JwtService } from "../../core/services/jwt.service";
 @Component({
     selector: "app-projects",
     templateUrl: "./projects.component.html",
@@ -23,19 +28,62 @@ export class ProjectsComponent implements OnInit {
     projects$!: Observable<Projects[] | null>;
     private projectsService = inject(ProjectsService);
     readonly dialog = inject(MatDialog);
+    public jwtService = inject(JwtService);
+    private snackBar = inject(MatSnackBar);
+    // Inject ActivatedRoute instead of Router/QueryParamsHandling
+    private route = inject(ActivatedRoute);
+    public isOwner = this.jwtService.hasRole('Owner');
+    public isDeveloper = this.jwtService.hasRole('Developer');
+
     ngOnInit(): void {
         this.projects$ = this.projectsService.projects$;
         this.projectsService.loadProjects().subscribe();
+
+        // Listen for the query params
+        this.route.queryParams.subscribe(params => {
+            if (params['integrationSuccess'] === 'true') {
+                const projectId = params['projectId'];
+                const companyId = params['companyId'];
+
+                if (projectId && companyId) {
+                    this.configuration(projectId, companyId);
+
+                    this.snackBar.open('Integration linked successfully!', 'Close', {
+                        duration: 5000
+                    });
+                }
+            }
+        });
     }
-    userMenuItems = [
-        { label: 'Project Members', icon: 'groups', action: 'members' },
-        { label: 'View Tasks', icon: 'assignment', action: 'tasks' },
-        { label: 'Project Configuration', icon: 'settings', action: 'config' }
-    ];
+
+    getFilteredMenuItems(project: any) {
+        const items = [];
+        items.push({
+            label: 'Project Members',
+            icon: 'groups',
+            action: 'members'
+        });
+        if (this.isOwner && !project.hasConfig) {
+            items.push({
+                label: 'Project Configuration',
+                icon: 'settings',
+                action: 'config'
+            });
+        }
+
+        if (this.isOwner) {
+            items.push({
+                label: 'Delete Project',
+                icon: 'delete',
+                action: 'delete'
+            });
+        }
 
 
+
+        return items;
+    }
     handleMenuAction(event: any) {
-        debugger
         const project = event.context;
         switch (event.action) {
             case 'members':
@@ -45,9 +93,20 @@ export class ProjectsComponent implements OnInit {
                 // this.changeRole(user.id);
                 break;
             case 'config':
-                // this.deleteUser(user.id);
+                this.configuration(project.projectId, project.companyId);
                 break;
         }
+    }
+    configuration(id: any, companyId: any) {
+        debugger
+        const dialogRef = this.dialog.open(ConfigurationDialogComponent, {
+            minWidth: '700px',
+            minHeight: '600px',
+            data: { projectId: id, companyId: companyId }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.projectsService.loadProjects(true).subscribe();
+        })
     }
     loadMembers(id: any) {
         const dialogRef = this.dialog.open(MembersDialogComponent, {
@@ -56,10 +115,33 @@ export class ProjectsComponent implements OnInit {
             data: { projectId: id }
         });
         dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-
-            }
+            this.projectsService.loadProjects(true).subscribe();
         })
     }
-    
+    addProject() {
+        const dialogRef = this.dialog.open(ProjectDialogComponent, {
+            minWidth: '500px',
+
+        })
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log("dalma" + result)
+                this.projectsService.createProject(result).subscribe({
+
+                    next: () => {
+                        this.snackBar.open('Projects assigned successfully!', 'Close', {
+                            duration: 3000
+                        });
+                        this.projectsService.loadProjects(true).subscribe();
+                    },
+                    error: (err) => {
+                        this.snackBar.open('Error assigning projects.', 'Close', {
+                            duration: 3000
+                        });
+                    }
+                });
+            }
+        });
+    }
+
 }
