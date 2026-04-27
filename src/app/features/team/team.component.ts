@@ -22,6 +22,7 @@ import { AssignUserDialogComponent } from "./forms/assign-user/assign-user-dialo
 import { MenuComponent } from "../../core/layout/menu/menu.component";
 import { Projects } from "../../core/models/projects.model";
 import { InvitationCodeDialogComponent } from "./forms/invitation-code/invitation-code-dialog.component";
+import { JwtService } from "../../core/services/jwt.service";
 @Component({
     selector: "app-team",
     templateUrl: "./team.component.html",
@@ -34,6 +35,10 @@ export class TeamComponent implements OnInit {
     private companyService = inject(CompanyService);
     private userService = inject(UserService);
     private projectsService = inject(ProjectsService);
+    public jwtService = inject(JwtService);
+      public isOwner = this.jwtService.hasRole('Owner');
+    public isDeveloper = this.jwtService.hasRole('Developer');
+
     readonly cx = cx;
     readonly dialog = inject(MatDialog);
     private snackBar = inject(MatSnackBar);
@@ -48,7 +53,6 @@ export class TeamComponent implements OnInit {
         { label: 'Change Member Role', icon: 'admin_panel_settings', action: 'change' },
         { label: 'Delete Member Account', icon: 'delete', action: 'delete' }
     ];
-
 
     handleMenuAction(event: any) {
         const user = event.context;

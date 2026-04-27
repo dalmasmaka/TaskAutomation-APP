@@ -7,7 +7,7 @@
         <mat-panel-title>Create new code</mat-panel-title>
       </mat-expansion-panel-header>
       <div class="generate-row" [formGroup]="invitationForm">
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Expiration date</mat-label>
           <input matInput [matDatepicker]="datepicker" formControlName="expiryDate">
           <mat-datepicker #datepicker />
@@ -33,10 +33,10 @@
           <ng-container matColumnDef="status">
             <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <mat-chip [class.status-active]="element.status === 'Active'"
-                [class.status-expired]="element.stat === 'Expired'">
+              <span class="label" [class.status-active]="element.status === 'Active'"
+                [class.status-expired]="element.status === 'Expired'">
                 {{element.status}}
-              </mat-chip>
+            </span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="actions">

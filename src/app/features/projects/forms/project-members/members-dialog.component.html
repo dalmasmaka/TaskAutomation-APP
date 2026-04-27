@@ -1,7 +1,12 @@
 <mat-dialog-content>
   <h2 class="custom-title">Project Members</h2>
+  @if(isOwner){
   <p class="custom-subtitle">View all the members and assign new ones</p>
+  }@else{
+  <p class="custom-subtitle">View all the members assiged in this project</p>
+  }
   <mat-accordion>
+    @if(isOwner){
     <mat-expansion-panel class="panel">
       <mat-expansion-panel-header>
         <mat-panel-title>Assign users to this project</mat-panel-title>
@@ -17,10 +22,12 @@
       </div>
 
     </mat-expansion-panel>
+
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>Members list</mat-panel-title>
       </mat-expansion-panel-header>
+      @if(members().length>0){
       <div class="members-list">
         <mat-table [dataSource]="members()" class="mat-elevation-z0">
           <ng-container matColumnDef="fullName">
@@ -44,10 +51,11 @@
           <ng-container matColumnDef="role">
             <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <mat-chip [class.status-developer]="element.role === 'Developer'"
-                [class.status-teamleader]="element.role === 'TeamLeader'" [class.status-owner]="element.role === 'Owner'">
+              <span class="label" [class.status-developer]="element.role === 'Developer'"
+                [class.status-teamleader]="element.role === 'TeamLeader'"
+                [class.status-owner]="element.role === 'Owner'">
                 {{element.role}}
-              </mat-chip>
+              </span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="actions">
@@ -62,10 +70,58 @@
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
       </div>
+      }@else { No members found! }
+
     </mat-expansion-panel>
+    }
+    @else if(isDeveloper){
+      @if(members().length>0){
+      <div class="members-list">
+        <mat-table [dataSource]="members()" class="mat-elevation-z0">
+          <ng-container matColumnDef="fullName">
+            <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
+
+            <mat-cell *matCellDef="let element">
+              <div class="user-cell">
+                <div mat-card-avatar class="avatar-display" [style.background-color]="getAvatarTheme(element.fullName).bg"
+                  [style.color]="getAvatarTheme(element.fullName).text">
+                  {{ getInitials(element.fullName) }}
+                </div>
+
+                <div class="user-info">
+                  <span class="name">{{element.fullName}}</span>
+                  <span class="email">{{element.email}}</span>
+                </div>
+              </div>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span class="label" [class.status-developer]="element.role === 'Developer'"
+                [class.status-teamleader]="element.role === 'TeamLeader'" [class.status-owner]="element.role === 'Owner'">
+                {{element.role}}
+              </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef class="justify-content-end"> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="justify-content-end">
+              <button mat-icon-button matTooltip="Remove Member" (click)="removeMember(element.id)">
+                <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+      }@else {
+      <span class="msg">There are no members assigned yet!</span>
+      }
+    }
   </mat-accordion>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="dialogRef.close()">Close</button>
-
 </mat-dialog-actions>

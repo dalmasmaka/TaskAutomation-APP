@@ -85,3 +85,18 @@
 ::ng-deep .mat-mdc-menu-panel {
     min-width: 171px !important;
 }
+.space-between{
+    justify-content: space-between;
+}
+
+ .label-container {
+    display: flex !important;
+    align-items: start !important;
+    font-size: 12px;
+}
+.label-container span{
+        padding: 0.5rem;
+    background: oklch(96.2% .044 156.743);
+    color: oklch(52.7% .154 150.069);
+    border-radius: 8px;
+}

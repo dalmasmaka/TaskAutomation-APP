@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, DestroyRef } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { AsyncPipe, CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormField } from "@angular/material/form-field";
@@ -19,19 +19,26 @@ import {
 import { firstValueFrom } from "rxjs";
 import { UserService } from "../../core/services/user.service";
 import { ChangePasswordDialogComponent } from "./forms/change-pass/change-pass-dialog.component";
+import { JwtService } from "../../core/services/jwt.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-user-info",
     templateUrl: "./user-info.component.html",
     styleUrls: ["./user-info.component.css"],
-    imports: [CommonModule, MatCardModule, MatButtonModule, MatFormField, MatLabel, MatInputModule]
+    imports: [CommonModule, MatCardModule, MatButtonModule, MatFormField, MatLabel, MatInputModule, AsyncPipe]
 })
 export class UserInfoComponent implements OnInit {
     readonly dialog = inject(MatDialog);
     private userService = inject(UserService)
+    private jwtService = inject(JwtService)
     currentUser$!: Observable<User | null>;
     private snackBar = inject(MatSnackBar);
+    public isOwner = this.jwtService.hasRole('Owner');
+    public isDeveloper = this.jwtService.hasRole('Developer');
+    constructor(private router: Router) {
 
+    }
     horizontalPosition: MatSnackBarHorizontalPosition = 'start';
     verticalPosition: MatSnackBarVerticalPosition = 'bottom';
     ngOnInit(): void {
@@ -54,7 +61,6 @@ export class UserInfoComponent implements OnInit {
                         this.snackBar.open('User updated successfully!', 'Close', {
                             duration: 3000
                         });
-                        // this.currentUser$ = this.authService.getCurrentUser();
                     },
                     error: (err) => {
                         this.snackBar.open('Failed to update user.', 'Close', {
@@ -72,14 +78,33 @@ export class UserInfoComponent implements OnInit {
             data: user?.id
         })
     }
+    logout(): void {
+        this.jwtService.removeAuth();
+        this.router.navigate(['/login']);
+    }
     leaveCompany(): void {
         const dialogRef = this.dialog.open(ActionModalComponent, {
             minWidth: '600px'
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
-            if (result !== undefined) {
+            if (result) {
+                this.currentUser$.subscribe(user => {
+                    if (!user) return;
+
+                    this.userService.deleteCompanyMember(user.id).subscribe({
+                        next: () => {
+                            
+                            this.snackBar.open('Member account deleted successfully!', 'Close', {
+                                duration: 3000
+                            });
+                            this.logout()
+                        },
+                        error: () => {
+                            this.snackBar.open('Failed to delete member');
+                        }
+                    });
+                });
             }
         });
     }

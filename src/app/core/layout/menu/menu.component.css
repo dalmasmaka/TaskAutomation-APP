@@ -27,7 +27,7 @@
 }
 /* Removes the grey background when the item is focused/clicked */
 .custom-icon {
-    right: 0;
-    position: absolute;
+    /* right: 0;
+    position: absolute; */
     color: oklch(70.7% .022 261.325);
 }

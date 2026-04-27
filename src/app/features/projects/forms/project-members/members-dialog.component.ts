@@ -17,6 +17,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatCardModule } from '@angular/material/card';
 import { User } from "../../../../core/models/auth-models";
 import { MultiSelectSearchComponent } from "../../../../core/layout/multi-select/multi-select.component";
+import { JwtService } from "../../../../core/services/jwt.service";
 @Component({
     selector: "app-members",
     templateUrl: './members-dialog.component.html',
@@ -41,47 +42,53 @@ import { MultiSelectSearchComponent } from "../../../../core/layout/multi-select
     ],
 })
 export class MembersDialogComponent implements OnInit {
- private projectService = inject(ProjectsService);
+    private projectService = inject(ProjectsService);
     private fb = inject(FormBuilder);
     private snackBar = inject(MatSnackBar);
-
+    public jwtService = inject(JwtService);
+    public isOwner = this.jwtService.hasRole('Owner');
+    public isDeveloper = this.jwtService.hasRole('Developer');
     // --- State Management via Signals ---
     readonly members = signal<Team[]>([]);
     readonly availableUsers = signal<User[]>([]);
     readonly isLoading = signal<boolean>(false);
 
     userForm: FormGroup = this.fb.group({
-        users: [[]] 
+        users: [[]]
     });
 
-    displayedColumns: string[] = ['fullName', 'role', 'actions'];
 
     constructor(
         public dialogRef: MatDialogRef<MembersDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: { projectId: string }
-    ) {}
+        @Inject(MAT_DIALOG_DATA) public data: { projectId: number }
+    ) { }
+
+    displayedColumns: string[] = [];
 
     ngOnInit(): void {
+        this.setColumns();
         this.fetchInitialData();
     }
 
-    /**
-     * Load all necessary data at once
-     */
+    private setColumns(): void {
+        const baseColumns = ['fullName', 'role'];
+
+        if (this.isOwner) {
+            this.displayedColumns = [...baseColumns, 'actions'];
+        } else {
+            this.displayedColumns = baseColumns;
+        }
+    }
+
     private fetchInitialData(): void {
         this.isLoading.set(true);
-        
-        // Use forkJoin if you want them to finish together, 
-        // or keep separate for independent loading states
+
         this.projectService.loadProjectMembers(this.data.projectId).subscribe(m => this.members.set(m ?? []));
         this.projectService.loadAvailableUsers(this.data.projectId).subscribe(u => this.availableUsers.set(u ?? []));
-        
+
         this.isLoading.set(false);
     }
 
-    /**
-     * Logic for adding selected members
-     */
     addMembers(): void {
         const selectedUserIds = this.userForm.value.users;
         if (!selectedUserIds?.length) return;
@@ -90,18 +97,18 @@ export class MembersDialogComponent implements OnInit {
         this.projectService.assignUsersToProject(this.data.projectId, selectedUserIds)
             .pipe(finalize(() => this.isLoading.set(false)))
             .subscribe({
-                next: () => {
-                    this.notify('Members added successfully');
-                    this.userForm.reset();
-                    this.fetchInitialData(); // Refresh list
+                next: (result) => {
+                    if (result.success == true) {
+                        this.notify(result.message);
+                        this.userForm.reset();
+                        this.fetchInitialData();
+                    }
+                    this.notify(result.message);
                 },
                 error: () => this.notify('Error adding members', true)
             });
     }
 
-    /**
-     * Logic for removing a member
-     */
     removeMember(memberId: string): void {
         this.projectService.removeMemberFromProject(this.data.projectId, memberId).subscribe({
             next: () => {
@@ -113,10 +120,9 @@ export class MembersDialogComponent implements OnInit {
         });
     }
 
-    // --- Helper Utilities ---
 
     private notify(message: string, isError = false): void {
-        this.snackBar.open(message, 'Close', { 
+        this.snackBar.open(message, 'Close', {
             duration: 3000,
             panelClass: isError ? ['error-snackbar'] : ['success-snackbar']
         });

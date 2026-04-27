@@ -27,8 +27,12 @@ export class JwtService {
   }
 
   isAuthenticated(): boolean {
+    if (!this.isAuth && this.isBrowser()) {
+      this.isAuth = this.checkAuth();
+    }
     return this.isAuth;
   }
+
 
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -66,6 +70,7 @@ export class JwtService {
   saveToken(token: string): void {
     if (this.isBrowser()) {
       localStorage.setItem('token', token);
+      this.isAuth = true;
       this.decodeToken();
     }
   }
@@ -80,6 +85,7 @@ export class JwtService {
     if (this.isBrowser()) {
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
+      this.isAuth = false;
       this.decodedToken = null;
       this.userRole = null;
     }

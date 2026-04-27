@@ -5,7 +5,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDialogRef, MatDialogActions, MatDialogContent, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatSelect } from "@angular/material/select";
 import { MatOption } from "@angular/material/select";
-import { Company } from "../../models/company.model";
+import { Company } from "../../../../core/models/company.model";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 @Component({
     selector: "app-company-info",

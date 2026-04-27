@@ -1,16 +1,17 @@
+@if(company$ | async; as company){
 <div class="company">
     <section class="company-information section">
         <div class="box1">
             <h2 class="custom-title">Basic Information</h2>
             <p class="custom-subtitle">Update your company name and owner information.</p>
         </div>
-        <div class="box" *ngIf="company$ | async as company">
+        <div class="box">
             <div class="flex-fields">
-                <mat-form-field class="custom-form">
+                <mat-form-field class="custom-form" appearance="outline">
                     <mat-label>Company Name</mat-label>
                     <input matInput disabled type="text" [value]="company.name">
                 </mat-form-field>
-                <mat-form-field class="w-full custom-form">
+                <mat-form-field class="w-full custom-form" appearance="outline">
                     <mat-label>Owner Name</mat-label>
                     <input matInput disabled type="text" [value]="company.ownerName">
                 </mat-form-field>
@@ -25,30 +26,39 @@
             <h2 class="custom-title">Company Settings</h2>
             <p class="custom-subtitle">Manage your company configuration and settings here.</p>
         </div>
-        <div class="box" *ngIf="companyConfig$ | async as config">
-            <div class="flex-fields">
-                <mat-form-field class="custom-form">
-                    <mat-label>Provider</mat-label>
-                    <input matInput type="text" disabled [value]="config.provider">
-                </mat-form-field>
-                <mat-form-field class="w-full custom-form">
-                    <mat-label>Client Id</mat-label>
-                    <input matInput type="text" disabled [value]="config.clientId">
-                </mat-form-field>
-            </div>
-            <div class="flex-fields">
-                <mat-form-field class="custom-form">
-                    <mat-label>Client Secret</mat-label>
-                    <input matInput type="text" disabled [value]="config.clientSecret">
-                </mat-form-field>
-                <mat-form-field class="w-full custom-form">
-                    <mat-label>Redirect URI</mat-label>
-                    <input matInput type="text" disabled [value]="config.redirectUri">
-                </mat-form-field>
-            </div>
-            <button mat-raised-button color="primary" (click)="openCompanyConfigDialog()" class="custom-button">Update
+        @if(companyConfig$ | async; as configs){
+        <div class="box">
+            <mat-list class="example-list-wrapping">
+                @for(config of configs; track config.id){
+                <mat-list-item>
+                    <div class="flex-fields space-between">
+                        <div>
+                            <span matListItemTitle>{{ config.provider }} Provider</span>
+                            <span matListItemLine>
+                                {{config.redirectUri}}
+                            </span>
+                        </div>
+                        <div class="label-container">
+                            @if(config.provider == "Trello"){
+                            <span>API Key / Secret</span>
+                            }@else if(config.provider == "Jira"){
+                            <span>Client Id / Client Secret</span>
+                            }
+                        </div>
+                    </div>
+                    <div matListItemMeta>
+                        <app-menu #menuComp [items]="configMenuItems" [context]="config"
+                            (itemClick)="handleMenuAction($event)"></app-menu>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                }
+            </mat-list>
+            <button mat-raised-button color="primary" (click)="openCompanyConfigDialog()" class="custom-button">Add
                 Configuration</button>
         </div>
+        }
+
     </section>
     <hr class="divider">
     <section class="danger-zone section">
@@ -57,16 +67,6 @@
             <p class="custom-subtitle">Perform irreversible actions here.</p>
         </div>
         <div class="box danger-cards">
-            <mat-card class="grey-card">
-                <mat-card-header>
-                    <mat-card-subtitle>Leave Workspace</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content class="card-content">
-                    <p>Revoke your access to this team. Other people you have added to the workspace will remain.</p>
-                    <button mat-raised-button color="warn" (click)="leaveCompany()" class="custom-button">Leave
-                        Workspace</button>
-                </mat-card-content>
-            </mat-card>
             <mat-card apperance="outline"
                 class="red-card mat-mdc-card mdc-card border-error! mat-mdc-card-outlined mdc-card--outlined">
                 <mat-card-header>
@@ -83,3 +83,4 @@
     </section>
     <hr class="divider">
 </div>
+}

@@ -2,31 +2,24 @@
 
   <mat-label>{{ placeholder }}</mat-label>
 
-  <mat-select
-    [value]="value"
-    (selectionChange)="updateValue($event.value)"
-    multiple
-    (openedChange)="searchControl.setValue('')"
-  >
+  <mat-select [value]="value" (selectionChange)="updateValue($event.value)" multiple
+    (openedChange)="searchControl.setValue('')">
 
     <!-- SEARCH -->
     <mat-option class="search-option">
-      <input matInput
-             placeholder="Search..."
-             [formControl]="searchControl"
-             (click)="$event.stopPropagation()"
-             class="search-input">
+      <input matInput placeholder="Search..." [formControl]="searchControl" (click)="$event.stopPropagation()"
+        class="search-input">
     </mat-option>
 
     <!-- OPTIONS -->
-    <mat-option
-      *ngFor="let item of filteredItems$ | async"
-      [value]="item[bindValue]">
+    <mat-option *ngFor="let item of filteredItems$ | async" [value]="item[bindValue]">
 
       {{ item[bindLabel] }}
 
     </mat-option>
-
+    <mat-option *ngIf="(filteredItems$ | async)?.length === 0" disabled>
+      No results found
+    </mat-option>
   </mat-select>
 
 </mat-form-field>

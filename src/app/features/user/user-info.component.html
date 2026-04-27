@@ -1,48 +1,52 @@
+@if (currentUser$ | async; as currentUser) {
 <div class="user">
     <section class="user-information section">
         <div class="box1">
             <h2 class="custom-title">User Information</h2>
             <p class="custom-subtitle">Update your personal information and account details.</p>
         </div>
-        <div class="box" *ngIf="currentUser$ | async as currentUser" >
+      <div class="box">
             <div class="flex-fields">
-                <mat-form-field class="custom-form">
+                <mat-form-field class="custom-form" appearance="outline">
                     <mat-label>Full Name</mat-label>
                     <input matInput disabled type="text" [value]="currentUser.fullName">
                 </mat-form-field>
-              <mat-form-field class="custom-form">
+                <mat-form-field class="custom-form" appearance="outline">
                     <mat-label>Email</mat-label>
                     <input matInput disabled type="email" [value]="currentUser.email">
                 </mat-form-field>
             </div>
             <div class="flex-fields">
-                
-                <mat-form-field class="w-full custom-form">
+
+                <mat-form-field class="w-full custom-form" appearance="outline">
                     <mat-label>Phone Number</mat-label>
                     <input matInput disabled type="text" [value]="currentUser.phoneNumber">
                 </mat-form-field>
-                    <mat-form-field class="w-full custom-form">
+                <mat-form-field class="w-full custom-form" appearance="outline">
                     <mat-label>Role</mat-label>
                     <input matInput disabled type="text" [value]="currentUser.role">
                 </mat-form-field>
             </div>
-           <div class="flex-fields">
-             <button mat-raised-button color="primary" (click)="openUserDetailsDialog()" class="custom-button">Update
-                User Information</button>
-                 <button mat-raised-button color="primary" (click)="openChangePasswordDialog()" class="custom-button">Change Password</button>
-           </div>
+            <div class="flex-fields">
+                <button mat-raised-button color="primary" (click)="openUserDetailsDialog()" class="custom-button">Update
+                    User Information</button>
+                <button mat-raised-button color="primary" (click)="openChangePasswordDialog()"
+                    class="custom-button">Change Password</button>
+            </div>
         </div>
+
     </section>
     <hr class="divider">
+    @if(isDeveloper){
     <section class="danger-zone section">
         <div class="box1">
             <h2 class="custom-title">Danger Zone</h2>
             <p class="custom-subtitle">Perform irreversible actions here.</p>
         </div>
         <div class="box danger-cards">
-            <mat-card class="grey-card">
+            <mat-card class="red-card">
                 <mat-card-header>
-                    <mat-card-subtitle>Leave Workspace</mat-card-subtitle>
+                    <mat-card-subtitle>Leave Workspace & Delete Account</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content class="card-content">
                     <p>Revoke your access to this team. Other actions you have added to the workspace will remain.</p>
@@ -50,7 +54,7 @@
                         Workspace</button>
                 </mat-card-content>
             </mat-card>
-            <mat-card apperance="outline"
+            <!-- <mat-card apperance="outline"
                 class="red-card mat-mdc-card mdc-card border-error! mat-mdc-card-outlined mdc-card--outlined">
                 <mat-card-header>
                     <mat-card-subtitle>Delete Account</mat-card-subtitle>
@@ -60,9 +64,12 @@
                     <button mat-raised-button color="warn" (click)="deleteCompany()" class="custom-button">Delete
                         Account</button>
                 </mat-card-content>
-            </mat-card>
+            </mat-card> -->
 
         </div>
     </section>
     <hr class="divider">
+    }
+
 </div>
+}

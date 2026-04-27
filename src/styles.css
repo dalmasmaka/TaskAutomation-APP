@@ -27,3 +27,12 @@ h3{
 .mat-mdc-card-subtitle{
    font-family: "Poppins", sans-serif !important;
 }
+.mat-mdc-header-cell {
+   font-family: "Poppins", sans-serif !important;
+}
+.mat-mdc-cell{
+   font-family: "Poppins", sans-serif !important;
+}
+/* .mat-column-title {
+    font-family: "Poppins", sans-serif !important;
+} */

@@ -1,5 +1,6 @@
 export interface CompanyConfig{
-    // id:string;
+    id:number;
+    companyId: number,
     provider: string;
     clientSecret: string,
     clientId: string, 

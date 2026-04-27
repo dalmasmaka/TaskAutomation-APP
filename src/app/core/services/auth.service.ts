@@ -36,6 +36,17 @@ export class AuthService {
         );
     }
 
+    forgotPassword(email: any){
+         return this.api.post(`${this.endpoint}/forgot-password`, { email}).pipe(
+            catchError((error) => throwError(() => error))
+        );
+    }
+    resetPassword(payload: { newPassword: string, email: string, token: string }) {
+         return this.api.post(`${this.endpoint}/reset-password`, payload).pipe(
+            // tap((res) => this.handleAuthSuccess(res as Response)),
+            catchError((error) => throwError(() => error))
+        );
+    }
     private handleAuthSuccess(res: any): void {
         if (res && res.success && res.message) {
             this.jwtService.saveToken(res.message);

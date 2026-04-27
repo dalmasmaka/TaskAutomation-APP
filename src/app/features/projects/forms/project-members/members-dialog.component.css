@@ -3,57 +3,104 @@
   justify-content: flex-end;
   text-align: right;
 }
-.mat-mdc-standard-chip.status-teamleader {
-  background-color: #ffebee !important;
-  color: #c62828 !important;
+
+/* .mat-mdc-standard-chip.status-teamleader {
+  background-color: #e0f7fa;
+  color: #00796b;
 }
 
 .mat-mdc-standard-chip.status-developer {
-  background-color: #ffedd4 !important;
-  color: #ca3500 !important;
+  background-color: #fff3e0;
+  color: #ef6c00;
 }
-.mat-mdc-standard-chip.status-owner {
-  background-color: #e8f5e9 !important; /* Light green background */
-  color: #2e7d32 !important;            /* Dark green text */
-}
+
 .mat-mdc-standard-chip.status-pm {
+  background-color: #ffebee;
+  color: #c62828;
+} */
+
+.label {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.msg {
+  background-color: #fff3e0 !important;
+  color: #ef6c00 !important;
+  border-color: #ef6c00 !important;
+  width: 100%;
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-style: italic;
+}
+
+
+.status-teamleader {
+  background-color: #e0f7fa !important;
+  color: #00796b !important;
+  border-color: #00796b !important;
+}
+
+.status-developer {
+  background-color: #fff3e0 !important;
+  color: #ef6c00 !important;
+  border-color: #ef6c00 !important;
+}
+
+.status-pm {
   background-color: #ffebee !important;
   color: #c62828 !important;
 }
+
 .mat-mdc-card-avatar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 !important;
 }
+
 mat-table {
   width: 100%;
   table-layout: fixed;
-   
+
 }
 
+.mat-column-fullName {
+  flex: 2;
+}
 
-.mat-column-fullName { flex: 2; }
-.mat-column-role { flex: 1; }
-.mat-column-actions { flex: 0.3; }
+.mat-column-role {
+  flex: 1;
+}
+
+.mat-column-actions {
+  flex: 0.3;
+}
+
 .user-cell {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
+
 .members-list {
-  max-height: 280px;  
+  max-height: 280px;
   overflow-y: auto;
-  padding-right: 8px; 
+  padding-right: 8px;
 }
-.panel{
+
+/* .panel{
     background: transparent !important;
-}
+} */
 /* .panel :hover{
     background: transparent !important;
 } */
-.panel :focus{
+/* .panel :focus{
     background: transparent !important;
-}
+} */
 .user-info {
-    display: grid;
+  display: grid;
 }

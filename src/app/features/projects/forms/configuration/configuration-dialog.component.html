@@ -1,0 +1,72 @@
+<mat-dialog-content>
+    <h2 class="custom-title">Project Provider Configuration</h2>
+    <p class="custom-subtitle"></p>
+    <mat-stepper #stepper orientation="vertical">
+        <mat-step [stepControl]="integrationForm">
+            <form [formGroup]="integrationForm" class="grid-fields">
+                <ng-template matStepLabel>Project Integration</ng-template>
+                <mat-form-field appearance="outline" class="w-full custom-form-field">
+                    <mat-label>Select your provider</mat-label>
+                    <mat-select formControlName="provider">
+                        <mat-option *ngFor="let config of companyConfigs$ | async" [value]="config.provider">
+                            {{ config.provider }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+                    <button (click)="connectProvider()" mat-raised-button color="accent">Connect your project with
+                        provider</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Select Board</ng-template>
+            <!-- <div *ngIf="isLoadingBoards">Loading boards...</div> -->
+            <div class="grid-fields">
+                <mat-form-field appearance="outline" class="w-full custom-form-field" 
+                    style="width: 100%;">
+                    <mat-label>Select BOARD</mat-label>
+                    <mat-select>
+                        @for (board of boards; track board.id) {
+                        <mat-option [value]="board.id" (click)="selectedBoardId = board.id">
+                            {{ board.name }} ({{ board.type }})
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- <mat-select [multiple]="false" *ngIf="boards.length > 0">
+        <mat-option *ngFor="let board of boards" [value]="board.id" (click)="selectedBoardId = board.id">
+          {{ board.name }} ({{ board.type }})
+        </mat-option>
+      </mat-select> -->
+
+                <div class="actions">
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-raised-button color="accent" [disabled]="!selectedBoardId"
+                        (click)="saveBoardSelection(selectedBoardId!, getBoardKey(selectedBoardId!))">
+                        Finish & Link Project
+                    </button>
+                </div>
+            </div>
+
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Confirmation</ng-template>
+            <p>To proceed with saving the project and importing the tasks please confirm.</p>
+            <div>
+                <button matButton matStepperPrevious>Confirm</button>
+                <!-- <button matButton (click)="stepper.reset()">Reset</button> -->
+            </div>
+        </mat-step>
+    </mat-stepper>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+
+    <!-- <button mat-button color="primary"
+          (click)="confirmChanges()"
+          [disabled]="!projectForm.valid">
+    Save
+  </button> -->
+</mat-dialog-actions>

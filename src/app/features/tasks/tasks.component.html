@@ -1,0 +1,154 @@
+@if (paged$ | async; as page) {
+    <div class="mat-elevation-z8">
+    <div class="header">
+        <div class="search">
+            <mat-form-field appearance="outline" class="field">
+                <mat-label>Search Tasks</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Fix login bug" #input>
+            </mat-form-field>
+        </div>
+        <div class="filter-container" style="display: flex; gap: 10px; padding: 10px;">
+
+            <button class="filterbtn" [matMenuTriggerFor]="statusMenu" [class.active]="selections['status'].length > 0">
+                <mat-icon class="icon" fontSet="material-symbols-outlined">rule</mat-icon>
+                <span class="chip-text">{{ getFilterLabel('Status', 'status') }}</span>
+                <mat-icon fontSet="material-symbols-outlined" *ngIf="selections['status'].length > 0" class="icon"
+                    (click)="clearField('status', $event)">cancel</mat-icon>
+            </button>
+
+            <mat-menu #statusMenu="matMenu" class="custom-menu">
+                <div class="menu-content" (click)="$event.stopPropagation()">
+                    <div class="menu-header">Filter by Status</div>
+                    <div class="options-list">
+                        <mat-checkbox *ngFor="let s of statusOptions" [checked]="selections['status'].includes(s)"
+                            (change)="toggleFilter('status', s)" color="primary">
+                            <span> {{ s }}</span>
+                        </mat-checkbox>
+                    </div>
+                    <button mat-flat-button color="primary" class="apply-btn" (click)="applyFilters()">Apply</button>
+                </div>
+            </mat-menu>
+
+            <button class="filterbtn" [matMenuTriggerFor]="priorityMenu"
+                [class.active]="selections['priority'].length > 0">
+                <mat-icon fontSet="material-symbols-outlined" class="icon">priority_high</mat-icon>
+                <span class="chip-text">{{ getFilterLabel('Priority', 'priority') }}</span>
+                <mat-icon fontSet="material-symbols-outlined" *ngIf="selections['priority'].length > 0" class="icon"
+                    (click)="clearField('priority', $event)">cancel</mat-icon>
+            </button>
+
+            <mat-menu #priorityMenu="matMenu" class="custom-menu">
+                <div class="menu-content" (click)="$event.stopPropagation()">
+                    <div class="menu-header">Filter by Priority</div>
+                    <div class="options-list">
+                        <mat-checkbox *ngFor="let p of priorityOptions" [checked]="selections['priority'].includes(p)"
+                            (change)="toggleFilter('priority', p)" color="primary">
+                            <span>{{ p }}</span>
+                        </mat-checkbox>
+                    </div>
+                    <button mat-flat-button color="primary" class="apply-btn" (click)="applyFilters()">Apply</button>
+                </div>
+            </mat-menu>
+
+            @if(isOwner){
+            <button class="filterbtn" [matMenuTriggerFor]="assignedMenu"
+                [class.active]="selections['assignedTo'].length > 0">
+                <mat-icon fontSet="material-symbols-outlined" class="icon">groups</mat-icon>
+                <span class="chip-text">{{ getFilterLabel('Assigned To', 'assignedTo') }}</span>
+                <mat-icon fontSet="material-symbols-outlined" *ngIf="selections['assignedTo'].length > 0" class="icon"
+                    (click)="clearField('assignedTo', $event)">cancel</mat-icon>
+            </button>
+
+            <mat-menu #assignedMenu="matMenu" class="custom-menu">
+                <div class="menu-content" (click)="$event.stopPropagation()">
+                    <div class="menu-header">Filter by User</div>
+                    <div class="options-list">
+                        <mat-checkbox *ngFor="let p of assignees" [checked]="selections['assignedTo'].includes(p.id)"
+                            (change)="toggleFilter('assignedTo', p.id)" color="primary">
+                            <span>{{ p.fullName }}</span>
+                        </mat-checkbox>
+                    </div>
+                    <button mat-flat-button color="primary" class="apply-btn" (click)="applyFilters()">Apply</button>
+                </div>
+            </mat-menu>
+            }
+
+            <button class="filterbtn" [matMenuTriggerFor]="projectMenu"
+                [class.active]="selections['project'].length > 0">
+                <mat-icon fontSet="material-symbols-outlined" class="icon">workspaces</mat-icon>
+                <span class="chip-text">{{ getFilterLabel('Project', 'project') }}</span>
+                <mat-icon fontSet="material-symbols-outlined" *ngIf="selections['project'].length > 0" class="icon"
+                    (click)="clearField('project', $event)">cancel</mat-icon>
+            </button>
+
+            <mat-menu #projectMenu="matMenu" class="custom-menu">
+                <div class="menu-content" (click)="$event.stopPropagation()">
+                    <div class="menu-header">Filter by Project</div>
+                    <div class="options-list">
+                        <mat-checkbox *ngFor="let p of projects" [checked]="selections['project'].includes(p.projectId)"
+                            (change)="toggleFilter('project', p.projectId)" color="primary">
+                            <span>{{ p.name }}</span>
+                        </mat-checkbox>
+                    </div>
+                    <button mat-flat-button color="primary" class="apply-btn" (click)="applyFilters()">Apply</button>
+                </div>
+            </mat-menu>
+        </div>
+    </div>
+
+    <table mat-table [dataSource]="page.items">
+
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.description | truncate:30 }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element">
+                <span class="status-badge">{{element.status}}</span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="priority">
+            <th mat-header-cell *matHeaderCellDef> Priority </th>
+            <td mat-cell *matCellDef="let element">
+                <span class="label" [ngClass]="getPriorityClass(element.priority)">
+                    {{ element.priority }}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="project">
+            <th mat-header-cell *matHeaderCellDef> Project </th>
+            <td mat-cell *matCellDef="let element"> {{element.projectName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+
+            <td mat-cell *matCellDef="let row">
+                <app-menu #menuComp [items]="tasksMenuItems" [context]="row" (itemClick)="handleMenuAction($event)">
+                </app-menu>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No tasks found matching "{{input.value}}"</td>
+        </tr>
+    </table>
+
+    <mat-paginator [length]="page.totalCount" [pageSize]="query.pageSize" [pageSizeOptions]="[5, 10, 25]"
+        (page)="handlePageEvent($event)" aria-label="Select page">
+    </mat-paginator>
+</div>
+}

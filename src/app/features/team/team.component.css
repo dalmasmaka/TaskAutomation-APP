@@ -59,6 +59,7 @@
 .flex-fields {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
 }
 
 .btn-container {
@@ -74,4 +75,14 @@
     height: 32px !important;
     line-height: 32px !important;
     color: oklch(70.7% .022 261.325) !important;
+}
+.space-between{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.flex.justify-center.p-8 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
