@@ -1,0 +1,31 @@
+<mat-dialog-content>
+    <h2 mat-dialog-title>Reviews</h2>
+    <div class="members-list">
+        <mat-table [dataSource]="reviews()" class="mat-elevation-z0">
+            <ng-container matColumnDef="comment">
+                <mat-header-cell *matHeaderCellDef> Comment </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span class="name">{{element.comment}}</span>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="decision">
+                <mat-header-cell *matHeaderCellDef> Decision </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span class="label" [class.accepted]="element.decision === 'Approve'"
+                        [class.commented]="element.decision === 'Commented'"
+                        [class.rejected]="element.decision === 'Reject'">
+                        {{element.decision}}
+                    </span>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="reviewer">
+                <mat-header-cell *matHeaderCellDef> Reviewer </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span class="name">{{element.reviewer}}</span>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+</mat-dialog-content>

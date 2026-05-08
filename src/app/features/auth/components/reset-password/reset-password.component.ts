@@ -40,7 +40,6 @@ private router = inject(Router);
         });
     }
     onSubmit() {
-        debugger
         if (this.resetPasswordForm.invalid) return;
 
         const password = this.resetPasswordForm.value.password;

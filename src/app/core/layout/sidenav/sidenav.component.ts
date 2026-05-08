@@ -50,6 +50,7 @@ export class SidenavComponent implements OnInit {
     }
     logout(): void {
         this.jwtService.removeAuth();
-        this.router.navigate(['/login']);
+        window.location.href = '/login';
+        // this.router.navigate(['/login']);
     }
 }

@@ -14,6 +14,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
         MatInputModule,
         MatButtonModule,
         ReactiveFormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatDialogActions,
+        MatDialogContent,
         MatDialogModule]
 })
 export class UserDetailsDialogComponent implements OnInit {

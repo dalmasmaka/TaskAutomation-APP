@@ -1,0 +1,39 @@
+.status-teamleader {
+    background-color: #fff3e0 !important;
+    color: #ef6c00 !important;
+    border-color: #ef6c00 !important;
+
+}
+
+.status-developer {
+
+    background-color: #e0f7fa !important;
+    color: #00796b !important;
+    border-color: #00796b !important;
+}
+
+.status-owner {
+    background-color: #ffebee !important;
+    color: #c62828 !important;
+}
+.accepted {
+  background-color: #e0f7fa;
+  color: #00796b;
+}
+
+.commented {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.rejected {
+  background-color: #ffebee;
+  color: #c62828;
+}
+.label {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}

@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import "prismjs/themes/prism.css";
 body{
    font-family: 'Poppins', sans-serif;
 }
@@ -36,3 +36,4 @@ h3{
 /* .mat-column-title {
     font-family: "Poppins", sans-serif !important;
 } */
+ 

@@ -1,0 +1,104 @@
+.mat-elevation-z8 {
+    border: 1px solid light-dark(#74777f, #8e9099);
+    border-radius: .5rem !important;
+    padding: 1rem 0;
+
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+}
+
+.field {
+    width: 100%;
+}
+
+.filters {
+    gap: 10px;
+    display: flex;
+}
+
+.filterbtn {
+    background: none;
+    border: 1px dashed oklch(70.7% .022 261.325) !important;
+    border-radius: 8px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins';
+    gap: 5px;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+
+}
+
+::ng-deep .custom-menu {
+    border-radius: 12px !important;
+    background-color: white !important;
+    /* padding: 2rem; */
+}
+
+::ng-deep .cdk-overlay-pane .custom-menu .mat-mdc-menu-item {
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::ng-deep .cdk-overlay-pane .custom-menu .mat-mdc-menu-item:hover {
+    cursor: pointer;
+    background-color: color-mix(in srgb,
+            var(--mat-sys-primary) 8%,
+            transparent) !important;
+
+    color: var(--mat-sys-primary) !important;
+}
+
+.mat-mdc-menu-item:hover .custom-mat-icon {
+    color: var(--mat-sys-primary) !important;
+}
+
+.mat-mdc-menu-item span {
+    font-weight: 400;
+}
+.options-list {
+    display: flex;
+    flex-direction: column;
+}
+::ng-deep .mat-mdc-menu-panel {
+    min-width: 171px !important;
+}
+.menu-content {
+    padding: 0.5rem;
+}
+.apply-btn{
+    width: 100%;
+}
+.label {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.open {
+  background-color: #e0f7fa;
+  color: #00796b;
+}
+
+.merged {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.rejected {
+  background-color: #ffebee;
+  color: #c62828;
+}

@@ -1,8 +1,11 @@
 export interface Projects {
     projectId: string,
     name: string,
-    platform: string,
-    repoURl: string,
+    provider: string,
+    repoOwner: string,
+    repoName: string,
+    defaultBranch: string,
+    accessToken: string,
     createdBy: string,
     createdAt: string,
     totalUsers: string,
@@ -12,8 +15,11 @@ export interface Projects {
 }
 export interface Project {
     name: string,
-    platform: string,
-    repoURl: string,
+    provider: string,
+    repoName: string,
+    repoOwner: string,
+    defaultBranch: string,
+    accessToken: string,
 }
 export interface Boards{
     id: string,

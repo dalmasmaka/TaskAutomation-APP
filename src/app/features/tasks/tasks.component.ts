@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, ViewChild } from "@angular/core";
+import { Component, inject, OnInit, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from '@angular/forms';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
@@ -19,8 +19,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CodeGenerationDialogComponent } from "./forms/generate-code/generate-code-dialog.component";
 import { UpdateTaskDialogComponent } from "./forms/update/update-task-dialog.component";
-import { Team } from "../team/model/team.model";
-import { ProjectsService } from "../../core/services/projects.service";
 import { JwtService } from "../../core/services/jwt.service";
 import { TruncatePipe } from "../../shared/pipes/truncate.pipe";
 import { Observable } from "rxjs";
@@ -83,21 +81,17 @@ export class TasksComponent implements OnInit {
         this.paged$ = this.tasksService.paged$;
         this.load();
         // this.loadAssets();
-
     }
 
-
-
-
-load() {
-    forkJoin({
-        _: this.tasksService.loadTasks(this.query), // triggers paged$
-        assets: this.tasksService.loadCompanyAssets()
-    }).subscribe(({ assets }) => {
-        this.projects = assets.projects ?? [];
-        this.assignees = assets.assigners ?? [];
-    });
-}
+    load() {
+        forkJoin({
+            _: this.tasksService.loadTasks(this.query), // triggers paged$
+            assets: this.tasksService.loadCompanyAssets()
+        }).subscribe(({ assets }) => {
+            this.projects = assets.projects ?? [];
+            this.assignees = assets.assigners ?? [];
+        });
+    }
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
 
@@ -106,7 +100,7 @@ load() {
 
         this.load();
     }
-    statusOptions = ['To Do', 'In Progress', 'Done'];
+    statusOptions = ['To Do', 'In Progress', 'Done', 'Selected for Development'];
     priorityOptions = ['Low', 'Medium', 'High', 'Highest'];
     importStatusOptions = ['Imported', 'Pending', 'Failed'];
     assignees: CompanyUser[] = [];
@@ -180,7 +174,6 @@ load() {
         this.query.priority = this.selections['priority'].join(',');
         this.query.assignedToIds = this.selections['assignedTo'];
         this.query.projectIds = this.selections['project'];
-        console.log(this.query + "dalma")
         this.load();
     }
 
@@ -241,7 +234,8 @@ load() {
     }
     generateCode(task: any) {
         const dialogRef = this.dialog.open(CodeGenerationDialogComponent, {
-            minWidth: '1000px'
+            minWidth: '1000px',
+            data: { task }
         });
         dialogRef.afterClosed().subscribe(result => {
             // if (result) {

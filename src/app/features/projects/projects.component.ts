@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
+import { firstValueFrom, Observable } from "rxjs";
 import { Projects } from "../../core/models/projects.model";
 import { ProjectsService } from "../../core/services/projects.service";
 import { MatDividerModule } from '@angular/material/divider';
@@ -18,6 +18,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ConfigurationDialogComponent } from "./forms/configuration/configuration-dialog.component";
 import { ActivatedRoute } from "@angular/router";
 import { JwtService } from "../../core/services/jwt.service";
+import { GithubDialogComponent } from "./forms/github/github-dialog.component";
 @Component({
     selector: "app-projects",
     templateUrl: "./projects.component.html",
@@ -73,10 +74,15 @@ export class ProjectsComponent implements OnInit {
 
         if (this.isOwner) {
             items.push({
-                label: 'Delete Project',
-                icon: 'delete',
-                action: 'delete'
+                label: 'Update Project',
+                icon: 'edit',
+                action: 'update'
             });
+            // items.push({
+            //     label: 'Delete Project',
+            //     icon: 'delete',
+            //     action: 'delete'
+            // });
         }
 
 
@@ -89,16 +95,15 @@ export class ProjectsComponent implements OnInit {
             case 'members':
                 this.loadMembers(project.projectId);
                 break;
-            case 'tasks':
-                // this.changeRole(user.id);
-                break;
             case 'config':
                 this.configuration(project.projectId, project.companyId);
+                break;
+            case 'update':
+                this.saveProject(project);
                 break;
         }
     }
     configuration(id: any, companyId: any) {
-        debugger
         const dialogRef = this.dialog.open(ConfigurationDialogComponent, {
             minWidth: '700px',
             minHeight: '600px',
@@ -125,17 +130,41 @@ export class ProjectsComponent implements OnInit {
         })
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log("dalma" + result)
-                this.projectsService.createProject(result).subscribe({
+                this.projectsService.saveProject(result).subscribe({
 
                     next: () => {
-                        this.snackBar.open('Projects assigned successfully!', 'Close', {
+                        this.snackBar.open('Project created successfully!', 'Close', {
                             duration: 3000
                         });
                         this.projectsService.loadProjects(true).subscribe();
                     },
                     error: (err) => {
-                        this.snackBar.open('Error assigning projects.', 'Close', {
+                        this.snackBar.open('Error creating project.', 'Close', {
+                            duration: 3000
+                        });
+                    }
+                });
+            }
+        });
+    }
+    async saveProject(project: any) {
+        const dialogRef = this.dialog.open(GithubDialogComponent, {
+            minWidth: '500px',
+            data: project
+
+        })
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.projectsService.saveProject(result).subscribe({
+
+                    next: () => {
+                        this.snackBar.open('Project updated successfully!', 'Close', {
+                            duration: 3000
+                        });
+                        this.projectsService.loadProjects(true).subscribe();
+                    },
+                    error: (err) => {
+                        this.snackBar.open('Error updating project.', 'Close', {
                             duration: 3000
                         });
                     }

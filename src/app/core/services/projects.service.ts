@@ -71,16 +71,8 @@ export class ProjectsService {
     removeMemberFromProject(projectId: number, userId: string,) {
         return this.apiService.delete(`${this.endpoint}/removeMember/${projectId}/${userId}`);
     }
-    createProject(project: Project) {
-        return this.apiService.post<Project, any>(`${this.endpoint}/createProject`, project);
-        // .pipe(
-        //     tap(project => this.projectsSubject.next(project)),
-        //     catchError(err => {
-        //         console.error(err);
-        //         this.projectsSubject.next(null);
-        //         return of(null);
-        //     }),
-        // );
+    saveProject(project: Project) {
+        return this.apiService.post<Project, any>(`${this.endpoint}/saveProject`, project);
     }
     connectIntegration(provider: string, projectId: number, companyId: number) {
         return this.apiService.get<any>(`${this.integration}/connect/${provider}/${projectId}/${companyId}`

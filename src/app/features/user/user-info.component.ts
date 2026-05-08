@@ -26,7 +26,7 @@ import { Router } from "@angular/router";
     selector: "app-user-info",
     templateUrl: "./user-info.component.html",
     styleUrls: ["./user-info.component.css"],
-    imports: [CommonModule, MatCardModule, MatButtonModule, MatFormField, MatLabel, MatInputModule, AsyncPipe]
+    imports: [CommonModule, MatCardModule, MatButtonModule, MatFormField, MatLabel, MatInputModule, AsyncPipe, MatInputModule, MatButtonModule]
 })
 export class UserInfoComponent implements OnInit {
     readonly dialog = inject(MatDialog);

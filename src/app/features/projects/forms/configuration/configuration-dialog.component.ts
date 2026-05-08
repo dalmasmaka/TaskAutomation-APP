@@ -36,40 +36,6 @@ export class ConfigurationDialogComponent implements OnInit {
     boards: Boards[] = [];
     isLoadingBoards = false;
 
-    // connectProvider() {
-    //     const provider = this.integrationForm.get('provider')?.value;
-    //     const { projectId, companyId } = this.data;
-
-    //     if (!provider) return;
-
-    //     this.projectService.connectIntegration(provider, projectId, companyId)
-    //         .subscribe(res => {
-    //             const messageHandler = (event: MessageEvent) => {
-
-    //                if (!event.origin.includes('localhost')) return;
-
-    //                 if (event.data === 'integration-success') {
-    //                     this.snackBar.open(`Connected to ${provider}!`, 'Close', { duration: 3000 });
-    //                     this.fetchBoards(provider, projectId, companyId);
-
-    //                     window.removeEventListener('message', messageHandler);
-    //                 }
-
-    //                 if (event.data === 'integration-failed') {
-    //                     this.snackBar.open('Integration failed', 'Close', { duration: 3000 });
-
-    //                     window.removeEventListener('message', messageHandler);
-    //                 }
-    //             };
-    //             window.addEventListener('message', messageHandler);
-
-    //             const popup = window.open(
-    //                 res.url,
-    //                 'External Integration',
-    //                 'width=600,height=700'
-    //             );
-    //         });
-    // }
     connectProvider() {
         const provider = this.integrationForm.get('provider')?.value;
         const { projectId, companyId } = this.data;
@@ -133,7 +99,8 @@ export class ConfigurationDialogComponent implements OnInit {
             projectKey
         }).subscribe(() => {
             this.snackBar.open('Project linked and tasks imported!', 'Success');
-            this.dialogRef.close(true);
+            this.stepper.next();
+            // this.dialogRef.close(true);
         });
     }
     getBoardKey(boardId: string): string {

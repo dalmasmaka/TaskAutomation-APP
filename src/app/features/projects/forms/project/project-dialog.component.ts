@@ -30,16 +30,17 @@ export class ProjectDialogComponent implements OnInit {
     ngOnInit(): void {
         this.firstFormGroup = this.fb.group({
             name: '',
-            platform: '',
-            repoURL: ''
+            provider: '',
+            repoName: '',
+            repoOwner: '',
+            defaultBranch: '',
+            accessToken: ''
         });
 
 
     }
     confirmChanges(): void {
         if (this.firstFormGroup.valid) {
-            debugger
-            console.log("dalma" + this.firstFormGroup.value)
             this.dialogRef.close(this.firstFormGroup.value);
         }
     }

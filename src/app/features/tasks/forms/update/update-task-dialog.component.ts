@@ -79,7 +79,8 @@ export class UpdateTaskDialogComponent {
     statuses = [
         { id: 'To Do', name: 'To Do' },
         { id: 'In Progress', name: 'In Progress' },
-        { id: 'Done', name: 'Done' }
+        { id: 'Done', name: 'Done' },
+        { id: 'Selected for Development', name: 'Selected for Development' }
     ];
 
     priorities = [
