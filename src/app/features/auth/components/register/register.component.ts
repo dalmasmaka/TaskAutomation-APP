@@ -36,12 +36,12 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     workspaceGroup: FormGroup;
     accountGroup: FormGroup;
 
-    selectedRole = signal<string>('owner');
+    selectedRole = signal<string>('Owner');
     isInviteOnly = false;
     errorMessage = signal<string | null>(null);
     constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private zone: NgZone) {
         this.workspaceGroup = new FormGroup({
-            role: new FormControl('owner', Validators.required),
+            role: new FormControl('Owner', Validators.required),
             workspaceName: new FormControl('', Validators.required),
             invitationCode: new FormControl('')
         });
@@ -59,9 +59,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
         if (invite) {
             this.isInviteOnly = true;
-            this.selectedRole.set('developer');
-            this.workspaceGroup.patchValue({ role: 'developer', inviteCode: invite });
-            this.updateValidation('developer');
+            this.selectedRole.set('Developer');
+            this.workspaceGroup.patchValue({ role: 'Developer', inviteCode: invite });
+            this.updateValidation('Developer');
         }
 
         this.workspaceGroup.get('role')?.valueChanges.subscribe(role => {
@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         const inviteCtrl = this.workspaceGroup.get('inviteCode');
         const workspaceCtrl = this.workspaceGroup.get('workspaceName');
 
-        if (role === 'developer') {
+        if (role === 'Developer') {
             inviteCtrl?.setValidators([Validators.required]);
             workspaceCtrl?.clearValidators();
         } else {

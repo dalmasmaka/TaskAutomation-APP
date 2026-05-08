@@ -2,52 +2,78 @@
     <h2 class="custom-title">Code Generation</h2>
     <p class="custom-subtitle"></p>
     <mat-stepper #stepper orientation="vertical">
-        <mat-step>
+        <mat-step [formGroup]="generateCodeForm">
             <div class="sm-padding">
                 <ng-template matStepLabel>Prompt (Editable)</ng-template>
                 <mat-form-field appearance="outline" class="w-full custom-form-field">
                     <mat-label>Select your provider</mat-label>
-                    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="8"
-                        cdkAutosizeMaxRows="25"></textarea>
+                    <textarea formControlName="description" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                        cdkAutosizeMinRows="8" cdkAutosizeMaxRows="25"></textarea>
                 </mat-form-field>
-                <button mat-flat-button>Send Prompt</button>
+                <button mat-raised-button (click)="onSendPrompt()" [disabled]="isGenerating">
+                    <mat-icon *ngIf="!isGenerating">play_arrow</mat-icon>
+                    <mat-icon *ngIf="isGenerating">hourglass_top</mat-icon>
+                    Generate
+                </button>
             </div>
         </mat-step>
         <mat-step>
             <ng-template matStepLabel>Generated Code</ng-template>
-            <div class="flex-fields">
-                <ul class="list">
-                    <li *ngFor="let file of files" (click)="selectFile(file)">
-                        {{ file.path }}
-                    </li>
-                </ul>
 
-                <div class="file-preview" *ngIf="selectedFile">
-                    <pre><code>{{ selectedFile.content }}</code></pre>
+
+            <div class="code-layout" *ngIf="generatedFolder">
+
+                <div class="file-tree">
+
+                    <h3>{{ generatedFolder.folderName }}</h3>
+
+                    <div class="file-item" *ngFor="let file of generatedFolder.files" (click)="selectFile(file)"
+                        [class.active]="file === selectedFile">
+
+                        📄 {{ file.fileName }}
+
+                    </div>
+
                 </div>
+
+                <!-- RIGHT: CODE VIEWER -->
+                <div class="code-viewer" *ngIf="selectedFile">
+
+                    <div class="code-header">
+                        {{ selectedFile.fileName }}
+                        <button mat-icon-button (click)="copyCode(selectedFile.content, selectedFile.fileName)"
+                            title="Copy to clipboard">
+                            <mat-icon>content_copy</mat-icon>
+                        </button>
+                    </div>
+
+                    <!-- 1. Use [innerHTML] to render the highlighted HTML -->
+                    <!-- 2. Keep the class dynamic so the CSS theme applies correctly -->
+                    <pre><code [class]="'language-' + getLanguage(selectedFile.fileName)" 
+               [innerHTML]="highlightedCode"></code></pre>
+
+                </div>
+
             </div>
             <div class="global-actions">
-
-                <button mat-raised-button (click)="regenerate()">
+                <button mat-raised-button color="primary" (click)="onSendPrompt()">
                     <mat-icon>refresh</mat-icon> Regenerate
                 </button>
-                <button mat-flat-button color="primary" (click)="downloadZip()">
-                    <mat-icon>download</mat-icon> Next
-                </button>
-
+                <button mat-flat-button color="primary" matStepperNext>Next</button>
             </div>
+
         </mat-step>
         <mat-step>
             <ng-template matStepLabel>Apply/Export</ng-template>
-           <div class="flex-fields sm-padding">
-             <button mat-raised-button color="primary" (click)="downloadZip()">
-                <mat-icon>download</mat-icon> Download ZIP
-            </button>
-            <button mat-flat-button color="primary" (click)="downloadZip()">
-             <svg lucideGitPullRequest></svg>Create Pull Request
-            </button>
-           </div>
-
+            <div class="flex-fields sm-padding">
+                <button mat-raised-button color="primary" (click)="downloadZip(allGeneratedFiles)"
+                    [disabled]="allGeneratedFiles.length === 0">
+                    <mat-icon>download</mat-icon> Download ZIP
+                </button>
+                <button mat-flat-button color="primary" (click)="onCreatePullRequest()">
+                    <svg lucideGitPullRequest></svg>Create Pull Request
+                </button>
+            </div>
         </mat-step>
     </mat-stepper>
 </mat-dialog-content>

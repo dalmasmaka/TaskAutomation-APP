@@ -1,0 +1,23 @@
+<mat-dialog-content>
+    <h2 class="custom-title">Create PR Review</h2>
+    <p class="custom-subtitle">Add review details.</p>
+    <form [formGroup]="firstFormGroup" class="grid-fields">
+        <ng-template matStepLabel>Review Information</ng-template>
+        <mat-form-field appearance="outline">
+            <mat-label>Comment</mat-label>
+
+            <textarea matInput placeholder="Enter your review comment" cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" cdkAutosizeMaxRows="5" formControlName="comment"
+                required></textarea>
+        </mat-form-field>
+         <app-select [items]="statuses" bindLabel="name" bindValue="id" , placeholder="Select Review Status"
+                            formControlName="decision"> </app-select>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+
+    <button mat-button color="primary" (click)="confirmChanges()" [disabled]="!firstFormGroup.valid">
+        Save
+    </button>
+</mat-dialog-actions>

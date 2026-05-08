@@ -1,16 +1,17 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "./api.service";
-import { BehaviorSubject, catchError, Observable, of, shareReplay, tap } from "rxjs";
+import { BehaviorSubject, catchError, Observable, of, tap } from "rxjs";
 import { PagedResult, TaskMembersResponse, Tasks, TasksQuery } from "../models/tasks-model";
 import { JwtService } from "./jwt.service";
 import { CompanyAssets } from "../models/company-assets.model";
-import { Team } from "../../features/team/model/team.model";
+import { GeneratedFolder } from "../models/code-generation.model";
 @Injectable({
     providedIn: 'root'
 })
 export class TasksService {
 
     private endpoint = 'Task';
+    private pullRequestEndpoint = 'PullRequest';
     public taskSubject = new BehaviorSubject<Tasks | null>(null);
     public task$: Observable<Tasks | null> = this.taskSubject.asObservable();
     public pagedSubject = new BehaviorSubject<PagedResult | null>(null);
@@ -69,10 +70,9 @@ export class TasksService {
         return this.apiService.delete(`${this.endpoint}/deleteTask/${taskId}`);
     }
     updateTask(task: Tasks): Observable<Tasks> {
-        debugger
         return this.apiService.put<any, Tasks>(`${this.endpoint}/updateTask`, task).pipe(
             tap((updatedFromServer) => {
-                debugger
+                
                 const dataToPublish = updatedFromServer || task;
 
                 console.log('Pushing to UI:', dataToPublish);
@@ -85,5 +85,11 @@ export class TasksService {
     }
     removeMemberFromTask(userId: string, taskId: number) {
         return this.apiService.delete(`${this.endpoint}/removeMember/${userId}/${taskId}`);
+    }
+    sendPrompt(description: string): Observable<GeneratedFolder> {
+        const body = {
+            description: description
+        }
+        return this.apiService.post(`${this.endpoint}/generate-code`, body);
     }
 }

@@ -18,6 +18,8 @@ import { MatIconModule } from "@angular/material/icon";
         MatButtonModule,
         MatIconModule,
         ReactiveFormsModule,
+        MatInputModule,
+        MatButtonModule,
         MatDialogModule]
 })
 export class ChangePasswordDialogComponent implements OnInit {
@@ -55,7 +57,7 @@ export class ChangePasswordDialogComponent implements OnInit {
                     this.zone.run(() => {
                         this.notifyMessage.set(res.message || '');
                         this.isSuccess.set(res?.success === true);
-                        if(res?.success === true){
+                        if (res?.success === true) {
                             this.passwordForm.reset();
                         }
                     });

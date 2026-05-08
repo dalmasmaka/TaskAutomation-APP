@@ -8,21 +8,31 @@
             <input matInput placeholder="Project Name" formControlName="name" required>
         </mat-form-field>
         <mat-form-field appearance="outline">
-            <mat-label>Platform</mat-label>
-            <input matInput placeholder="Ex. GitHub" formControlName="platform" required>
+            <mat-label>Provider</mat-label>
+            <input matInput placeholder="Ex. GitHub" formControlName="provider" required>
         </mat-form-field>
         <mat-form-field appearance="outline">
-            <mat-label>Repo URL</mat-label>
-            <input matInput placeholder="Ex. https://github.com/yourrepo" formControlName="repoURL" required>
+            <mat-label>Repository Name</mat-label>
+            <input matInput placeholder="Ex. yourrepo" formControlName="repoName" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Repository Owner</mat-label>
+            <input matInput placeholder="Ex. yourusername" formControlName="repoOwner" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Default Branch</mat-label>
+            <input matInput placeholder="Ex. main" formControlName="defaultBranch" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Access Token</mat-label>
+            <input matInput placeholder="Enter your access token" formControlName="accessToken" required>
         </mat-form-field>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-button (click)="dialogRef.close()">Cancel</button>
 
-    <button mat-button color="primary"
-          (click)="confirmChanges()"
-          [disabled]="!firstFormGroup.valid">
-    Save
-  </button>
+    <button mat-button color="primary" (click)="confirmChanges()" [disabled]="!firstFormGroup.valid">
+        Save
+    </button>
 </mat-dialog-actions>

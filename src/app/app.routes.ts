@@ -12,6 +12,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 import { IntegrationCallbackComponent } from './features/projects/forms/configuration/integration.component';
 import { ResetPasswordComponent } from './features/auth/components/reset-password/reset-password.component';
+import { PullRequestsComponent } from './features/pull-requests/pull-requests.component';
 
 export const routes: Routes = [
   { path: 'auth', component: AuthComponent },
@@ -29,7 +30,7 @@ export const routes: Routes = [
       { path: 'projects', component: ProjectsComponent },
       { path: 'tasks', component: TasksComponent },
       { path: 'profile', component: UserInfoComponent },
-      
+      { path: 'pull-requests', component: PullRequestsComponent },
     ]
   },
   { path: '**', redirectTo: 'auth' }
