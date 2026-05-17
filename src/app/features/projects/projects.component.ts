@@ -13,12 +13,12 @@ import { AsyncPipe } from '@angular/common';
 import { MenuComponent } from "../../core/layout/menu/menu.component";
 import { MembersDialogComponent } from "./forms/project-members/members-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { ProjectDialogComponent } from "./forms/project/project-dialog.component";
+import { CreateProjectDialogComponent } from "./forms/create/create-project-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ConfigurationDialogComponent } from "./forms/configuration/configuration-dialog.component";
 import { ActivatedRoute } from "@angular/router";
 import { JwtService } from "../../core/services/jwt.service";
-import { GithubDialogComponent } from "./forms/github/github-dialog.component";
+import { UpdateProjectDialogComponent } from "./forms/update/update-project-dialog.component";
 @Component({
     selector: "app-projects",
     templateUrl: "./projects.component.html",
@@ -31,7 +31,6 @@ export class ProjectsComponent implements OnInit {
     readonly dialog = inject(MatDialog);
     public jwtService = inject(JwtService);
     private snackBar = inject(MatSnackBar);
-    // Inject ActivatedRoute instead of Router/QueryParamsHandling
     private route = inject(ActivatedRoute);
     public isOwner = this.jwtService.hasRole('Owner');
     public isDeveloper = this.jwtService.hasRole('Developer');
@@ -40,7 +39,6 @@ export class ProjectsComponent implements OnInit {
         this.projects$ = this.projectsService.projects$;
         this.projectsService.loadProjects().subscribe();
 
-        // Listen for the query params
         this.route.queryParams.subscribe(params => {
             if (params['integrationSuccess'] === 'true') {
                 const projectId = params['projectId'];
@@ -124,7 +122,7 @@ export class ProjectsComponent implements OnInit {
         })
     }
     addProject() {
-        const dialogRef = this.dialog.open(ProjectDialogComponent, {
+        const dialogRef = this.dialog.open(CreateProjectDialogComponent, {
             minWidth: '500px',
 
         })
@@ -148,7 +146,7 @@ export class ProjectsComponent implements OnInit {
         });
     }
     async saveProject(project: any) {
-        const dialogRef = this.dialog.open(GithubDialogComponent, {
+        const dialogRef = this.dialog.open(UpdateProjectDialogComponent, {
             minWidth: '500px',
             data: project
 

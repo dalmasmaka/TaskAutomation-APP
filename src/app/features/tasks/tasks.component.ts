@@ -52,9 +52,11 @@ export class TasksComponent implements OnInit {
     totalTasks = 0;
     dataSource = new MatTableDataSource<Tasks>([]);
     public isOwner = this.jwtService.hasRole('Owner');
+    public isManager = this.jwtService.hasRole('Manager');
     public isDeveloper = this.jwtService.hasRole('Developer');
     paged$!: Observable<PagedResult | null>;
     displayedColumns: string[] = [
+        'taskId',
         'title',
         'description',
         'status',

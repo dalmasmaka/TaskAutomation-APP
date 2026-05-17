@@ -5,7 +5,7 @@
             <h2 class="custom-title">User Information</h2>
             <p class="custom-subtitle">Update your personal information and account details.</p>
         </div>
-      <div class="box">
+        <div class="box">
             <div class="flex-fields">
                 <mat-form-field class="custom-form" appearance="outline">
                     <mat-label>Full Name</mat-label>
@@ -34,10 +34,42 @@
                     class="custom-button">Change Password</button>
             </div>
         </div>
-
     </section>
     <hr class="divider">
-    @if(isDeveloper){
+
+    <section class="user-information section">
+        <div class="box1">
+            <h2 class="custom-title">GitHub Configuration</h2>
+            <p class="custom-subtitle">Link your account to enable automated commits, branching, and repository tasks.
+            </p>
+        </div>
+        @if (userGitHub$ | async; as github) {
+        <div class="box">
+            <div class="flex-fields">
+                <mat-form-field class="custom-form" appearance="outline">
+                    <mat-label>GitHub Username</mat-label>
+                    <input matInput disabled type="text" [value]="github.username">
+                </mat-form-field>
+                <mat-form-field class="custom-form" appearance="outline">
+                    <mat-label>Access Token</mat-label>
+                    <input matInput disabled type="email" [value]="github.accessToken">
+                </mat-form-field>
+            </div>
+
+            <div class="flex-fields">
+                <button mat-raised-button color="primary" (click)="openUserGitHubDetailsDialog()" class="custom-button">Update
+                    GitHub Information</button>
+            </div>
+        </div>
+        }@else {
+        <div class="flex-fields">
+            <button mat-raised-button color="primary" (click)="saveNewGitHubConfig()" class="custom-button">Add
+                GitHub Information</button>
+        </div>
+        }
+    </section>
+    <hr class="divider">
+    @if(isDeveloper || isManager){
     <section class="danger-zone section">
         <div class="box1">
             <h2 class="custom-title">Danger Zone</h2>

@@ -17,6 +17,11 @@ export interface User{
     phoneNumber: string,
     passwordHash: string
 }
+export interface UserGitHub{
+    id: number;
+    username: string;
+    accessToken: string;
+}
 export interface Role{
     roleId:string;
     roleName:string;

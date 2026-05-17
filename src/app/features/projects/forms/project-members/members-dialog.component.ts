@@ -48,6 +48,7 @@ export class MembersDialogComponent implements OnInit {
     public jwtService = inject(JwtService);
     public isOwner = this.jwtService.hasRole('Owner');
     public isDeveloper = this.jwtService.hasRole('Developer');
+    public isManager = this.jwtService.hasRole('Manager');
     // --- State Management via Signals ---
     readonly members = signal<Team[]>([]);
     readonly availableUsers = signal<User[]>([]);

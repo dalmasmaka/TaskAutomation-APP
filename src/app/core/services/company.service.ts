@@ -5,7 +5,7 @@ import { BehaviorSubject, catchError, filter, Observable, of, shareReplay, switc
 import { JwtService } from "./jwt.service";
 import { CompanyConfig } from "../models/companyConfig.model";
 import { Team } from "../../features/team/model/team.model";
-import { InvitationCodes } from "../models/invitation-codes.model";
+import { GenerateInvitation, InvitationCodes } from "../models/invitation-codes.model";
 
 @Injectable({
     providedIn: 'root'
@@ -60,8 +60,8 @@ export class CompanyService {
             shareReplay(1)
         );
     }
-    generateCode(expiryDate: any): Observable<InvitationCodes[] | null> {
-        return this.apiService.post<InvitationCodes[], any>(`${this.endpoint}/generateCode`, expiryDate).pipe(
+    generateCode(data: GenerateInvitation): Observable<InvitationCodes[] | null> {
+        return this.apiService.post<InvitationCodes[], any>(`${this.endpoint}/generateCode`, data).pipe(
             tap(code => this.invitationCodeSubject.next(code)),
             catchError(err => {
                 console.error(err);

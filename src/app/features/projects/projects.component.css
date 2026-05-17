@@ -100,3 +100,6 @@
     color: oklch(52.7% .154 150.069);
     border-radius: 8px;
 }
+.text-xl {
+    font-size: 1.25rem;
+}

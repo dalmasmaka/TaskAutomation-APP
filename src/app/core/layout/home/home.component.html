@@ -1,0 +1,134 @@
+<div class="hero-section">
+
+    <div class="frame">
+        <video [src]="'https://framerusercontent.com/assets/chRFmBq9ayObGUcObGO5vqKAVQ.mp4'" [muted]="true"
+            [autoplay]="true" [loop]="true" playsinline>
+        </video>
+    </div>
+
+    <div class="home-container">
+
+        <section class="home-intro">
+            <div class="intro-content">
+                <h1>AI-Assisted <br> Task Automation</h1>
+
+                <mat-divider [vertical]="true" class="divider"></mat-divider>
+
+                <div class="sub">
+                    <p>Streamline your workflow with intelligent task automation.
+                        Our platform leverages AI to help you
+                        manage and automate your tasks efficiently, saving you time and boosting productivity.
+                        <!-- <br> <br>  -->
+                        <!-- <strong>Get started now and transform the way you work!</strong> -->
+                    </p>
+                    <div class="redirection">
+                        <!-- <strong> Want to experience the future of task management? </strong> -->
+                        @if(authStatus() === true){
+                             <button mat-flat-button color="primary" (click)="navigateToDashboard()" class="get-started-btn">
+                                Dashboard<mat-icon class="arrow" fontSet="material-symbols-outlined"
+                                matListItemIcon>arrow_circle_right</mat-icon></button>
+                            
+                        }@else if(authStatus() === false){
+                             <button mat-flat-button color="primary" (click)="navigateToLogin()" class="get-started-btn"> Get
+                            Started for FREE<mat-icon class="arrow" fontSet="material-symbols-outlined"
+                                matListItemIcon>arrow_circle_right</mat-icon></button>
+                           
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="prompt-card">
+
+                <div class="typing-wrapper">
+                    <span class="typing-text">{{ displayedText() }}</span>
+                    <span class="cursor">|</span>
+                </div>
+
+                <input type="text" class="portal-input" disabled/>
+
+                <div class="card-footer">
+
+                    <div class="integrations">
+                        <span>📗</span>
+                        <span>📦</span>
+                        <span>📊</span>
+
+                        <span class="connect">
+                            OAuth Integrations
+                        </span>
+                    </div>
+
+                    <button>
+                        Send Prompt →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section #aboutSection class="about-product">
+            <h1>All in one <br> for Task Management</h1>
+
+            <div class="grid-fields">
+                <div class="text-list-container">
+                    <div *ngFor="let item of infoData; let i = index" class="flex-fields"
+                        [class.active-text]="currentImageIndex === i">
+
+                        <div class="box-info">
+                            <div class="progress-container">
+                                <div class="progress-filler"
+                                    [style.height.%]="currentImageIndex === i ? progressWidth : 0">
+                                </div>
+                            </div>
+                            <div>
+                                <h2>{{ item.title }}</h2>
+                                <p>{{ item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-display-container">
+
+                    <img [src]="infoData[currentImageIndex].image" [alt]="infoData[currentImageIndex].title"
+                        class="virtual-image fade-animation">
+                </div>
+            </div>
+        </section>
+
+        <section class="footer">
+            <div class="two-grid-fields">
+                <div class="">
+                    <h2 class="text-xl font-bold text-gray-800">AI Assisted Task Automation</h2>
+                    <p class="text-gray-600 max-w-xs">
+                        Empowering workflows with intelligent automation and seamless AI integration.
+                    </p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="font-semibold text-gray-700">Stay Connected</h3>
+                    <p class="text-sm text-gray-500">Join us on our socials for the latest AI updates.</p>
+                    <div class="flex-fields gap-0">
+                         <a href="https://github.com" target="_blank" aria-label="GitHub">
+                                <img ngSrc="assets/github.svg"  width="20" height="20">
+                            </a>
+
+                            <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                                 <img ngSrc="assets/instagram.svg"  width="20" height="20">
+                            </a>
+                    </div>
+                </div>
+            </div>
+            <mat-divider class="horizontal-divider"></mat-divider>
+            <div class="center">
+
+                <div class="pt-6 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                    <p>© 2026 Task Automation. All rights reserved.</p>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>

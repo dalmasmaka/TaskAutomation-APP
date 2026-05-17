@@ -59,9 +59,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
         if (invite) {
             this.isInviteOnly = true;
-            this.selectedRole.set('Developer');
-            this.workspaceGroup.patchValue({ role: 'Developer', inviteCode: invite });
-            this.updateValidation('Developer');
+            this.selectedRole.set('Invite');
+            this.workspaceGroup.patchValue({ role: 'Invite', inviteCode: invite });
+            this.updateValidation('Invite');
         }
 
         this.workspaceGroup.get('role')?.valueChanges.subscribe(role => {
@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         const inviteCtrl = this.workspaceGroup.get('inviteCode');
         const workspaceCtrl = this.workspaceGroup.get('workspaceName');
 
-        if (role === 'Developer') {
+        if (role === 'Invite') {
             inviteCtrl?.setValidators([Validators.required]);
             workspaceCtrl?.clearValidators();
         } else {

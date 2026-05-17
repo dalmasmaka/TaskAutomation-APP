@@ -50,9 +50,9 @@
 .panel{
     background: transparent !important;
 }
-.panel :hover{
+/* .panel :hover{
     background: transparent !important;
-}
+} */
 .panel :focus{
     background: transparent !important;
 }

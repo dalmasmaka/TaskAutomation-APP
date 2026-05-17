@@ -7,9 +7,9 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 @Component({
-    selector: "app-github-project-dialog",
-    templateUrl: "./github-dialog.component.html",
-    styleUrls: ["./github-dialog.component.css"],
+    selector: "app-update-project-dialog",
+    templateUrl: "./update-project-dialog.component.html",
+    styleUrls: ["./update-project-dialog.component.css"],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -21,13 +21,13 @@ import { MatButtonModule } from "@angular/material/button";
     ]
 
 })
-export class GithubDialogComponent implements OnInit {
+export class UpdateProjectDialogComponent implements OnInit {
     project: Project;
     projectForm!: FormGroup
     constructor(
         private fb: FormBuilder,
         @Inject(MAT_DIALOG_DATA) public data: Project,
-        public dialogRef: MatDialogRef<GithubDialogComponent>) {
+        public dialogRef: MatDialogRef<UpdateProjectDialogComponent>) {
         this.project = { ...data };
     }
     ngOnInit(): void {
