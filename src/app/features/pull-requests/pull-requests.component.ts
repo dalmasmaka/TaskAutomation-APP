@@ -48,6 +48,7 @@ export class PullRequestsComponent implements OnInit {
     totalTasks = 0;
     dataSource = new MatTableDataSource<PullRequest>([]);
     public isOwner = this.jwtService.hasRole('Owner');
+    public isManager = this.jwtService.hasRole('Manager');
     public isDeveloper = this.jwtService.hasRole('Developer');
     paged$!: Observable<PagedPrResult | null>;
     projects: CompanyProject[] = [];

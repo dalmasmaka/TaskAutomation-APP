@@ -8,7 +8,7 @@ import { RouterModule } from "@angular/router";
     selector: "app-main-layout",
     templateUrl: "./mainlayout.component.html",
     styleUrls: ["./mainlayout.component.css"],
-    imports: [SidenavComponent, RouterModule, DashboardComponent]
+    imports: [SidenavComponent, RouterModule]
 })
 export class MainLayoutComponent {
 

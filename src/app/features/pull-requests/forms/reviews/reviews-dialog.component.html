@@ -11,9 +11,7 @@
             <ng-container matColumnDef="decision">
                 <mat-header-cell *matHeaderCellDef> Decision </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <span class="label" [class.accepted]="element.decision === 'Approve'"
-                        [class.commented]="element.decision === 'Commented'"
-                        [class.rejected]="element.decision === 'Reject'">
+                    <span class="label" [ngClass]="element.decision.toLowerCase()">
                         {{element.decision}}
                     </span>
                 </mat-cell>

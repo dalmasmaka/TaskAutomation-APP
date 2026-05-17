@@ -1,5 +1,5 @@
 @if (paged$ | async; as page) {
-    <div class="mat-elevation-z8">
+<div class="mat-elevation-z8">
     <div class="header">
         <div class="search">
             <mat-form-field appearance="outline" class="field">
@@ -50,7 +50,7 @@
                 </div>
             </mat-menu>
 
-            @if(isOwner){
+            @if(isOwner || isManager){
             <button class="filterbtn" [matMenuTriggerFor]="assignedMenu"
                 [class.active]="selections['assignedTo'].length > 0">
                 <mat-icon fontSet="material-symbols-outlined" class="icon">groups</mat-icon>
@@ -97,7 +97,10 @@
     </div>
 
     <table mat-table [dataSource]="page.items">
-
+        <ng-container matColumnDef="taskId">
+            <th mat-header-cell *matHeaderCellDef> Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.taskId}} </td>
+        </ng-container>
         <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef> Title </th>
             <td mat-cell *matCellDef="let element"> {{element.title}} </td>

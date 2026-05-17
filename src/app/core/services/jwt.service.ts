@@ -1,4 +1,4 @@
-import { inject, Inject, Injectable, PLATFORM_ID } from "@angular/core";
+import { inject, Inject, Injectable, PLATFORM_ID, signal } from "@angular/core";
 import { JwtToken } from "../models/jwt-token";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { isPlatformBrowser } from '@angular/common';
@@ -11,13 +11,35 @@ export class JwtService {
   public decodedToken: JwtToken | null = null;
   private userRole: string | null = null;
   private isAuth = false;
+private isAuthSignal = signal<boolean | null>(null);
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    // if (this.isBrowser()) {
+    //   // this.isAuth = this.checkAuth();
+    //   this.isAuthSignal.set(this.checkAuth());
+    // }
     if (this.isBrowser()) {
-      this.isAuth = this.checkAuth();
+      this.isAuthSignal.set(this.checkAuth());
+    } else {
+      // On the server, keep it null
+      this.isAuthSignal.set(null);
     }
   }
 
+  // private checkAuth(): boolean {
+  //   const token = this.getToken();
+  //   if (!this.isValidJwt(token)) return false;
+
+  //   const helper = new JwtHelperService();
+  //   return !helper.isTokenExpired(token);
+  // }
+
+  isAuthenticated(): boolean {
+    if (!this.isAuth && this.isBrowser()) {
+      this.isAuth = this.checkAuth();
+    }
+    return this.isAuth;
+  }
   private checkAuth(): boolean {
     const token = this.getToken();
     if (!this.isValidJwt(token)) return false;
@@ -26,14 +48,14 @@ export class JwtService {
     return !helper.isTokenExpired(token);
   }
 
-  isAuthenticated(): boolean {
-    if (!this.isAuth && this.isBrowser()) {
-      this.isAuth = this.checkAuth();
-    }
-    return this.isAuth;
+  // Returns true, false, or null
+  isAuthenticatedStatus(): boolean | null {
+    return this.isAuthSignal();
   }
 
-
+  // isAuthenticated(): boolean {
+  //   return this.isAuthSignal();
+  // }
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
@@ -70,7 +92,8 @@ export class JwtService {
   saveToken(token: string): void {
     if (this.isBrowser()) {
       localStorage.setItem('token', token);
-      this.isAuth = true;
+      // this.isAuth = true;
+      this.isAuthSignal.set(true);
       this.decodeToken();
     }
   }
@@ -85,7 +108,8 @@ export class JwtService {
     if (this.isBrowser()) {
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
-      this.isAuth = false;
+      // this.isAuth = false;
+      this.isAuthSignal.set(false);
       this.decodedToken = null;
       this.userRole = null;
     }

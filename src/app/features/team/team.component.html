@@ -33,9 +33,9 @@
                                     <mat-card-subtitle class="custom-subtitle"> {{ member.email }}</mat-card-subtitle>
                                 </div>
                             </div>
-                            @if(isOwner){
+                            @if(isOwner || isManager){
                             <div>
-                                <app-menu #menuComp [items]="userMenuItems" [context]="member"
+                                <app-menu #menuComp [items]="filteredUserMenuItems" [context]="member"
                                     (itemClick)="handleMenuAction($event)">
                                 </app-menu>
                             </div>

@@ -6,48 +6,48 @@
                 <mat-nav-list>
                     <mat-list-item routerLinkActive="active-list-item" routerLink="/dashboard"
                         [routerLinkActiveOptions]="{exact: true}"><mat-icon fontSet="material-symbols-outlined"
-                            matListItemIcon>dashboard</mat-icon>Dashboard</mat-list-item>
+                            matListItemIcon>dashboard</mat-icon>Insights</mat-list-item>
 
-                    <ng-container *ngIf="jwtService.hasRole('Owner')">
-                        <mat-list-item routerLink="/company" routerLinkActive="active-list-item"><mat-icon
+                    <ng-container *ngIf="jwtService.hasRole('Owner') || jwtService.hasRole('Manager')">
+                        <mat-list-item *ngIf="jwtService.hasRole('Owner')" routerLink="/dashboard/company" routerLinkActive="active-list-item"><mat-icon
                                 fontSet="material-symbols-outlined"
                                 matListItemIcon>settings</mat-icon>Company</mat-list-item>
-                        <mat-list-item routerLink="/profile" routerLinkActive="active-list-item"><mat-icon
+                        <mat-list-item routerLink="/dashboard/profile" routerLinkActive="active-list-item"><mat-icon
                                 fontSet="material-symbols-outlined" matListItemIcon>lockPerson</mat-icon>Personal
                             Information</mat-list-item>
-                        <mat-list-item routerLink="/team" routerLinkActive="active-list-item"><mat-icon
+                        <mat-list-item routerLink="/dashboard/team" routerLinkActive="active-list-item"><mat-icon
                                 fontSet="material-symbols-outlined"
                                 matListItemIcon>groups</mat-icon>Team</mat-list-item>
                         <h3 matSubheader>Projects Management</h3>
-                        <mat-list-item routerLink="/projects" routerLinkActive="active-list-item"><mat-icon
+                        <mat-list-item routerLink="/dashboard/projects" routerLinkActive="active-list-item"><mat-icon
                                 fontSet="material-symbols-outlined"
                                 matListItemIcon>workspaces</mat-icon>Projects</mat-list-item>
-                        <mat-list-item routerLink="/tasks" routerLinkActive="active-list-item"><mat-icon
+                        <mat-list-item routerLink="/dashboard/tasks" routerLinkActive="active-list-item"><mat-icon
                                 fontSet="material-symbols-outlined"
                                 matListItemIcon>assignment</mat-icon>Tasks</mat-list-item>
-                        <mat-list-item routerLink="/pull-requests" routerLinkActive="active-list-item"><mat-icon
+                        <mat-list-item routerLink="/dashboard/pull-requests" routerLinkActive="active-list-item"><mat-icon
                                 fontSet="material-symbols-outlined" matListItemIcon>merge_type</mat-icon>Pull
                             Requests</mat-list-item>
                     </ng-container>
 
                     <ng-container *ngIf="jwtService.hasRole('Developer')">
-                        <mat-list-item routerLink="/profile" routerLinkActive="active-list-item"><mat-icon
+                        <mat-list-item routerLink="/dashboard/profile" routerLinkActive="active-list-item"><mat-icon
                                 fontSet="material-symbols-outlined" matListItemIcon>settings</mat-icon>Personal
                             Information</mat-list-item>
-                        <mat-list-item routerLink="/team" routerLinkActive="active-list-item"><mat-icon
+                        <mat-list-item routerLink="/dashboard/team" routerLinkActive="active-list-item"><mat-icon
                                 fontSet="material-symbols-outlined"
                                 matListItemIcon>groups</mat-icon>Team</mat-list-item>
-                        <mat-list-item routerLink="/projects" routerLinkActive="active-list-item"><mat-icon
+                        <mat-list-item routerLink="/dashboard/projects" routerLinkActive="active-list-item"><mat-icon
                                 fontSet="material-symbols-outlined"
                                 matListItemIcon>workspaces</mat-icon>Projects</mat-list-item>
                         <h3 matSubheader>Activities</h3>
                         <mat-accordion displayMode="flat">
-                            <mat-list-item routerLink="/tasks" routerLinkActive="active-list-item"><mat-icon
+                            <mat-list-item routerLink="/dashboard/tasks" routerLinkActive="active-list-item"><mat-icon
                                     fontSet="material-symbols-outlined"
                                     matListItemIcon>assignment</mat-icon>Tasks</mat-list-item>
-                            <mat-list-item routerLink="/pull-requests" routerLinkActive="active-list-item"><mat-icon
-                                    fontSet="material-symbols-outlined" matListItemIcon>merge_type</mat-icon>Pull
-                                Requests</mat-list-item>
+                            <mat-list-item routerLink="/dashboard/pull-requests" routerLinkActive="active-list-item"><mat-icon
+                                fontSet="material-symbols-outlined" matListItemIcon>merge_type</mat-icon>Pull
+                            Requests</mat-list-item>
                             <!-- <mat-expansion-panel *ngFor="let project of userProjects" class="mat-elevation-z0">
             <mat-expansion-panel-header class="px-4!">
               <mat-panel-title class="flex items-center">

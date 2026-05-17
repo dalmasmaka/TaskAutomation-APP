@@ -1,0 +1,255 @@
+.two-grid-fields {
+    grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-columns: 1fr;
+    display: grid;
+    /* margin-top: 3rem; */
+}
+
+.three-grid-fields {
+    grid-column-gap: 1rem;
+    grid-row-gap: 4rem;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-columns: 1fr;
+    display: grid;
+}
+
+.custom-grid-fields {
+    grid-column-gap: 1.2rem;
+    grid-row-gap: 4rem;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 2fr;
+    grid-auto-columns: 1fr;
+    display: grid;
+
+}
+.second-grid-fields {
+    grid-column-gap: 1rem;
+    grid-row-gap: 4rem;
+    grid-template-rows: auto;
+    grid-template-columns: 2fr 1fr;
+    grid-auto-columns: 1fr;
+    display: grid;
+
+}
+.grid{
+    display: flex;
+    flex-direction: column;
+}
+
+.margin-top-sm {
+    margin-top: 3rem;
+}
+
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.progress-filler {
+    display: flex;
+    height: 7px;
+    gap: 0.2rem;
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #e5e7eb;
+}
+
+.progress-segment {
+    height: 100%;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.filters {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.insight-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+} */
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.label-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.label {
+    font-size: 0.8rem;
+}
+
+.percentage {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.circle-progress {
+    width: 100px;
+    height: 100px;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #e5e7eb;
+    stroke-width: 2;
+}
+
+.circle-segment {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    transition: all 0.5s ease;
+}
+
+.percentage-text {
+    fill: #111827;
+    font-size: 0.32rem;
+    font-weight: 600;
+    text-anchor: middle;
+    dominant-baseline: middle;
+
+    transform: rotate(90deg);
+    transform-origin: center;
+}
+
+.card {
+    min-height: 165px;
+    justify-content: center;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rounded-full {
+    border-radius: 5px;
+    border: none;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+}
+.text-gray-500 {
+
+    color: #6a7282;
+}
+
+.border-gray-200 {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.text-gray-600 {
+    color: #4a5565;
+}
+.text-gray-700 {
+    color: #364153;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+.text-xll {
+    font-size: 1.5rem;
+}
+
+.text-sm {
+    font-size: .875rem;
+}
+
+.margin-bottom-sm {
+    margin-bottom: 0.5rem;
+}
+
+.label-green {
+    color: #008236;
+    border-radius: .375rem;
+    background-color: #dcfce7;
+    padding: .25rem;
+}
+
+.label-yellow {
+    color: #efb100;
+    border-radius: .375rem;
+    background-color: #ffedd4;
+    padding: .25rem;
+}
+.label-red{
+    color: #c10007;
+     border-radius: .375rem;
+    background-color: #ffe2e2;
+    padding: .25rem;
+}
+.selected{
+    background-color: #dbeafe;
+    color: #155dfc;
+}
+.card-outlined {
+    background-color:light-dark(#faf9fd, #121316);
+     border-radius: 12px;
+    border-color: light-dark(#c4c6d0, #44474e); 
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, .2), 0px 1px 1px 0px rgba(0, 0, 0, .14), 0px 1px 3px 0px rgba(0, 0, 0, .12);
+}
+.cols-3{
+    display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.gap-sm{
+    gap:1rem;
+}
+.margin-sm{
+    margin-bottom: .25rem;
+}
+.divider-m{
+    margin: 2rem 0 2.5rem 0;
+}

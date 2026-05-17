@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpHeaders } from "@angular/common/http";
@@ -18,6 +18,12 @@ export class ApiService {
     getWithParams<T>(url: string, params?: any): Observable<T> {
         return this.http.get<T>(`${environment.apiUrl}/${url}`, { params });
     }
+
+
+getWithHttpParams<T>(url: string, params?: HttpParams): Observable<T> {
+    return this.http.get<T>(url, { params });
+}
+
     //get by id: int
     getById<HttpResponseModel>(path: string, id: number): Observable<HttpResponseModel> {
         const url = `${environment.apiUrl}/${path}/${id}`;

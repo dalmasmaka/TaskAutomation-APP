@@ -12,19 +12,19 @@ import { Company } from "../../../../core/models/company.model";
 import { CompanyConfig } from "../../../../core/models/companyConfig.model";
 
 @Component({
-    selector: "app-projects",
-    templateUrl: "./project-dialog.component.html",
-    styleUrls: ["./project-dialog.component.css"],
+    selector: "app-create-project-dialog",
+    templateUrl: "./create-project-dialog.component.html",
+    styleUrls: ["./create-project-dialog.component.css"],
     imports: [ReactiveFormsModule, CommonModule, MatSelectModule, MatInputModule, MatFormFieldModule, MatDialogContent, MatDialogActions, MatButtonModule]
 })
-export class ProjectDialogComponent implements OnInit {
+export class CreateProjectDialogComponent implements OnInit {
     firstFormGroup!: FormGroup;
     secondFormGroup!: FormGroup;
     companyService = inject(CompanyService);
     companyConfigs$!: Observable<CompanyConfig[] | null>;
 
     constructor(private fb: FormBuilder,
-        public dialogRef: MatDialogRef<ProjectDialogComponent>
+        public dialogRef: MatDialogRef<CreateProjectDialogComponent>
 
     ) { }
     ngOnInit(): void {

@@ -1,1 +1,392 @@
-<div class="nav-content"></div>
+@if (insights$ | async; as insight) {
+
+<div class="container">
+    <h1>Workspace Insights</h1>
+    <p>
+        Track pull request activity, team collaboration, approval trends, and developer performance across your workspace.
+    </p>
+    <mat-divider class="divider-m"></mat-divider>
+
+    <div class="three-grid-fields">
+
+        <!-- PROJECTS -->
+        <mat-card class="card">
+
+            <mat-card-header>
+                <mat-card-title>
+                    Total Projects - {{ insight.projects.total }}
+                </mat-card-title>
+                <!-- <mat-card-subtitle>
+          
+        </mat-card-subtitle> -->
+            </mat-card-header>
+            <mat-card-actions>
+                <div class="insight-wrapper">
+                    <!-- LEFT SIDE -->
+                    <div class="filters">
+                        @for (item of insight.projects.breakdown; track item.key) {
+                        <div class="filter-item">
+                            <div class="label-row">
+                                <span class="dot" [style.background]="getColor(item.key)">
+                                </span>
+                                <span class="label text-gray-500">
+                                    {{ getProjectStatusLabel(item.key) }}
+                                </span>
+                            </div>
+                            <span class="percentage">
+                                {{ item.percentage }}%
+                            </span>
+
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <!-- RIGHT SIDE -->
+                    <div class="circle-progress">
+
+                        <svg viewBox="0 0 36 36">
+
+                            <!-- Background -->
+                            <circle class="circle-bg" cx="18" cy="18" r="15.9155">
+                            </circle>
+
+                            <!-- Dynamic Segments -->
+                            @for (
+                            item of insight.projects.breakdown;
+                            track item.key;
+                            let i = $index
+                            ) {
+
+                            <circle class="circle-segment" cx="18" cy="18" r="15.9155"
+                                [style.stroke]="getColor(item.key)" [attr.stroke-dasharray]="
+                item.percentage + ' ' + (100 - item.percentage)
+            " [attr.stroke-dashoffset]="
+                calculateOffset(
+                    insight.projects.breakdown,
+                    i
+                )
+            ">
+                            </circle>
+
+                            }
+
+                            <!-- Center Text -->
+                            <text x="18" y="20.35" class="percentage-text">
+
+                                {{ insight.projects.total }}
+
+                            </text>
+
+                        </svg>
+
+                    </div>
+                </div>
+
+            </mat-card-actions>
+
+        </mat-card>
+
+        <!-- TASKS -->
+        <mat-card class="card">
+
+            <mat-card-header>
+                <mat-card-title>
+                    Total Tasks
+                </mat-card-title>
+
+                <mat-card-subtitle>
+                    {{ insight.tasks.total }}
+                </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-actions>
+
+                <div class="progress-container">
+
+                    <div class="progress-filler">
+
+                        @for (item of insight.tasks.breakdown; track item.key) {
+                        <div class="progress-segment" [style.width.%]="item.percentage"
+                            [style.background]="getColor(item.key)">
+                        </div>
+                        }
+
+                    </div>
+
+                    <div class="filters">
+
+                        @for (item of insight.tasks.breakdown; track item.key) {
+                        <div>
+                            <span class="label">
+                                ({{ item.count }} - {{ item.percentage }}%)
+                            </span>
+                            <div class="flex">
+                                <span class="dot label" [style.background]="getColor(item.key)"></span>
+                                <span class="label text-gray-500">{{ item.key }}</span>
+                            </div>
+                        </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </mat-card-actions>
+
+        </mat-card>
+
+        <!-- PULL REQUESTS -->
+        <mat-card class="card">
+
+            <mat-card-header>
+                <mat-card-title>
+                    Total Pull Requests
+                </mat-card-title>
+
+                <mat-card-subtitle>
+                    {{ insight.pullRequests.total }}
+                </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-actions>
+
+                <div class="progress-container">
+
+                    <div class="progress-filler">
+
+                        @for (item of insight.pullRequests.breakdown; track item.key) {
+                        <div class="progress-segment" [style.width.%]="item.percentage"
+                            [style.background]="getColor(item.key)">
+                        </div>
+                        }
+
+                    </div>
+
+                    <div class="filters">
+
+                        @for (item of insight.pullRequests.breakdown; track item.key) {
+                        <div>
+                            <span class="label">
+                                ({{ item.count }} - {{ item.percentage }}%)
+                            </span>
+                            <div class="flex">
+                                <span class="dot" [style.background]="getColor(item.key)"></span>
+                                <span class="label text-gray-500">{{ item.key }}</span>
+                            </div>
+                        </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </mat-card-actions>
+
+        </mat-card>
+
+    </div>
+    <mat-divider class="divider-m"></mat-divider>
+    <div class="custom-grid-fields">
+        <div class="list">
+            <div class="margin-bottom-sm">
+                <p class="font-semibold text-sm">Workspace Members</p>
+                <span class="font-semibold text-xl"> {{insight.members.total}} </span>
+                <span class="text-gray-500 text-sm"> total members of workspace</span>
+            </div>
+            <div class="progress-filler">
+                @for (item of insight.members.breakdown; track item.key) {
+                <div class="progress-segment" [style.width.%]="item.percentage" [style.background]="getColor(item.key)">
+                </div>
+                }
+            </div>
+            <mat-list>
+                @for (item of insight.members.breakdown; track item.key) {
+                <mat-list-item>
+                    <div class="list-item">
+                        <div class="flex">
+                            <span class="dot" [style.background]="getColor(item.key)"></span>
+                            <span>{{ item.key }}</span>
+                        </div>
+                        <span class="text-gray-600 text-sm"> ({{ item.count }} / {{ item.percentage }}%)</span>
+                    </div>
+                </mat-list-item>
+                }
+            </mat-list>
+        </div>
+        <div>
+            @if(workload$ | async; as workload){
+            <div class="list-item">
+                <p class="font-semibold text-xl">Task Enagement</p>
+                <div class="flex">
+                    <span class="text-sm text-gray-500">Filter workloads by</span>
+                    <button (click)="setRange(timeRange.Day)"
+                        [class]="currentRange === timeRange.Day ? 'selected' : 'text-gray-500'" class="rounded-full">
+                        Day
+                    </button>
+
+                    <button (click)="setRange(timeRange.Week)"
+                        [class]="currentRange === timeRange.Week ? 'selected' : 'text-gray-500'" class="rounded-full">
+                        Week
+                    </button>
+
+                    <button (click)="setRange(timeRange.Month)"
+                        [class]="currentRange === timeRange.Month ? 'selected' : 'text-gray-500'" class="rounded-full">
+                        Month
+                    </button>
+                </div>
+            </div>
+            <div class="two-grid-fields">
+                <div class="list">
+                    <div>
+                        <div class="margin-bottom-sm">
+                            <p class=" text-sm">High Task Load / Peak Distribution</p>
+                        </div>
+                        <mat-list>
+                            @for (item of workload.peakDistribution; track item.fullName) {
+                            <mat-list-item class="border-gray-200">
+                                <div class="list-item">
+                                    <div class="flex">
+                                        <span class="text-sm">{{ item.fullName }}</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="text-gray-600 text-sm"> {{ item.taskCount }}</span>
+                                        <mat-divider [vertical]="true" style="height: 15px;"></mat-divider>
+                                        <span class="text-gray-600 text-sm label-red">
+                                            {{ item.loadPercentage }}%</span>
+                                    </div>
+                                </div>
+                            </mat-list-item>
+                            }
+                            @empty {
+                            <p class="text-sm text-gray-400">No users in peak load.</p>
+                            }
+                        </mat-list>
+                    </div>
+                </div>
+                <div class="list">
+                    <div>
+                        <div class="margin-bottom-sm">
+                            <p class=" text-sm">Load Task Load / Available Bandwidth</p>
+                        </div>
+                        <mat-list>
+                            @for (item of workload.availableBandwidth; track item.fullName) {
+                            <mat-list-item class="border-gray-200">
+                                <div class="list-item">
+                                    <div class="flex">
+                                        <span class="text-sm">{{ item.fullName }}</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="text-gray-600 text-sm"> {{ item.taskCount }}</span>
+                                        <mat-divider [vertical]="true" style="height: 15px;"></mat-divider>
+                                        <span [class.label-green]="item.loadPercentage < 50"
+                                            [class.label-yellow]="item.loadPercentage >= 50"
+                                            class="text-gray-600 text-sm">
+                                            {{ item.loadPercentage }}%</span>
+                                    </div>
+                                </div>
+                            </mat-list-item>
+                            }
+                        </mat-list>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+
+
+    </div>
+    <mat-divider class="divider-m"></mat-divider>
+    @if(prs$ | async; as pr){
+    <div>
+        <div class="list-item">
+            <p class="font-semibold text-xl">Pull Requests Engagement</p>
+            <div class="flex">
+                <span class="text-sm text-gray-500">Filter PRs by</span>
+                <button (click)="setPrRange(timeRange.Day)"
+                    [class]="currentPrRange === timeRange.Day ? 'selected' : 'text-gray-500'" class="rounded-full">
+                    Day
+                </button>
+
+                <button (click)="setPrRange(timeRange.Week)"
+                    [class]="currentPrRange === timeRange.Week ? 'selected' : 'text-gray-500'" class="rounded-full">
+                    Week
+                </button>
+
+                <button (click)="setPrRange(timeRange.Month)"
+                    [class]="currentPrRange === timeRange.Month ? 'selected' : 'text-gray-500'" class="rounded-full">
+                    Month
+                </button>
+            </div>
+        </div>
+        <div class="second-grid-fields">
+            <div>
+                <mat-card class="card-outlined">
+                    <mat-card-header class="margin-sm">
+                        <mat-card-subtitle>Pull Requests</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="cols-3">
+                            <div class="gap-sm grid">
+                                <div class="grid">
+                                    <span class="text-gray-500 margin-sm">Total Pull Requests</span>
+                                    <span class="text-gray-700 font-semibold text-xll">{{pr.totalPRs}}</span>
+                                </div>
+                                <div class="grid">
+                                    <span class="text-gray-500 margin-sm">Total Approved</span>
+                                    <span class="text-gray-700 font-semibold text-xll">{{pr.totalApproved}}</span>
+                                </div>
+
+
+                            </div>
+                            <div class="gap-sm grid">
+                                <div class="grid">
+                                    <span class="text-gray-500 margin-sm">Total Commented</span>
+                                    <span class="text-gray-700 font-semibold text-xll">{{pr.totalCommented}}</span>
+                                </div>
+                                <div class="grid">
+                                    <span class="text-gray-500 margin-sm">Total Request Changed</span>
+                                    <span class="text-gray-700 font-semibold text-xll">{{pr.totalRequestChanges}}</span>
+                                </div>
+                            </div>
+                            <div>
+
+                                <div class="grid">
+                                    <span class="text-gray-500 margin-sm">Avg. success rate based on approved PRs</span>
+                                    <span class="text-gray-700 font-semibold text-xll">{{pr.successRate}}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div>
+                <mat-card class="card-outlined">
+                    <mat-card-header>Top 5 Developers with most Approved PRs</mat-card-header>
+                    <mat-card-content>
+                        <mat-list>
+                            @for (item of pr.topPerformers; track item.fullName) {
+                            <mat-list-item class="border-gray-200">
+                                <div class="list-item">
+                                    <div class="flex">
+                                        <span class="text-gray-500 text-sm">{{ $index + 1 }}.</span>
+                                        <span class="text-sm">{{ item.fullName }}</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="text-gray-600 text-sm"> {{ item.approvedCount }}</span>
+                                    </div>
+                                </div>
+                            </mat-list-item>
+                            }
+                        </mat-list>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+
+    }
+</div>
+
+}

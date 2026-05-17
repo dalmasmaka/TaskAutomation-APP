@@ -1,0 +1,19 @@
+<mat-dialog-content [formGroup]="userForm">
+    <h2 class="custom-title">GitHub Configuration</h2>
+    <p class="custom-subtitle">Update your github configuration details.</p>
+    <div class="grid-fields">
+        <mat-form-field class="custom-form" appearance="outline">
+        <mat-label>GitHub Username</mat-label>
+        <input matInput placeholder="Enter your GitHub username" type="text" formControlName="username">
+    </mat-form-field>
+    <mat-form-field class="custom-form" appearance="outline">
+        <mat-label>Access Token</mat-label>
+        <input matInput placeholder="Enter your GitHub access token" type="text" formControlName="accessToken">
+    </mat-form-field>
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button matButton (click)="dialogRef.close()">Cancel</button>
+    <button matButton (click)="confirmChanges()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

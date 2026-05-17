@@ -13,6 +13,8 @@
           <mat-datepicker #datepicker />
           <mat-datepicker-toggle [for]="datepicker" matSuffix />
         </mat-form-field>
+         <app-select [items]="roles" bindLabel="role" bindValue="id" , placeholder="Select Role"
+                            formControlName="role"> </app-select>
         <button mat-flat-button color="primary" class="generate-btn" (click)="generateNewCode()"
           [disabled]="!invitationForm.get('expiryDate')?.value">
           <mat-icon>bolt</mat-icon>
@@ -29,6 +31,10 @@
           <ng-container matColumnDef="code">
             <mat-header-cell *matHeaderCellDef> Code </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.code}} </mat-cell>
+          </ng-container>
+            <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.stringRole}} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="status">
             <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>

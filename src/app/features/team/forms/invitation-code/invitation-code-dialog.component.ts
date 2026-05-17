@@ -13,10 +13,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelTitle, MatExpansionPanelHeader } from "@angular/material/expansion";
-import { InvitationCodes } from "../../../../core/models/invitation-codes.model";
+import { GenerateInvitation, InvitationCodes } from "../../../../core/models/invitation-codes.model";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CompanyService } from "../../../../core/services/company.service";
 import { map, Observable } from "rxjs";
+import { SelectComponent } from "../../../../core/layout/select/select.component";
 @Component({
     selector: "app-invitation-code",
     templateUrl: "./invitation-code-dialog.component.html",
@@ -24,7 +25,7 @@ import { map, Observable } from "rxjs";
     imports: [ReactiveFormsModule, CommonModule, MatDialogModule, MatButtonModule,
         MatIconModule, MatTableModule, MatChipsModule, MatNativeDateModule, MatDatepickerModule,
         MatInputModule, MatFormFieldModule, MatTimepickerModule, MatAccordion,
-        MatExpansionPanel, MatExpansionPanelTitle, MatExpansionPanelHeader],
+        MatExpansionPanel, MatExpansionPanelTitle, MatExpansionPanelHeader, SelectComponent],
     providers: [provideNativeDateAdapter()],
 })
 export class InvitationCodeDialogComponent implements OnInit {
@@ -34,22 +35,28 @@ export class InvitationCodeDialogComponent implements OnInit {
     private companyService = inject(CompanyService)
     constructor(private fb: FormBuilder, private snackBar: MatSnackBar,
         public dialogRef: MatDialogRef<InvitationCodeDialogComponent>) { }
-    // dataSource = new MatTableDataSource<any>([]);
     dataSource: any[] = [];
+    roles = [
+        { id: 0, role: 'Developer' },
+        { id: 1, role: 'Manager' },
+        { id: 2, role: 'Owner' }
+    ];
     ngOnInit(): void {
         this.invitationForm = this.fb.group({
+            role: [0, Validators.required],
             expiryDate: ['', Validators.required],
         });
 
         this.companyService.invitationCode$.subscribe(data => {
             if (data) {
+                console.log(data)
                 this.dataSource = data.map(x => ({
                     code: x.invitationCode,
-                    status: x.expirationStatus
+                    status: x.expirationStatus,
+                    stringRole: x.stringRole
                 }));
                 this.cdr.markForCheck();
-                // If using MatTableDataSource, you might need:
-                // this.dataSource.data = mappedData;
+                
             }
         });
 
@@ -59,7 +66,7 @@ export class InvitationCodeDialogComponent implements OnInit {
     confirmChanges() {
 
     }
-    displayedColumns: string[] = ['code', 'status', 'actions'];
+    displayedColumns: string[] = ['code', 'status', 'role', 'actions'];
 
 
     copyToClipboard(text: string) {
@@ -72,19 +79,22 @@ export class InvitationCodeDialogComponent implements OnInit {
         });
     }
     generateNewCode() {
-        const date = this.invitationForm.get('expiryDate')?.value;
-        this.companyService.generateCode(date).subscribe({
-            next: () => {
-                this.snackBar.open('Code generated successfully!', 'Close', {
-                    duration: 3000
-                });
-                this.companyService.loadCodes().subscribe();
-            },
-            error: (err) => {
-                this.snackBar.open('Failed to generate code.', 'Close', {
-                    duration: 3000
-                });
-            }
-        });
+        if (this.invitationForm.valid) {
+            const rawValue = this.invitationForm.value;
+
+            // Map form values to your Model
+            // const payload: GenerateInvitation = {
+            //     expiryDate: rawValue.expiryDate,
+            //     role: rawValue.role
+            // };
+
+            this.companyService.generateCode(rawValue).subscribe({
+                next: () => {
+                    this.snackBar.open('Code generated!', 'Close', { duration: 3000 });
+                    this.companyService.loadCodes().subscribe();
+                },
+                error: (err) => console.error("Subscription error", err)
+            });
+        }
     }
 }

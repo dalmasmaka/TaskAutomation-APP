@@ -6,7 +6,7 @@
   <p class="custom-subtitle">View all the members assiged in this project</p>
   }
   <mat-accordion>
-    @if(isOwner){
+    @if(isOwner || isManager){
     <mat-expansion-panel class="panel">
       <mat-expansion-panel-header>
         <mat-panel-title>Assign users to this project</mat-panel-title>

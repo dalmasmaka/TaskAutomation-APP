@@ -21,14 +21,10 @@
             <mat-grid-tile>
                 <mat-card appearance="outlined" class="custom-card">
                     <mat-card-header class="space-between">
-                        <mat-card-title> {{ project.name }}</mat-card-title>
+                        <mat-card-title class="text-xl"> {{ project.name }}</mat-card-title>
                         <mat-card-subtitle class="custom-subtitle">Project created by: {{ project.createdBy
                             }}</mat-card-subtitle>
-                        @if(project.isAssigned){
-                        <div class="label-container">
-                            <span class="badge assigned">Assigned to you</span>
-                        </div>
-                        }
+                    
                         <app-menu #menuComp [items]="getFilteredMenuItems(project)" [context]="project"
                             (itemClick)="handleMenuAction($event)">
                         </app-menu>
@@ -46,6 +42,11 @@
                             <mat-icon fontSet="material-symbols-outlined">schedule</mat-icon>
                             {{project.createdAt}}
                         </div>
+                         @if(project.isAssigned){
+                        <div class="label-container">
+                            <span class="badge assigned">Assigned to you</span>
+                        </div>
+                        }
                     </mat-card-content>
                 </mat-card>
             </mat-grid-tile>

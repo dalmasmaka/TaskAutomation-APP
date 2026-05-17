@@ -38,6 +38,7 @@ export class TeamComponent implements OnInit {
     public jwtService = inject(JwtService);
       public isOwner = this.jwtService.hasRole('Owner');
     public isDeveloper = this.jwtService.hasRole('Developer');
+    public isManager = this.jwtService.hasRole('Manager');
 
     readonly cx = cx;
     readonly dialog = inject(MatDialog);
@@ -53,6 +54,14 @@ export class TeamComponent implements OnInit {
         { label: 'Change Member Role', icon: 'admin_panel_settings', action: 'change' },
         { label: 'Delete Member Account', icon: 'delete', action: 'delete' }
     ];
+    get filteredUserMenuItems() {
+  return this.userMenuItems.filter(item => {
+    if (item.action === 'assign') return this.isOwner || this.isManager;
+    if (item.action === 'change') return this.isOwner;
+    if (item.action === 'delete') return this.isOwner;
+    return false;
+  });
+}
 
     handleMenuAction(event: any) {
         const user = event.context;
