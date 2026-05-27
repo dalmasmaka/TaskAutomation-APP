@@ -3,10 +3,19 @@
 <div class="container">
     <h1>Workspace Insights</h1>
     <p>
-        Track pull request activity, team collaboration, approval trends, and developer performance across your workspace.
+        Track pull request activity, team collaboration, approval trends, and developer performance across your
+        workspace.
     </p>
     <mat-divider class="divider-m"></mat-divider>
-
+    <div class="box">
+        <div class="main-filter">
+            <span class="text-sm text-gray-500">Filter insights by Team</span>
+            <app-select [items]="teams()" bindLabel="teamName" bindValue="teamId"
+                placeholder="Select Team" [(ngModel)]="selectedTeamId"
+        (ngModelChange)="onTeamChange($event)">
+            </app-select>
+        </div>
+    </div>
     <div class="three-grid-fields">
 
         <!-- PROJECTS -->

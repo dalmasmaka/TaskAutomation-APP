@@ -1,6 +1,6 @@
 
 import { Component, inject, OnInit } from "@angular/core";
-import { Team } from "./model/team.model";
+import { Member } from "../../core/models/user.model";
 import { Observable } from "rxjs";
 import { CompanyService } from "../../core/services/company.service";
 import { MatCardModule } from '@angular/material/card';
@@ -24,14 +24,14 @@ import { Projects } from "../../core/models/projects.model";
 import { InvitationCodeDialogComponent } from "./forms/invitation-code/invitation-code-dialog.component";
 import { JwtService } from "../../core/services/jwt.service";
 @Component({
-    selector: "app-team",
-    templateUrl: "./team.component.html",
-    styleUrls: ["./team.component.css"],
+    selector: "app-staff",
+    templateUrl: "./staff.component.html",
+    styleUrls: ["./staff.component.css"],
     standalone: true,
     imports: [MenuComponent, MatCardModule, MatIconModule, MatDividerModule, AsyncPipe, MatGridListModule, MatProgressSpinnerModule, MatMenuModule, MatButtonModule],
 })
-export class TeamComponent implements OnInit {
-    team$!: Observable<Team[] | null>;
+export class StaffComponent implements OnInit {
+    team$!: Observable<Member[] | null>;
     private companyService = inject(CompanyService);
     private userService = inject(UserService);
     private projectsService = inject(ProjectsService);
@@ -47,7 +47,7 @@ export class TeamComponent implements OnInit {
     selectedProjects: number[] = [];
     ngOnInit(): void {
         this.team$ = this.companyService.team$;
-        this.companyService.loadTeam().subscribe();
+        this.companyService.loadStaff().subscribe();
     }
     userMenuItems = [
         { label: 'Assign Member to Project', icon: 'edit', action: 'assign' },
@@ -118,7 +118,7 @@ export class TeamComponent implements OnInit {
                                 this.snackBar.open('Projects assigned successfully!', 'Close', {
                                     duration: 3000
                                 });
-                                this.companyService.loadTeam(true).subscribe();
+                                this.companyService.loadStaff(true).subscribe();
                             },
                             error: (err) => {
                                 this.snackBar.open('Error assigning projects.', 'Close', {
@@ -148,7 +148,7 @@ export class TeamComponent implements OnInit {
                                 this.snackBar.open('User updated successfully!', 'Close', {
                                     duration: 3000
                                 });
-                                this.companyService.loadTeam(true).subscribe();
+                                this.companyService.loadStaff(true).subscribe();
                             },
                             error: (err) => {
                                 this.snackBar.open('Failed to update user.', 'Close', {
@@ -173,7 +173,7 @@ export class TeamComponent implements OnInit {
                         this.snackBar.open('Member account deleted successfully!', 'Close', {
                             duration: 3000
                         });
-                        this.companyService.loadTeam(true).subscribe();
+                        this.companyService.loadStaff(true).subscribe();
                     },
                     error: (err) => {
                         this.snackBar.open('Failed to delete member');

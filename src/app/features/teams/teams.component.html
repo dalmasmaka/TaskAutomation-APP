@@ -1,0 +1,542 @@
+@if (teams().length > 0 || memberTeams() != null) {
+<div class="team-management-container">
+    @if(isOwner || isManager){
+    <div class="section-header">
+        <h2 class="section-title">Team Management</h2>
+        <p class="section-subtitle">
+            Organize teams, manage member assignments, and review pending collaboration requests.
+        </p>
+    </div>
+
+    <mat-tab-group animationDuration="200ms">
+
+        <!-- Teams -->
+        <mat-tab label="Teams">
+            <div class="tab-content">
+
+                <section class="list-section">
+
+                    <div class="section-info">
+                        <h3 class="custom-title">Team Directory</h3>
+                        <p class="custom-subtitle">
+                            View and manage all registered teams within your organization.
+                        </p>
+                    </div>
+
+                    @if (teams().length > 0) {
+
+                    <div class="box">
+
+                        <mat-list class="example-list-wrapping">
+
+                            @for (config of teams(); track config.teamId) {
+
+                            <mat-list-item>
+
+                                <div class="team-item">
+
+                                    <div class="avatar-display"
+                                        [style.background-color]="getAvatarTheme(config.teamName).bg"
+                                        [style.color]="getAvatarTheme(config.teamName).text">
+
+                                        {{ getInitials(config.teamName) }}
+
+                                    </div>
+
+                                    <div class="team-info">
+                                        <span>
+                                            {{ config.teamName }}
+
+                                        </span>
+                                    </div>
+
+                                    <div class="label-container active">
+
+                                        <span class="text-sm">
+                                            Created by {{ config.createdByUser }} on {{ config.createdAt }}
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div matListItemMeta>
+                                    <app-menu #menuComp [items]="configMenuItems" [context]="config"
+                                        (itemClick)="handleMenuAction($event)">
+                                    </app-menu>
+                                </div>
+
+                            </mat-list-item>
+
+                            <mat-divider></mat-divider>
+
+                            }
+
+                        </mat-list>
+
+                        <button mat-raised-button color="primary" class="custom-button" (click)="addTeam()">
+
+                            Add New Team
+
+                        </button>
+
+                    </div>
+
+                    } @else {
+
+                    <div class="empty-state">
+                        <p>No teams have been created yet.</p>
+                    </div>
+
+                    }
+
+                </section>
+
+            </div>
+        </mat-tab>
+
+        <!-- Allocations -->
+        <mat-tab label="Active Allocations">
+            <div class="tab-content">
+
+
+                <section class="active-users-section">
+
+                    <div class="section-info">
+                        <h3 class="custom-title">Active Users Directory</h3>
+                        <p class="custom-subtitle">Monitor active user distributions across operational teams.</p>
+                    </div>
+
+                    @if ((teamMembers()?.activeMembers?.length ?? 0) > 0) {
+
+                    <div class="box">
+
+                        <mat-list class="example-list-wrapping">
+
+                            @for (member of teamMembers()?.activeMembers; track member.id) {
+
+                            <mat-list-item>
+
+                                <div class="team-item">
+
+                                    <div class="avatar-display approved"
+                                        [style.background-color]="getAvatarTheme(member.fullName).bg"
+                                        [style.color]="getAvatarTheme(member.fullName).text">
+
+                                        {{ getInitials(member.fullName) }}
+
+                                    </div>
+
+                                    <div class="team-info">
+                                        <span class="text-gray-700 text-m">
+                                            {{ member.fullName }}
+                                        </span>
+                                        <span class="text-gray-500 text-sm">
+                                            {{ member.email }}
+                                        </span>
+                                    </div>
+                                    <div class="team-info">
+                                        <span class="text-gray-700 text-m">
+                                            Invited By {{ member.invitedBy }} on {{ member.createdAt }}
+                                        </span>
+                                        <span class="text-gray-500 text-sm">
+                                            Approved on {{ member.updatedAt }}
+                                        </span>
+                                    </div>
+                                    <div class="team-info">
+                                        <span class="text-gray-500 text-sm">
+                                            {{ member.teamName }}
+                                        </span>
+                                    </div>
+                                    <div class="label-container active">
+                                        <span class="text-sm">
+                                            {{ member.status }}
+
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div matListItemMeta>
+                                    <app-menu #menuComp [items]="memberMenuItems" [context]="member"
+                                        (itemClick)="handleMembersMenu($event)">
+                                    </app-menu>
+                                </div>
+
+                            </mat-list-item>
+
+                            <mat-divider></mat-divider>
+
+                            }
+
+                        </mat-list>
+
+                    </div>
+
+                    } @else {
+
+                    <div class="empty-state">
+                        <p>No active members yet..</p>
+                    </div>
+
+                    }
+
+                </section>
+
+            </div>
+        </mat-tab>
+
+        <!-- Requests -->
+        <mat-tab label="Onboarding Process">
+            <div class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div class="section-info">
+                        <h3 class="custom-title">Cross-Team Routing Requests</h3>
+                        <p class="custom-subtitle">
+                            Dispatch invitations to allocate members across organizational teams.
+                        </p>
+                    </div>
+
+                    <button mat-flat-button color="primary" (click)="addInvitations()">
+                        <mat-icon style="margin-right: 8px;">group_add</mat-icon>
+                        Issue Team Invitation
+                    </button>
+                </div>
+                <mat-divider class="margin-tb"></mat-divider>
+                <section class="onboard-section">
+
+                    <div class="section-info">
+                        <h3 class="custom-title">Awaiting Acceptance</h3>
+                        <p class="custom-subtitle">
+                            Monitor active team invitations that are currently pending user approval.
+                        </p>
+                    </div>
+
+                    @if ((teamMembers()?.pendingMembers?.length ?? 0) > 0) {
+
+                    <div class="box">
+
+                        <mat-list class="example-list-wrapping">
+
+                            @for (member of teamMembers()?.pendingMembers; track member.id) {
+
+                            <mat-list-item>
+
+                                <div class="team-item">
+
+                                    <div class="avatar-display pending">
+
+                                        {{ getInitials(member.fullName) }}
+
+                                    </div>
+
+                                    <div class="team-info">
+                                        <span class="text-gray-700 text-m">
+                                            {{ member.fullName }}
+                                        </span>
+                                        <span class="text-gray-500 text-sm">
+                                            {{ member.email }}
+                                        </span>
+                                    </div>
+                                    <div class="team-info">
+                                        <span class="text-gray-700 text-m">
+                                            Invited By {{ member.invitedBy }}
+                                        </span>
+
+                                        <span class="text-gray-500 text-sm">
+                                            {{ member.createdAt }}
+                                        </span>
+                                    </div>
+                                    <div class="team-info">
+                                        <span class="text-gray-500 text-sm">
+                                            For {{ member.teamName }}
+                                        </span>
+                                    </div>
+                                    <div class="label-container pending">
+                                        <span class="text-sm">
+                                            {{ member.status }}
+
+                                        </span>
+                                    </div>
+                                    <div matListItemMeta>
+                                        <app-menu #menuComp [items]="onboardMenuItems" [context]="member"
+                                            (itemClick)="handleMembersMenu($event)">
+                                        </app-menu>
+                                    </div>
+                                </div>
+
+
+
+                            </mat-list-item>
+
+                            <mat-divider></mat-divider>
+
+                            }
+
+                        </mat-list>
+
+                    </div>
+
+                    }@else {
+
+                    <div class="empty-state">
+                        <p>No pending invitations yet.</p>
+                    </div>
+
+                    }
+
+                </section>
+                <section class="onboard-section margin-s">
+
+                    <div class="section-info">
+                        <h3 class="custom-title">Declined Access Logs</h3>
+                        <p class="custom-subtitle">
+                            Review and audit all team invitations that were declined by prospective members.
+                        </p>
+                    </div>
+                    @if ((teamMembers()?.declinedMembers?.length ?? 0) > 0) {
+
+                    <div class="box">
+
+                        <mat-list class="example-list-wrapping">
+
+                            @for (member of teamMembers()?.declinedMembers; track member.id) {
+
+                            <mat-list-item>
+
+                                <div class="team-item">
+
+                                    <div class="avatar-display declined">
+
+                                        {{ getInitials(member.fullName) }}
+
+                                    </div>
+                                    <div class="team-info">
+                                        <span class="text-gray-700 text-m">
+                                            {{ member.fullName }}
+                                        </span>
+                                        <span class="text-gray-500 text-sm">
+                                            {{ member.email }}
+                                        </span>
+                                    </div>
+                                    <div class="team-info">
+                                        <span class="text-gray-700 text-m">
+                                            Invited By {{ member.invitedBy }} on {{ member.createdAt }}
+                                        </span>
+                                        <span class="text-gray-500 text-sm">
+                                            Declined on {{ member.updatedAt }}
+                                        </span>
+                                    </div>
+                                    <div class="team-info">
+                                        <span class="text-gray-500 text-sm">
+                                            For {{ member.teamName }}
+                                        </span>
+                                    </div>
+
+                                    <div class="label-container declined">
+                                        <span class="text-sm">
+                                            {{ member.status }}
+                                        </span>
+                                    </div>
+                                    <div matListItemMeta>
+                                        <app-menu #menuComp [items]="onboardMenuItems" [context]="member"
+                                            (itemClick)="handleMembersMenu($event)">
+                                        </app-menu>
+                                    </div>
+                                </div>
+
+
+
+                            </mat-list-item>
+
+                            <mat-divider></mat-divider>
+
+                            }
+
+                        </mat-list>
+
+                    </div>
+
+                    } @else {
+
+                    <div class="empty-state">
+                        <p>No declined invitations.</p>
+                    </div>
+
+                    }
+                </section>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    }
+    @else if (isDeveloper) {
+    <div class="section-header">
+        <h2 class="section-title">Team Management</h2>
+        <p class="section-subtitle">
+            Manage team access controls and review pending collaboration requests.
+        </p>
+    </div>
+
+    <mat-tab-group animationDuration="200ms">
+        <!-- Teams -->
+        <mat-tab label="Teams">
+            <div class="tab-content">
+                <section class="list-section">
+                    <div class="section-info">
+                        <h3 class="custom-title">Team Directory</h3>
+                        <p class="custom-subtitle">
+                            View and manage all the teams you are associated with.
+                        </p>
+                    </div>
+
+                    @if ((memberTeams()?.activeTeams?.length ?? 0) > 0) {
+
+                    <div class="box">
+                        <mat-list class="example-list-wrapping">
+                            @for (team of memberTeams()?.activeTeams; track team.id) {
+                            <mat-list-item>
+                                <div class="team-item">
+                                    <div class="avatar-display"
+                                        [style.background-color]="getAvatarTheme(team.teamName).bg"
+                                        [style.color]="getAvatarTheme(team.teamName).text">
+                                        {{ getInitials(team.teamName) }}
+                                    </div>
+
+                                    <div class="team-info">
+                                        <span>{{ team.teamName }}</span>
+                                    </div>
+
+                                    <div class="label-container active">
+                                        <span class="text-sm">
+                                            Joined on {{ team.updatedAt }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div matListItemMeta>
+                                    <app-menu #menuComp [items]="developerMenuItems" [context]="team"
+                                        (itemClick)="handleMembersMenu($event)">
+                                    </app-menu>
+                                </div>
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                            }
+                        </mat-list>
+                    </div>
+                    } @else {
+                    <div class="empty-state">
+                        <p>No team memberships found.</p>
+                    </div>
+                    }
+                </section>
+
+                <mat-divider class="divider"></mat-divider>
+
+                <section class="list-section">
+                    <div class="section-info">
+                        <h3 class="custom-title">Team Invitations</h3>
+                        <p class="custom-subtitle">
+                            View and manage all pending team invitations sent to you.
+                        </p>
+                    </div>
+                    @if ((memberTeams()?.pendingInvitations?.length ?? 0) > 0) {
+                    <div class="box invitations">
+                        @for (invite of memberTeams()?.pendingInvitations; track invite.id) {
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-subtitle>Invitation to join {{ invite.teamName }}</mat-card-subtitle>
+                            </mat-card-header>
+                            <mat-card-content class="card-content">
+                                <p>From {{invite.invitedBy}}, {{invite.createdAt}}</p>
+                                <div class="btns">
+                                    <button mat-raised-button (click)="updateStatus(invite, MembershipStatus.Active)">Accept</button>
+                                    <button mat-flat-button (click)="updateStatus(invite, MembershipStatus.Declined)">Decline</button>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                        }
+
+                    </div>
+                    }
+                    @else {
+                    <div class="empty-state">
+                        <p>No team memberships found.</p>
+                    </div>
+                    }
+                </section>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Team Logs">
+            <div class="tab-content">
+                <section class="list-section">
+
+                    <div class="section-info">
+                        <h3 class="custom-title">Awaiting Acceptance</h3>
+                        <p class="custom-subtitle">
+                            Monitor active team invitations that are currently pending user approval.
+                        </p>
+                    </div>
+
+                    @if ((memberTeams()?.teamLogs?.length ?? 0) > 0) {
+
+                    <div class="box">
+
+                        <mat-list class="example-list-wrapping">
+
+                            @for (log of memberTeams()?.teamLogs; track log.id) {
+
+                            <mat-list-item>
+
+                                <div class="team-item">
+                                    <div class="team-info">
+                                        <span class="text-gray-700 text-m">
+                                            Invited By {{ log.invitedBy }}
+                                        </span>
+
+                                        <span class="text-gray-500 text-sm">
+                                            on {{ log.createdAt }}
+                                        </span>
+                                    </div>
+
+                                    <div class="team-info">
+                                        <span class="text-gray-500 text-sm">
+                                            For {{ log.teamName }}
+                                        </span>
+                                    </div>
+                                    <div class="team-info custom">
+                                        <div class="label-container" [class]="getStatusClass(log.status)">
+                                            <span class="text-sm">
+                                                {{ log.status }}
+
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </mat-list-item>
+
+                            <mat-divider></mat-divider>
+
+                            }
+
+                        </mat-list>
+
+                    </div>
+
+                    }@else {
+
+                    <div class="empty-state">
+                        <p>No pending invitations yet.</p>
+                    </div>
+
+                    }
+
+                </section>
+
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    }
+
+</div>
+}

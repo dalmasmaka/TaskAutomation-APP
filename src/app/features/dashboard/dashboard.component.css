@@ -253,3 +253,12 @@ svg {
 .divider-m{
     margin: 2rem 0 2.5rem 0;
 }
+.box {
+    display: flex;
+    justify-content: end;
+}
+.main-filter {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}

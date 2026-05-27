@@ -1,3 +1,5 @@
+import { Team } from "./teams-model"
+
 export interface Projects {
     projectId: string,
     name: string,
@@ -11,7 +13,7 @@ export interface Projects {
     totalUsers: string,
     totalTasks: string,
     isAssigned: string,
-    hasConfig:string
+    hasConfig:string,
 }
 export interface Project {
     name: string,
@@ -20,7 +22,9 @@ export interface Project {
     repoOwner: string,
     defaultBranch: string,
     accessToken: string,
+    teams: []
 }
+
 export interface Boards{
     id: string,
     key: string,

@@ -11,7 +11,6 @@ import { GeneratedFolder } from "../models/code-generation.model";
 export class TasksService {
 
     private endpoint = 'Task';
-    private pullRequestEndpoint = 'PullRequest';
     public taskSubject = new BehaviorSubject<Tasks | null>(null);
     public task$: Observable<Tasks | null> = this.taskSubject.asObservable();
     public pagedSubject = new BehaviorSubject<PagedResult | null>(null);
@@ -74,8 +73,6 @@ export class TasksService {
             tap((updatedFromServer) => {
                 
                 const dataToPublish = updatedFromServer || task;
-
-                console.log('Pushing to UI:', dataToPublish);
                 this.taskSubject.next(dataToPublish);
             })
         );

@@ -5,5 +5,5 @@ export interface InvitationCodes{
 }
 export interface GenerateInvitation {
     expiryDate: string;
-    role: number; // Or a specific type/enum if you have it defined
+    role: number; 
 }

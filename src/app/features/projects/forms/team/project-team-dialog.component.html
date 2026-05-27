@@ -1,0 +1,166 @@
+<mat-dialog-content>
+    <h2 class="custom-title">Project Team Management</h2>
+
+    @if(isOwner){
+    <p class="custom-subtitle">
+        Review all teams currently associated with this project and seamlessly assign additional teams to expand
+        collaboration and project ownership.
+    </p>
+    }@else{
+    <p class="custom-subtitle">
+        Explore the teams currently assigned to this project and monitor team participation across the workspace.
+    </p>
+    }
+
+    <mat-accordion>
+
+        @if(isOwner || isManager){
+        <mat-expansion-panel class="panel">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Associate Additional Teams</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div [formGroup]="teamForm">
+                <app-multi-select [items]="availableTeams()" bindLabel="teamName" bindValue="teamId"
+                    placeholder="Select teams to associate" formControlName="teams">
+                </app-multi-select>
+
+                <button mat-flat-button color="primary" class="generate-btn" (click)="addTeams()">
+                    <mat-icon>bolt</mat-icon>
+                    Assign Teams
+                </button>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Assigned Teams Directory</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            @if(teams().length>0){
+
+            <div class="members-list">
+                <mat-table [dataSource]="teams()" class="mat-elevation-z0">
+
+                    <ng-container matColumnDef="teamId">
+                        <mat-header-cell *matHeaderCellDef> Team Id </mat-header-cell>
+
+                        <mat-cell *matCellDef="let element">
+                            <div class="user-cell">
+                                <div class="user-info">
+                                    <span class="name">{{element.teamId}}</span>
+                                </div>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="teamName">
+                        <mat-header-cell *matHeaderCellDef> Team Name </mat-header-cell>
+
+                        <mat-cell *matCellDef="let element">
+                            <span>{{element.teamName}}</span>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="assignedAt">
+                        <mat-header-cell *matHeaderCellDef> Association Date </mat-header-cell>
+
+                        <mat-cell *matCellDef="let element">
+                            <span>{{element.assignedAt}}</span>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef class="justify-content-end">
+                             Actions
+                        </mat-header-cell>
+
+                        <mat-cell *matCellDef="let element" class="justify-content-end">
+                            <button mat-icon-button matTooltip="Remove Team Association"
+                                (click)="removeTeam(element.teamId)">
+
+                                <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+                </mat-table>
+            </div>
+
+            }@else {
+            <span class="msg">
+                No teams are currently associated with this project.
+            </span>
+            }
+
+        </mat-expansion-panel>
+        }
+
+        @else if(isDeveloper){
+
+        @if(teams().length>0){
+
+        <div class="members-list">
+            <mat-table [dataSource]="teams()" class="mat-elevation-z0">
+
+                <ng-container matColumnDef="teamId">
+                    <mat-header-cell *matHeaderCellDef> Team Identifier </mat-header-cell>
+
+                    <mat-cell *matCellDef="let element">
+                        <div class="user-cell">
+                            <div class="user-info">
+                                <span class="name">{{element.teamId}}</span>
+                            </div>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="teamName">
+                    <mat-header-cell *matHeaderCellDef> Team Name </mat-header-cell>
+
+                    <mat-cell *matCellDef="let element">
+                        <span>{{element.teamName}}</span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="assignedAt">
+                    <mat-header-cell *matHeaderCellDef> Association Date </mat-header-cell>
+
+                    <mat-cell *matCellDef="let element">
+                        <span>{{element.assignedAt}}</span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef class="justify-content-end">
+                        Actions
+                    </mat-header-cell>
+
+                    <mat-cell *matCellDef="let element" class="justify-content-end">
+                        <button mat-icon-button matTooltip="Remove Team Association"
+                            (click)="removeTeam(element.teamId)">
+
+                            <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            </mat-table>
+        </div>
+
+        }@else {
+        <span class="msg">
+            There are currently no teams assigned to this project.
+        </span>
+        }
+
+        }
+
+    </mat-accordion>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Close</button>
+</mat-dialog-actions>

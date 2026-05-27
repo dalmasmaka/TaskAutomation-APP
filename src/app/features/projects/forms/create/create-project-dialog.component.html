@@ -3,10 +3,14 @@
     <p class="custom-subtitle">Add project details.</p>
     <form [formGroup]="firstFormGroup" class="grid-fields">
         <ng-template matStepLabel>Project Information</ng-template>
+
         <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput placeholder="Project Name" formControlName="name" required>
         </mat-form-field>
+        <app-multi-select [items]="availableTeams()" bindLabel="teamName" bindValue="teamId" , placeholder="Select Teams"
+          formControlName="teams">
+        </app-multi-select>
         <mat-form-field appearance="outline">
             <mat-label>Provider</mat-label>
             <input matInput placeholder="Ex. GitHub" formControlName="provider" required>
