@@ -61,19 +61,10 @@
     color: #ba1a1a !important;
 }
 
-/* ::ng-deep span.mat-mdc-list-item-unscoped-content.mdc-list-item__secondary-text {
-    display: flex !important;
-    align-items: center;
-} */
-/* ::ng-deep span.mdc-list-item__content {
-    display: flex;
-    width: 100%;
-} */
 ::ng-deep .mat-mdc-list-item-meta {
     display: flex !important;
     align-items: center !important;
     height: 100%;
-    /* Ensures it spans the full 3-line height to find the middle */
 }
 
 ::ng-deep .label-container {

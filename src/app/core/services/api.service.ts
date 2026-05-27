@@ -21,7 +21,7 @@ export class ApiService {
 
 
 getWithHttpParams<T>(url: string, params?: HttpParams): Observable<T> {
-    return this.http.get<T>(url, { params });
+    return this.http.get<T>(`${environment.apiUrl}/${url}`, { params });
 }
 
     //get by id: int
@@ -53,6 +53,5 @@ getWithHttpParams<T>(url: string, params?: HttpParams): Observable<T> {
         const url = `${environment.apiUrl}/${path}`;
         return this.http.delete<HttpResponseModel>(url);
     }
-
-
+   
 }

@@ -4,7 +4,7 @@ import { JwtService } from "./jwt.service";
 import { BehaviorSubject, catchError, Observable, of, shareReplay, tap } from "rxjs";
 import { Boards, Project, Projects } from "../models/projects.model";
 import { User } from "../models/auth-models";
-import { Team } from "../../features/team/model/team.model";
+import { Member } from "../models/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +17,7 @@ export class ProjectsService {
     public projectsSubject = new BehaviorSubject<Projects[] | null>(null);
     projects$ = this.projectsSubject.asObservable();
 
-    public memberSubject = new BehaviorSubject<Team[] | null>(null);
+    public memberSubject = new BehaviorSubject<Member[] | null>(null);
     member$ = this.memberSubject.asObservable();
 
     loadProjects(forceRefresh: boolean = false): Observable<Projects[] | null> {
@@ -65,8 +65,8 @@ export class ProjectsService {
         };
         return this.apiService.post(`${this.endpoint}/assignUsersToProject`, body);
     }
-    loadProjectMembers(projectId: number): Observable<Team[] | null> {
-        return this.apiService.get<Team[]>(`${this.endpoint}/membersPerProject/${projectId}`)
+    loadProjectMembers(projectId: number): Observable<Member[] | null> {
+        return this.apiService.get<Member[]>(`${this.endpoint}/membersPerProject/${projectId}`)
     }
     removeMemberFromProject(projectId: number, userId: string,) {
         return this.apiService.delete(`${this.endpoint}/removeMember/${projectId}/${userId}`);

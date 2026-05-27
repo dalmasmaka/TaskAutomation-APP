@@ -12,7 +12,7 @@
         <mat-panel-title>Assign users to this project</mat-panel-title>
       </mat-expansion-panel-header>
       <div [formGroup]="userForm">
-        <app-multi-select [items]="availableUsers()" bindLabel="email" bindValue="id" , placeholder="Select Users"
+        <app-multi-select [items]="availableUsers()" bindLabel="displayName" bindValue="id" , placeholder="Select Users"
           formControlName="users">
         </app-multi-select>
         <button mat-flat-button color="primary" class="generate-btn" (click)="addMembers()">

@@ -81,13 +81,6 @@ export class InvitationCodeDialogComponent implements OnInit {
     generateNewCode() {
         if (this.invitationForm.valid) {
             const rawValue = this.invitationForm.value;
-
-            // Map form values to your Model
-            // const payload: GenerateInvitation = {
-            //     expiryDate: rawValue.expiryDate,
-            //     role: rawValue.role
-            // };
-
             this.companyService.generateCode(rawValue).subscribe({
                 next: () => {
                     this.snackBar.open('Code generated!', 'Close', { duration: 3000 });

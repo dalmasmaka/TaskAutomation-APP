@@ -1,0 +1,14 @@
+<mat-dialog-content [formGroup]="teamForm">
+  <h2 class="custom-title">Team Information</h2>
+  <p class="custom-subtitle">Update your team name.</p>
+  <div class="grid-fields">
+    <mat-form-field class="custom-form" appearance="outline">
+      <mat-label>Team Name</mat-label>
+      <input matInput placeholder="Enter team name" type="text" formControlName="teamName">
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="dialogRef.close()">Cancel</button>
+  <button matButton (click)="confirmChanges()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

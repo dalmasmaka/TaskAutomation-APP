@@ -16,29 +16,38 @@ export class DashboardService {
         const hasToken = this.jwtService.isAuthenticated();
         this.isAuthenticatedSubject.next(hasToken);
     }
-    getInsights(): Observable<DashboardInsights | null> {
+    getInsights(teamId?: number): Observable<DashboardInsights | null> {
         if (!this.jwtService.isAuthenticated()) {
             return of(null);
         }
-        return this.apiService.get<DashboardInsights>(`${this.endpoint}/insights`);
+          const params: any = {};
+
+    if (teamId != null) {
+        params.teamId = teamId;
     }
-    getWorkloadInsights(range: TimeRange): Observable<WorkloadInsights> {
+        return this.apiService.getWithHttpParams<DashboardInsights>(`${this.endpoint}/insights`, params);
+    }
+    getWorkloadInsights(range: TimeRange, teamId?: number): Observable<WorkloadInsights> {
         if (!this.jwtService.isAuthenticated()) {
             return of({
                 peakDistribution: [],
                 availableBandwidth: []
             } as WorkloadInsights);
         }
-        const params: any = {
-            range: Number(range)
-        }
+           const params: any = {
+        range: Number(range)
+    };
+
+    if (teamId != null) {
+        params.teamId = teamId;
+    }
 
         return this.apiService.getWithParams<WorkloadInsights>(
             `${this.endpoint}/workload`,
             params
         );
     }
-    getPRsEngagement(range: TimeRange): Observable<PREngagement> {
+    getPRsEngagement(range: TimeRange, teamId?: number): Observable<PREngagement> {
         if (!this.jwtService.isAuthenticated()) {
             return of({
                 totalPRs: 0,
@@ -49,9 +58,13 @@ export class DashboardService {
                 topPerformers: []
             } as PREngagement);
         }
-        const params: any = {
-            range: Number(range)
-        }
+         const params: any = {
+        range: Number(range)
+    };
+
+    if (teamId != null) {
+        params.teamId = teamId;
+    }
 
         return this.apiService.getWithParams<PREngagement>(
             `${this.endpoint}/prs`,

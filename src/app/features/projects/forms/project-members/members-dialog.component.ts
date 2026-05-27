@@ -4,14 +4,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { MatButtonModule } from "@angular/material/button";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelTitle, MatExpansionPanelHeader } from "@angular/material/expansion";
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { finalize, map, Observable } from "rxjs";
-import { Team } from "../../../team/model/team.model";
+import { finalize } from "rxjs";
+import { Member } from "../../../../core/models/user.model";
 import { ProjectsService } from "../../../../core/services/projects.service";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatCardModule } from '@angular/material/card';
@@ -50,7 +50,7 @@ export class MembersDialogComponent implements OnInit {
     public isDeveloper = this.jwtService.hasRole('Developer');
     public isManager = this.jwtService.hasRole('Manager');
     // --- State Management via Signals ---
-    readonly members = signal<Team[]>([]);
+    readonly members = signal<Member[]>([]);
     readonly availableUsers = signal<User[]>([]);
     readonly isLoading = signal<boolean>(false);
 
@@ -85,7 +85,14 @@ export class MembersDialogComponent implements OnInit {
         this.isLoading.set(true);
 
         this.projectService.loadProjectMembers(this.data.projectId).subscribe(m => this.members.set(m ?? []));
-        this.projectService.loadAvailableUsers(this.data.projectId).subscribe(u => this.availableUsers.set(u ?? []));
+        this.projectService.loadAvailableUsers(this.data.projectId).subscribe(u => {
+            const formattedUsers = (u ?? []).map(user => ({
+                ...user,
+                displayName: `${user.fullName} - (${user.email})`
+            }));
+
+            this.availableUsers.set(formattedUsers);
+        });
 
         this.isLoading.set(false);
     }

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { firstValueFrom, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { Projects } from "../../core/models/projects.model";
 import { ProjectsService } from "../../core/services/projects.service";
 import { MatDividerModule } from '@angular/material/divider';
@@ -19,6 +19,7 @@ import { ConfigurationDialogComponent } from "./forms/configuration/configuratio
 import { ActivatedRoute } from "@angular/router";
 import { JwtService } from "../../core/services/jwt.service";
 import { UpdateProjectDialogComponent } from "./forms/update/update-project-dialog.component";
+import { ProjectTeamDialogComponent } from "./forms/team/project-team-dialog.component";
 @Component({
     selector: "app-projects",
     templateUrl: "./projects.component.html",
@@ -62,6 +63,11 @@ export class ProjectsComponent implements OnInit {
             icon: 'groups',
             action: 'members'
         });
+         items.push({
+            label: 'Project Teams',
+            icon: 'team_dashboard',
+            action: 'teams'
+        });
         if (this.isOwner && !project.hasConfig) {
             items.push({
                 label: 'Project Configuration',
@@ -83,8 +89,6 @@ export class ProjectsComponent implements OnInit {
             // });
         }
 
-
-
         return items;
     }
     handleMenuAction(event: any) {
@@ -99,6 +103,8 @@ export class ProjectsComponent implements OnInit {
             case 'update':
                 this.saveProject(project);
                 break;
+            case 'teams': 
+                this.teams(project.projectId);
         }
     }
     configuration(id: any, companyId: any) {
@@ -113,6 +119,16 @@ export class ProjectsComponent implements OnInit {
     }
     loadMembers(id: any) {
         const dialogRef = this.dialog.open(MembersDialogComponent, {
+            minWidth: '700px',
+            minHeight: '600px',
+            data: { projectId: id }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.projectsService.loadProjects(true).subscribe();
+        })
+    }
+    teams(id: any) {
+        const dialogRef = this.dialog.open(ProjectTeamDialogComponent, {
             minWidth: '700px',
             minHeight: '600px',
             data: { projectId: id }

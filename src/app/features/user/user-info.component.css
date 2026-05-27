@@ -14,7 +14,11 @@
     display: flex;
     gap: 20px;
 }
-
+.grid-fields{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
 .custom-form {
     width: 100%;
 }

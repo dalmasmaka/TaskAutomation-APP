@@ -18,8 +18,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
         MatButtonModule,
         MatDialogActions,
         MatDialogContent,
-        // MatSelect,
-        // MatOption
     ]
 })
 export class CompanyInfoDialogComponent implements OnInit {

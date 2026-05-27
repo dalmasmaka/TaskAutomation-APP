@@ -4,7 +4,7 @@ import { Company } from "../models/company.model";
 import { BehaviorSubject, catchError, filter, Observable, of, shareReplay, switchMap, tap } from "rxjs";
 import { JwtService } from "./jwt.service";
 import { CompanyConfig } from "../models/companyConfig.model";
-import { Team } from "../../features/team/model/team.model";
+import { Member } from "../models/user.model";
 import { GenerateInvitation, InvitationCodes } from "../models/invitation-codes.model";
 
 @Injectable({
@@ -28,10 +28,10 @@ export class CompanyService {
     public invitationCodeSubject = new BehaviorSubject<InvitationCodes[] | null>(null);
     invitationCode$ = this.invitationCodeSubject.asObservable();
 
-    public teamSubject = new BehaviorSubject<Team[] | null>(null);
+    public teamSubject = new BehaviorSubject<Member[] | null>(null);
     team$ = this.teamSubject.asObservable();
 
-    loadTeam(forceReload = false): Observable<Team[] | null> {
+    loadStaff(forceReload = false): Observable<Member[] | null> {
         if (!forceReload && this.teamSubject.value) {
             return this.team$;
         }
@@ -40,7 +40,7 @@ export class CompanyService {
             return of(null);
         }
 
-        return this.apiService.get<Team[]>(`${this.endpoint}/companyTeam`).pipe(
+        return this.apiService.get<Member[]>(`${this.endpoint}/companyTeam`).pipe(
             tap(team => this.teamSubject.next(team)),
             catchError(err => {
                 console.error(err);

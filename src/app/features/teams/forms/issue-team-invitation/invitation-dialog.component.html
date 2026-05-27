@@ -1,0 +1,19 @@
+<mat-dialog-content [formGroup]="invitationForm">
+    <h2 class="custom-title">Send Invitations</h2>
+    <p class="custom-subtitle">Select users and the teams you want to invite them to.</p>
+    
+    <div class="grid-fields">
+        <app-multi-select [items]="users()" bindLabel="userName" bindValue="id"
+            placeholder="Select users to associate with teams" formControlName="userIds">
+        </app-multi-select>
+        
+        <app-multi-select [items]="teams()" bindLabel="teamName" bindValue="teamId"
+            placeholder="Select teams to associate with users" formControlName="teamIds">
+        </app-multi-select>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-flat-button (click)="confirmChanges()" cdkFocusInitial [disabled]="!invitationForm.valid">Confirm</button>
+</mat-dialog-actions>
