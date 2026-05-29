@@ -40,12 +40,11 @@
     <section class="user-information section">
         <div class="box1">
             <h2 class="custom-title">GitHub Configuration</h2>
-            <p class="custom-subtitle">Link your account to enable automated commits, branching, and repository tasks.
-            </p>
+            <p class="custom-subtitle">Link your account to enable automated commits, branching, and repository tasks.</p>
         </div>
-        @if (userGitHub$ | async; as github) {
         <div class="box">
-            <div class="flex-fields">
+        @if (userGitHub$ | async; as github) {
+             <div class="flex-fields">
                 <mat-form-field class="custom-form" appearance="outline">
                     <mat-label>GitHub Username</mat-label>
                     <input matInput disabled type="text" [value]="github.username">
@@ -60,15 +59,13 @@
                 <button mat-raised-button color="primary" (click)="openUserGitHubDetailsDialog()" class="custom-button">Update
                     GitHub Information</button>
             </div>
-        </div>
-        }@else {
-           
-            <div class="grid-fields">
-                  No configuration added yet!
-        <button mat-raised-button color="primary" (click)="saveNewGitHubConfig()" class="custom-button">Add
+        
+             }@else {
+          <button mat-raised-button color="primary" (click)="saveNewGitHubConfig()">Add
                 GitHub Information</button>
-            </div>
         }
+        </div>
+      
     </section>
     <hr class="divider">
     @if(isDeveloper || isManager){

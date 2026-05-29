@@ -48,6 +48,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
         this.accountGroup = new FormGroup({
             fullName: new FormControl('', Validators.required),
+            phoneNumber: new FormControl('', Validators.required),
             username: new FormControl('', Validators.required),
             email: new FormControl('', [Validators.required, Validators.email]),
             password: new FormControl('', [Validators.required, Validators.minLength(8)])
@@ -55,12 +56,19 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
+        this.workspaceGroup.valueChanges.subscribe(() => {
+    this.errorMessage.set(null);
+});
+
+this.accountGroup.valueChanges.subscribe(() => {
+    this.errorMessage.set(null);
+});
         const invite = this.route.snapshot.queryParamMap.get('invite');
 
         if (invite) {
             this.isInviteOnly = true;
             this.selectedRole.set('Invite');
-            this.workspaceGroup.patchValue({ role: 'Invite', inviteCode: invite });
+            this.workspaceGroup.patchValue({ role: 'Invite', invitationCode: invite });
             this.updateValidation('Invite');
         }
 
@@ -77,18 +85,18 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     private updateValidation(role: string) {
-        const inviteCtrl = this.workspaceGroup.get('inviteCode');
+        const invitationCtrl = this.workspaceGroup.get('invitationCode');
         const workspaceCtrl = this.workspaceGroup.get('workspaceName');
 
         if (role === 'Invite') {
-            inviteCtrl?.setValidators([Validators.required]);
+            invitationCtrl?.setValidators([Validators.required]);
             workspaceCtrl?.clearValidators();
         } else {
             workspaceCtrl?.setValidators([Validators.required]);
-            inviteCtrl?.clearValidators();
+            invitationCtrl?.clearValidators();
         }
 
-        inviteCtrl?.updateValueAndValidity();
+        invitationCtrl?.updateValueAndValidity();
         workspaceCtrl?.updateValueAndValidity();
     }
 

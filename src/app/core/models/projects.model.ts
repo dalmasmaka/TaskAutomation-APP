@@ -14,6 +14,7 @@ export interface Projects {
     totalTasks: string,
     isAssigned: string,
     hasConfig:string,
+    teams: Team[]
 }
 export interface Project {
     name: string,

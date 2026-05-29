@@ -1,4 +1,4 @@
-import { BehaviorSubject, catchError, filter, Observable, of, shareReplay, switchMap, tap } from "rxjs";
+import { BehaviorSubject, catchError, filter, Observable, of, switchMap, tap } from "rxjs";
 import { Role, User, UserGitHub } from "../models/auth-models";
 import { ApiService } from "./api.service";
 import { Injectable } from "@angular/core";
@@ -50,7 +50,6 @@ export class UserService {
             tap((data) => this.userSubject.next(data)),
             catchError((error) => {
                 console.error('Error loading user', error);
-                // this.jwtService.removeAuth();
                 return of(null);
             })
         );
@@ -58,7 +57,6 @@ export class UserService {
     saveUserGitHubInfo(github: UserGitHub) {
         return this.api.post<UserGitHub, any>(`${this.endpoint}/saveGitHubInfo`, github).pipe(
             tap(updatedFromServer => {
-                // This is the "Gold Standard"
                 this.githubSubject.next(updatedFromServer);
             })
         )

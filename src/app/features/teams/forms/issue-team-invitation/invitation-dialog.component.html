@@ -3,7 +3,7 @@
     <p class="custom-subtitle">Select users and the teams you want to invite them to.</p>
     
     <div class="grid-fields">
-        <app-multi-select [items]="users()" bindLabel="userName" bindValue="id"
+        <app-multi-select [items]="users()" bindLabel="displayName" bindValue="id"
             placeholder="Select users to associate with teams" formControlName="userIds">
         </app-multi-select>
         

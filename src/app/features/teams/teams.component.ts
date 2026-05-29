@@ -132,12 +132,9 @@ export class TeamsComponent implements OnInit {
         });
     }
     async addTeam() {
-        const companyId = this.teams().length > 0 ? this.teams()[0].companyId : null;
         const dialogRef = this.dialog.open(TeamInfoDialogComponent, {
             minWidth: '650px',
-            data: {
-                companyId: companyId
-            }
+            // data: ""
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {

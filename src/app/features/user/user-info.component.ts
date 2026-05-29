@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, DestroyRef } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { AsyncPipe, CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
@@ -8,7 +8,6 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDialog } from "@angular/material/dialog";
 import { UserDetailsDialogComponent } from "./forms/update-user/user-details-dialog.component";
 import { ActionModalComponent } from "../../core/layout/action-modals/action-modal.component";
-import { AuthService } from "../../core/services/auth.service";
 import { User, UserGitHub } from "../../core/models/auth-models";
 import { Observable } from "rxjs";
 import {
@@ -21,7 +20,6 @@ import { UserService } from "../../core/services/user.service";
 import { ChangePasswordDialogComponent } from "./forms/change-pass/change-pass-dialog.component";
 import { JwtService } from "../../core/services/jwt.service";
 import { Router } from "@angular/router";
-import { MatDivider } from "@angular/material/divider";
 import { UpdateGitHubDialogComponent } from "./forms/update-github/update-github-dialog.component";
 import { AddGitHubInfoDialogComponents } from "./forms/add-github/add-github-dialog.component";
 

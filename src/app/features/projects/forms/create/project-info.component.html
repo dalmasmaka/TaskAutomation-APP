@@ -1,0 +1,140 @@
+<mat-dialog-content>
+    <h2 class="custom-title">Create Project</h2>
+    <p class="custom-subtitle">Add project details.</p>
+
+    <mat-stepper linear>
+
+        <!-- STEP 1 -->
+        <mat-step [stepControl]="projectFormGroup">
+
+            <form [formGroup]="projectFormGroup">
+
+                <ng-template matStepLabel>
+                    Project Information
+                </ng-template>
+
+                <div class="grid-fields">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input
+                            matInput
+                            placeholder="Project Name"
+                            formControlName="name"
+                            required>
+                    </mat-form-field>
+
+                    <app-multi-select
+                     *ngIf="!isEditMode"
+                        [items]="availableTeams()"
+                        bindLabel="teamName"
+                        bindValue="teamId"
+                        placeholder="Select Teams"
+                        formControlName="teams">
+                    </app-multi-select>
+
+                </div>
+
+                <div class="step-actions">
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        matStepperNext
+                        [disabled]="projectFormGroup.invalid">
+                        Next
+                    </button>
+                </div>
+
+            </form>
+
+        </mat-step>
+
+        <!-- STEP 2 -->
+        <mat-step [stepControl]="providerFormGroup">
+
+            <form [formGroup]="providerFormGroup">
+
+                <ng-template matStepLabel>
+                    Provider Configuration
+                </ng-template>
+
+                <div class="grid-fields">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Provider</mat-label>
+                        <input
+                            matInput
+                            placeholder="Ex. GitHub"
+                            formControlName="provider"
+                            required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Repository Name</mat-label>
+                        <input
+                            matInput
+                            placeholder="Ex. yourrepo"
+                            formControlName="repoName"
+                            required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Repository Owner</mat-label>
+                        <input
+                            matInput
+                            placeholder="Ex. yourusername"
+                            formControlName="repoOwner"
+                            required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Default Branch</mat-label>
+                        <input
+                            matInput
+                            placeholder="Ex. main"
+                            formControlName="defaultBranch"
+                            required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Access Token</mat-label>
+                        <input
+                            matInput
+                            type="password"
+                            placeholder="Enter your access token"
+                            formControlName="accessToken"
+                            required>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="step-actions">
+
+                    <button
+                        mat-button
+                        matStepperPrevious>
+                        Back
+                    </button>
+
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        (click)="confirmChanges()"
+                        [disabled]="providerFormGroup.invalid">
+                        Save
+                    </button>
+
+                </div>
+
+            </form>
+
+        </mat-step>
+
+    </mat-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()">
+        Cancel
+    </button>
+</mat-dialog-actions>

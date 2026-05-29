@@ -19,29 +19,32 @@ import { MatInputModule } from "@angular/material/input";
     MatDialogModule,
     ]
 })
-export class TeamInfoDialogComponent implements OnInit{
-    team: Team;
+export class TeamInfoDialogComponent implements OnInit {
+    team!: Team;
     teamForm!: FormGroup;
+
     constructor(
         private fb: FormBuilder,
-        @Inject(MAT_DIALOG_DATA) public data: Team,
+        @Inject(MAT_DIALOG_DATA) public data: Team | null,
         public dialogRef: MatDialogRef<TeamInfoDialogComponent>
     ) {
-        this.team = { ...data }
+        this.team = { ...(data ?? {}) } as Team;
     }
+
     ngOnInit(): void {
         this.teamForm = this.fb.group({
-            teamId: [this.data.teamId ?? 0],
-            companyId: [this.data.companyId],
-            teamName: [this.data.teamName, [Validators.required]]
-        })
+            teamId: [this.data?.teamId ?? 0],
+            teamName: [this.data?.teamName ?? '', [Validators.required]]
+        });
     }
+
     confirmChanges(): void {
         if (this.teamForm.valid) {
             const updatedTeam = {
                 ...this.data,
                 ...this.teamForm.value
             };
+
             this.dialogRef.close(updatedTeam);
         }
     }

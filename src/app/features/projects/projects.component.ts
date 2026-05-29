@@ -13,12 +13,11 @@ import { AsyncPipe } from '@angular/common';
 import { MenuComponent } from "../../core/layout/menu/menu.component";
 import { MembersDialogComponent } from "./forms/project-members/members-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { CreateProjectDialogComponent } from "./forms/create/create-project-dialog.component";
+import { ProjectInfoComponent } from "./forms/create/project-info.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ConfigurationDialogComponent } from "./forms/configuration/configuration-dialog.component";
 import { ActivatedRoute } from "@angular/router";
 import { JwtService } from "../../core/services/jwt.service";
-import { UpdateProjectDialogComponent } from "./forms/update/update-project-dialog.component";
 import { ProjectTeamDialogComponent } from "./forms/team/project-team-dialog.component";
 @Component({
     selector: "app-projects",
@@ -138,8 +137,9 @@ export class ProjectsComponent implements OnInit {
         })
     }
     addProject() {
-        const dialogRef = this.dialog.open(CreateProjectDialogComponent, {
-            minWidth: '500px',
+        const dialogRef = this.dialog.open(ProjectInfoComponent, {
+            minWidth: '600px',
+            data: null
 
         })
         dialogRef.afterClosed().subscribe(result => {
@@ -162,8 +162,8 @@ export class ProjectsComponent implements OnInit {
         });
     }
     async saveProject(project: any) {
-        const dialogRef = this.dialog.open(UpdateProjectDialogComponent, {
-            minWidth: '500px',
+        const dialogRef = this.dialog.open(ProjectInfoComponent, {
+            minWidth: '600px',
             data: project
 
         })

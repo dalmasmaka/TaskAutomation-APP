@@ -39,9 +39,18 @@ export class InvitationDialogComponent implements OnInit {
 
     sendInvitations(): void {
         // Subscribe to extract the data from the Observable stream
+        // this.companyService.loadStaff().subscribe(usersData => {
+        //     this.users.set(usersData ?? []); // Use empty array fallback if null
+        // });
         this.companyService.loadStaff().subscribe(usersData => {
-            this.users.set(usersData ?? []); // Use empty array fallback if null
+            const formattedUsers = (usersData ?? []).map(user => ({
+                ...user,
+                displayName: `${user.fullName} - (${user.email})`
+            }));
+
+            this.users.set(formattedUsers);
         });
+
 
         this.teamService.loadTeams().subscribe(teamsData => {
             this.teams.set(teamsData ?? []);

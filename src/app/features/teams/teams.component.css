@@ -7,6 +7,9 @@
 }
 .box{
     flex:1;
+        gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
 }
 .section-info{
     flex:0.5;
